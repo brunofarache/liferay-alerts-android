@@ -1,0 +1,16 @@
+.DS_Store
+.gradle
+.idea
+.settings
+
+*.apk
+*.ap_
+*.dex
+*.iml
+
+local.properties
+
+bin/
+build/
+gen/
+out/
