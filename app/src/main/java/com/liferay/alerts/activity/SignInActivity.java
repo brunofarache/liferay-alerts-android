@@ -18,17 +18,13 @@ import android.app.Activity;
 
 import android.os.Bundle;
 
-import android.util.Log;
-
 import android.view.View;
 
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-
 import com.liferay.alerts.R;
+import com.liferay.alerts.util.PushNotificationsUtil;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 
@@ -56,31 +52,12 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 		_password = (EditText)findViewById(R.id.sign_in_password);
 		_server = (EditText)findViewById(R.id.sign_in_server);
 
-		if (_isGooglePlayServicesAvailable()) {
-			Button button = (Button)findViewById(R.id.sign_in_button);
-			button.setOnClickListener(this);
+		Button button = (Button)findViewById(R.id.sign_in_button);
+		button.setOnClickListener(this);
+
+		if (PushNotificationsUtil.isGooglePlayServicesAvailable(this)) {
 		}
 	}
-
-	private boolean _isGooglePlayServicesAvailable() {
-		int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-
-		if (result == ConnectionResult.SUCCESS) {
-			return true;
-		}
-
-		if (GooglePlayServicesUtil.isUserRecoverableError(result)) {
-			GooglePlayServicesUtil.getErrorDialog(result, this, 9000).show();
-		}
-		else {
-			Log.i(TAG, "This device is not supported.");
-			finish();
-		}
-
-		return false;
-	}
-
-	private static final String TAG = SignInActivity.class.getSimpleName();
 
 	private EditText _email;
 	private EditText _password;
