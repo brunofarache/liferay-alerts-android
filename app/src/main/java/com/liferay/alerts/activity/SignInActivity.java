@@ -24,22 +24,24 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.liferay.alerts.R;
+import com.liferay.alerts.task.GCMRegistrationAsyncTask;
 import com.liferay.alerts.util.PushNotificationsUtil;
-import com.liferay.mobile.android.service.Session;
-import com.liferay.mobile.android.service.SessionImpl;
+import com.liferay.alerts.util.SettingsUtil;
 
 /**
  * @author Bruno Farache
  */
 public class SignInActivity extends Activity implements View.OnClickListener {
 
+	public void enableSignInButton() {
+		_button.setEnabled(true);
+	}
+
 	@Override
 	public void onClick(View view) {
 		String email = _email.getText().toString();
 		String password = _password.getText().toString();
 		String server = _server.getText().toString();
-
-		Session session = new SessionImpl(server, email, password);
 	}
 
 	@Override
@@ -48,17 +50,31 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 
 		setContentView(R.layout.sign_in);
 
+		SettingsUtil.init(this);
+
+		_button = (Button)findViewById(R.id.sign_in_button);
 		_email = (EditText)findViewById(R.id.sign_in_email);
 		_password = (EditText)findViewById(R.id.sign_in_password);
 		_server = (EditText)findViewById(R.id.sign_in_server);
 
-		Button button = (Button)findViewById(R.id.sign_in_button);
-		button.setOnClickListener(this);
+		_button.setOnClickListener(this);
 
 		if (PushNotificationsUtil.isGooglePlayServicesAvailable(this)) {
+			String registrationId = SettingsUtil.getRegistrationId();
+
+			if (registrationId.isEmpty()) {
+				GCMRegistrationAsyncTask task = new GCMRegistrationAsyncTask(
+					this);
+
+				task.execute();
+			}
+			else {
+				enableSignInButton();
+			}
 		}
 	}
 
+	private Button _button;
 	private EditText _email;
 	private EditText _password;
 	private EditText _server;
