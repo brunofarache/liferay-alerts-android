@@ -7,14 +7,14 @@
 	tools:context=".activity.SignInActivity">
 
 	<EditText
-		android:id="@+id/sign_in_email"
+		android:id="@+id/sign_in_username"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:hint="@string/email"
 		android:inputType="textEmailAddress"
 		android:maxLines="1"
 		android:singleLine="true"
-		android:text="test@liferay.com" />
+		android:text="test" />
 
 	<EditText
 		android:id="@+id/sign_in_password"

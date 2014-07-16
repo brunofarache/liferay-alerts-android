@@ -15,6 +15,7 @@
 package com.liferay.alerts.task;
 
 import android.content.Context;
+
 import android.os.AsyncTask;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -35,19 +36,19 @@ public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 	}
 
 	public String doInBackground(Void... params) {
-		String registrationId = null;
+		String token = null;
 
 		try {
 			GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(
 				_context);
 
-			registrationId = gcm.register(_SENDER_ID);
-			SettingsUtil.setRegistrationId(registrationId);
+			token = gcm.register(_SENDER_ID);
+			SettingsUtil.setToken(token);
 		}
 		catch (Exception e) {
 		}
 
-		return registrationId;
+		return token;
 	}
 
 	@Override

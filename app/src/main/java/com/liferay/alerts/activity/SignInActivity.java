@@ -24,9 +24,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.liferay.alerts.R;
+import com.liferay.alerts.callback.SignInCallback;
 import com.liferay.alerts.task.GCMRegistrationAsyncTask;
 import com.liferay.alerts.util.PushNotificationsUtil;
 import com.liferay.alerts.util.SettingsUtil;
+import com.liferay.mobile.android.service.Session;
+import com.liferay.mobile.android.service.SessionImpl;
+import com.liferay.mobile.android.v7.pushnotificationsdevice.PushNotificationsDeviceService;
 
 /**
  * @author Bruno Farache
@@ -39,9 +43,23 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		String email = _email.getText().toString();
+		String username = _username.getText().toString();
 		String password = _password.getText().toString();
 		String server = _server.getText().toString();
+
+		Session session = new SessionImpl(server, username, password);
+		session.setCallback(new SignInCallback(server, username, password));
+
+		PushNotificationsDeviceService service =
+			new PushNotificationsDeviceService(session);
+
+		try {
+			String token = SettingsUtil.getToken();
+			service.addPushNotificationsDevice(token, "android");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -53,14 +71,14 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 		SettingsUtil.init(this);
 
 		_button = (Button)findViewById(R.id.sign_in_button);
-		_email = (EditText)findViewById(R.id.sign_in_email);
+		_username = (EditText)findViewById(R.id.sign_in_username);
 		_password = (EditText)findViewById(R.id.sign_in_password);
 		_server = (EditText)findViewById(R.id.sign_in_server);
 
 		_button.setOnClickListener(this);
 
 		if (PushNotificationsUtil.isGooglePlayServicesAvailable(this)) {
-			String registrationId = SettingsUtil.getRegistrationId();
+			String registrationId = SettingsUtil.getToken();
 
 			if (registrationId.isEmpty()) {
 				GCMRegistrationAsyncTask task = new GCMRegistrationAsyncTask(
@@ -75,8 +93,8 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 	}
 
 	private Button _button;
-	private EditText _email;
 	private EditText _password;
 	private EditText _server;
+	private EditText _username;
 
 }

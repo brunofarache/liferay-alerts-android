@@ -16,6 +16,7 @@ package com.liferay.alerts.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 import android.preference.PreferenceManager;
 
@@ -31,10 +32,6 @@ public class SettingsUtil {
 		return _preferences.getString(_PASSWORD, "test");
 	}
 
-	public static String getRegistrationId() {
-		return _preferences.getString(_REGISTRATION_ID, "");
-	}
-
 	public static String getServer() {
 		return _preferences.getString(_SERVER, "http://10.0.2.2:8080");
 	}
@@ -43,25 +40,39 @@ public class SettingsUtil {
 		return new SessionImpl(getServer(), getUsername(), getPassword());
 	}
 
+	public static String getToken() {
+		return _preferences.getString(_TOKEN, "");
+	}
+
 	public static String getUsername() {
-		return _preferences.getString(_USERNAME, "test@liferay.com");
+		return _preferences.getString(_USERNAME, "test");
 	}
 
 	public static void init(Context context) {
 		_preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
-	public static void setRegistrationId(String registrationId) {
-		SharedPreferences.Editor editor = _preferences.edit();
-		editor.putString(_REGISTRATION_ID, registrationId);
+	public static void setCredentials(
+		String username, String password, String server) {
+
+		Editor editor = _preferences.edit();
+		editor.putString(_USERNAME, username);
+		editor.putString(_PASSWORD, password);
+		editor.putString(_SERVER, server);
+		editor.commit();
+	}
+
+	public static void setToken(String registrationId) {
+		Editor editor = _preferences.edit();
+		editor.putString(_TOKEN, registrationId);
 		editor.commit();
 	}
 
 	private static final String _PASSWORD = "password";
 
-	private static final String _REGISTRATION_ID = "registrationId";
-
 	private static final String _SERVER = "server";
+
+	private static final String _TOKEN = "token";
 
 	private static final String _USERNAME = "username";
 
