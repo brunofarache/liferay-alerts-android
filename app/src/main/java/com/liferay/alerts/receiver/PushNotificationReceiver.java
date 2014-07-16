@@ -14,10 +14,15 @@
 
 package com.liferay.alerts.receiver;
 
+import android.app.Activity;
+
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
 import android.support.v4.content.WakefulBroadcastReceiver;
+
+import com.liferay.alerts.service.PushNotificationService;
 
 /**
  * @author Bruno Farache
@@ -26,6 +31,13 @@ public class PushNotificationReceiver extends WakefulBroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		ComponentName component = new ComponentName(
+			context.getPackageName(), PushNotificationService.class.getName());
+
+		intent.setComponent(component);
+
+		startWakefulService(context, intent);
+		setResultCode(Activity.RESULT_OK);
 	}
 
 }
