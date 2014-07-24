@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.mobile.android.v7.pushnotificationsdevice;
+package com.liferay.mobile.android.v62.pushnotificationsdevice;
 
 import com.liferay.mobile.android.service.BaseService;
 import com.liferay.mobile.android.service.Session;
@@ -41,7 +41,7 @@ public class PushNotificationsDeviceService extends BaseService {
 			_params.put("platform", platform);
 
 			_command.put(
-				"/push-notifications-portlet.pushnotificationsdevice/" +
+				"/push-notifications-portlet/pushnotificationsdevice/" +
 					"add-push-notifications-device",
 				_params);
 		}
@@ -63,7 +63,7 @@ public class PushNotificationsDeviceService extends BaseService {
 			_params.put("token", token);
 
 			_command.put(
-				"/push-notifications-portlet.pushnotificationsdevice/" +
+				"/push-notifications-portlet/pushnotificationsdevice/" +
 					"delete-push-notifications-device",
 				_params);
 		}
@@ -83,7 +83,7 @@ public class PushNotificationsDeviceService extends BaseService {
 			_params.put("message", message);
 
 			_command.put(
-				"/push-notifications-portlet.pushnotificationsdevice/" +
+				"/push-notifications-portlet/pushnotificationsdevice/" +
 					"send-push-notification",
 				_params);
 		}
