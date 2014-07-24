@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import com.liferay.alerts.activity.SignInActivity;
+import com.liferay.alerts.util.PushNotificationsUtil;
 import com.liferay.alerts.util.SettingsUtil;
 
 import java.lang.ref.WeakReference;
@@ -39,8 +40,8 @@ public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 		String token = null;
 
 		try {
-			GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(
-				_context);
+			GoogleCloudMessaging gcm =
+				PushNotificationsUtil.getGoogleCloudMessaging(_context);
 
 			token = gcm.register(_SENDER_ID);
 			SettingsUtil.setToken(token);
@@ -52,8 +53,8 @@ public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 	}
 
 	@Override
-	public void onPostExecute(String registrationId) {
-		if (_activity != null) {
+	public void onPostExecute(String token) {
+		if ((_activity != null) && (token != null)) {
 			_activity.get().enableSignInButton();
 		}
 	}

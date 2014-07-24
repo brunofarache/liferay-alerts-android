@@ -16,15 +16,24 @@ package com.liferay.alerts.util;
 
 import android.app.Activity;
 
+import android.content.Context;
+
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 /**
  * @author Bruno Farache
  */
 public class PushNotificationsUtil {
+
+	public static GoogleCloudMessaging getGoogleCloudMessaging(
+		Context context) {
+
+		return GoogleCloudMessaging.getInstance(context);
+	}
 
 	public static boolean isGooglePlayServicesAvailable(Activity activity) {
 		int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(

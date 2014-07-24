@@ -31,6 +31,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.liferay.alerts.R;
 import com.liferay.alerts.activity.SignInActivity;
 import com.liferay.alerts.receiver.PushNotificationReceiver;
+import com.liferay.alerts.util.PushNotificationsUtil;
 
 /**
  * @author Bruno Farache
@@ -43,7 +44,9 @@ public class PushNotificationService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
+		GoogleCloudMessaging gcm =
+			PushNotificationsUtil.getGoogleCloudMessaging(this);
+
 		String type = gcm.getMessageType(intent);
 		Bundle extras = intent.getExtras();
 
