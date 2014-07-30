@@ -30,7 +30,7 @@ import com.liferay.alerts.util.PushNotificationsUtil;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
-import com.liferay.mobile.android.v7.pushnotificationsdevice.PushNotificationsDeviceService;
+import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
 
 /**
  * @author Bruno Farache
@@ -43,12 +43,10 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		String username = _username.getText().toString();
-		String password = _password.getText().toString();
 		String server = _server.getText().toString();
 
-		Session session = new SessionImpl(server, username, password);
-		session.setCallback(new SignInCallback(server, username, password));
+		Session session = new SessionImpl(server);
+		session.setCallback(new SignInCallback(server));
 
 		PushNotificationsDeviceService service =
 			new PushNotificationsDeviceService(session);
@@ -71,8 +69,6 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 		SettingsUtil.init(this);
 
 		_button = (Button)findViewById(R.id.sign_in_button);
-		_username = (EditText)findViewById(R.id.sign_in_username);
-		_password = (EditText)findViewById(R.id.sign_in_password);
 		_server = (EditText)findViewById(R.id.sign_in_server);
 
 		_button.setOnClickListener(this);
@@ -93,8 +89,6 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 	}
 
 	private Button _button;
-	private EditText _password;
 	private EditText _server;
-	private EditText _username;
 
 }

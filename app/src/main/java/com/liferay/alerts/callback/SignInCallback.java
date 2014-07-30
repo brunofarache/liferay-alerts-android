@@ -24,9 +24,7 @@ import org.json.JSONObject;
  */
 public class SignInCallback extends JSONObjectAsyncTaskCallback {
 
-	public SignInCallback(String username, String password, String server) {
-		_username = username;
-		_password = password;
+	public SignInCallback(String server) {
 		_server = server;
 	}
 
@@ -35,11 +33,9 @@ public class SignInCallback extends JSONObjectAsyncTaskCallback {
 	}
 
 	public void onSuccess(JSONObject jsonObj) {
-		SettingsUtil.setCredentials(_username, _password, _server);
+		SettingsUtil.setServer(_server);
 	}
 
-	private String _password;
 	private String _server;
-	private String _username;
 
 }

@@ -1,7 +1,5 @@
 <resources>
 	<string name="app_name">Liferay Alerts</string>
-	<string name="email">Email</string>
-	<string name="password">Password</string>
+	<string name="register">Register</string>
 	<string name="server">Server</string>
-	<string name="sign_in">Sign In</string>
 </resources>

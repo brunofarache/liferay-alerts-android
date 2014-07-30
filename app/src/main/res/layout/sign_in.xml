@@ -7,34 +7,11 @@
 	tools:context=".activity.SignInActivity">
 
 	<EditText
-		android:id="@+id/sign_in_username"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:hint="@string/email"
-		android:inputType="textEmailAddress"
-		android:maxLines="1"
-		android:singleLine="true"
-		android:text="test" />
-
-	<EditText
-		android:id="@+id/sign_in_password"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:hint="@string/password"
-		android:imeActionId="@+id/sing_in"
-		android:imeActionLabel="@string/sign_in"
-		android:imeOptions="actionUnspecified"
-		android:inputType="textPassword"
-		android:maxLines="1"
-		android:singleLine="true"
-		android:text="test" />
-
-	<EditText
 		android:id="@+id/sign_in_server"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:hint="@string/server"
-		android:inputType="text"
+		android:inputType="textWebEmailAddress"
 		android:maxLines="1"
 		android:singleLine="true"
 		android:text="http://10.0.2.2:8080" />
@@ -46,6 +23,6 @@
 		android:layout_height="wrap_content"
 		android:layout_marginTop="@dimen/sign_in_margin"
 		android:enabled="false"
-		android:text="@string/sign_in"
+		android:text="@string/register"
 		android:textStyle="bold" />
 </LinearLayout>
