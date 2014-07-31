@@ -29,7 +29,7 @@ import android.support.v4.app.NotificationCompat.Builder;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import com.liferay.alerts.R;
-import com.liferay.alerts.activity.SignInActivity;
+import com.liferay.alerts.activity.MainActivity;
 import com.liferay.alerts.receiver.PushNotificationReceiver;
 import com.liferay.alerts.util.PushNotificationsUtil;
 
@@ -65,7 +65,7 @@ public class PushNotificationService extends IntentService {
 			Context.NOTIFICATION_SERVICE);
 
 		PendingIntent intent = PendingIntent.getActivity(
-			this, 0, new Intent(this, SignInActivity.class), 0);
+			this, 0, new Intent(this, MainActivity.class), 0);
 
 		Builder builder = new Builder(this);
 

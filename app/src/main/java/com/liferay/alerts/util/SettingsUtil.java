@@ -20,13 +20,15 @@ import android.content.SharedPreferences.Editor;
 
 import android.preference.PreferenceManager;
 
+import com.liferay.alerts.R;
+
 /**
  * @author Bruno Farache
  */
 public class SettingsUtil {
 
-	public static String getServer() {
-		return _preferences.getString(_SERVER, "http://10.0.2.2:8080");
+	public static String getServer(Context context) {
+		return context.getString(R.string.server);
 	}
 
 	public static String getToken() {
@@ -37,19 +39,11 @@ public class SettingsUtil {
 		_preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
-	public static void setServer(String server) {
-		Editor editor = _preferences.edit();
-		editor.putString(_SERVER, server);
-		editor.commit();
-	}
-
 	public static void setToken(String registrationId) {
 		Editor editor = _preferences.edit();
 		editor.putString(_TOKEN, registrationId);
 		editor.commit();
 	}
-
-	private static final String _SERVER = "server";
 
 	private static final String _TOKEN = "token";
 

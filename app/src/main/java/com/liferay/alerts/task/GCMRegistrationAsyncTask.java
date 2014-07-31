@@ -20,9 +20,15 @@ import android.os.AsyncTask;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-import com.liferay.alerts.activity.SignInActivity;
+import com.liferay.alerts.R;
+import com.liferay.alerts.activity.MainActivity;
+import com.liferay.alerts.callback.RegistrationCallback;
 import com.liferay.alerts.util.PushNotificationsUtil;
 import com.liferay.alerts.util.SettingsUtil;
+import com.liferay.alerts.util.ToastUtil;
+import com.liferay.mobile.android.service.Session;
+import com.liferay.mobile.android.service.SessionImpl;
+import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
 
 import java.lang.ref.WeakReference;
 
@@ -31,8 +37,8 @@ import java.lang.ref.WeakReference;
  */
 public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 
-	public GCMRegistrationAsyncTask(SignInActivity activity) {
-		_activity = new WeakReference<SignInActivity>(activity);
+	public GCMRegistrationAsyncTask(MainActivity activity) {
+		_activity = new WeakReference<MainActivity>(activity);
 		_context = activity.getApplicationContext();
 	}
 
@@ -47,6 +53,8 @@ public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 			SettingsUtil.setToken(token);
 		}
 		catch (Exception e) {
+			ToastUtil.show(
+				_context, R.string.failed_to_get_token_from_google, true);
 		}
 
 		return token;
@@ -55,13 +63,28 @@ public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 	@Override
 	public void onPostExecute(String token) {
 		if ((_activity != null) && (token != null)) {
-			_activity.get().enableSignInButton();
+			register(token);
+		}
+	}
+
+	public void register(String token) {
+		Session session = new SessionImpl(SettingsUtil.getServer(_context));
+		session.setCallback(new RegistrationCallback(_context));
+
+		PushNotificationsDeviceService service =
+			new PushNotificationsDeviceService(session);
+
+		try {
+			service.addPushNotificationsDevice(token, "android");
+		}
+		catch (Exception e) {
+			ToastUtil.show(_context, R.string.failed_to_register, true);
 		}
 	}
 
 	private static final String _SENDER_ID = "248816535314";
 
-	private WeakReference<SignInActivity> _activity;
+	private WeakReference<MainActivity> _activity;
 	private Context _context;
 
 }

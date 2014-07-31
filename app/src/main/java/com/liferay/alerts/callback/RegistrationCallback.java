@@ -14,7 +14,10 @@
 
 package com.liferay.alerts.callback;
 
-import com.liferay.alerts.util.SettingsUtil;
+import android.content.Context;
+
+import com.liferay.alerts.R;
+import com.liferay.alerts.util.ToastUtil;
 import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
 import org.json.JSONObject;
@@ -22,20 +25,20 @@ import org.json.JSONObject;
 /**
  * @author Bruno Farache
  */
-public class SignInCallback extends JSONObjectAsyncTaskCallback {
+public class RegistrationCallback extends JSONObjectAsyncTaskCallback {
 
-	public SignInCallback(String server) {
-		_server = server;
+	public RegistrationCallback(Context context) {
+		_context = context.getApplicationContext();
 	}
 
 	public void onFailure(Exception e) {
-		e.printStackTrace();
+		ToastUtil.show(_context, R.string.failed_to_register, true);
 	}
 
 	public void onSuccess(JSONObject jsonObj) {
-		SettingsUtil.setServer(_server);
+		ToastUtil.show(_context, R.string.registered, true);
 	}
 
-	private String _server;
+	private Context _context;
 
 }
