@@ -10,6 +10,7 @@
 
 local.properties
 
+app/src/main/res/values-sw1dp
 bin/
 build/
 gen/
