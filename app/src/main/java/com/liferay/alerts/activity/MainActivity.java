@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
 				task.execute();
 			}
 			else {
-				task.register(token);
+				PushNotificationsUtil.register(this, token);
 			}
 		}
 	}

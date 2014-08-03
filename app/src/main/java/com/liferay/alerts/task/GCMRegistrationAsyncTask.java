@@ -22,15 +22,9 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.activity.MainActivity;
-import com.liferay.alerts.callback.RegistrationCallback;
 import com.liferay.alerts.util.PushNotificationsUtil;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.util.ToastUtil;
-import com.liferay.mobile.android.service.Session;
-import com.liferay.mobile.android.service.SessionImpl;
-import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
-
-import java.lang.ref.WeakReference;
 
 /**
  * @author Bruno Farache
@@ -38,7 +32,6 @@ import java.lang.ref.WeakReference;
 public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 
 	public GCMRegistrationAsyncTask(MainActivity activity) {
-		_activity = new WeakReference<MainActivity>(activity);
 		_context = activity.getApplicationContext();
 	}
 
@@ -62,29 +55,13 @@ public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 
 	@Override
 	public void onPostExecute(String token) {
-		if ((_activity != null) && (token != null)) {
-			register(token);
-		}
-	}
-
-	public void register(String token) {
-		Session session = new SessionImpl(SettingsUtil.getServer(_context));
-		session.setCallback(new RegistrationCallback(_context));
-
-		PushNotificationsDeviceService service =
-			new PushNotificationsDeviceService(session);
-
-		try {
-			service.addPushNotificationsDevice(token, "android");
-		}
-		catch (Exception e) {
-			ToastUtil.show(_context, R.string.failed_to_register, true);
+		if (token != null) {
+			PushNotificationsUtil.register(_context, token);
 		}
 	}
 
 	private static final String _SENDER_ID = "248816535314";
 
-	private WeakReference<MainActivity> _activity;
 	private Context _context;
 
 }

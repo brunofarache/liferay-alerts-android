@@ -24,6 +24,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import com.liferay.alerts.R;
+import com.liferay.alerts.callback.RegistrationCallback;
+import com.liferay.mobile.android.service.Session;
+import com.liferay.mobile.android.service.SessionImpl;
+import com.liferay.mobile.android.v62.pushnotificationsdevice.PushNotificationsDeviceService;
+
 /**
  * @author Bruno Farache
  */
@@ -53,6 +59,21 @@ public class PushNotificationsUtil {
 		}
 
 		return false;
+	}
+
+	public static void register(Context context, String token) {
+		Session session = new SessionImpl(SettingsUtil.getServer(context));
+		session.setCallback(new RegistrationCallback(context));
+
+		PushNotificationsDeviceService service =
+			new PushNotificationsDeviceService(session);
+
+		try {
+			service.addPushNotificationsDevice(token, "android");
+		}
+		catch (Exception e) {
+			ToastUtil.show(context, R.string.failed_to_register, true);
+		}
 	}
 
 	private static final String _TAG =
