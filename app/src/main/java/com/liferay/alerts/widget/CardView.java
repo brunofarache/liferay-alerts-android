@@ -15,10 +15,14 @@
 package com.liferay.alerts.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 
 import android.util.AttributeSet;
 
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import com.liferay.alerts.R;
 
 /**
  * @author Bruno Farache
@@ -26,17 +30,29 @@ import android.widget.FrameLayout;
 public class CardView extends FrameLayout {
 
 	public CardView(Context context) {
-		super(context);
+		this(context, null);
 	}
 
 	public CardView(Context context, AttributeSet attributes) {
-		super(context, attributes);
+		this(context, attributes, 0);
 	}
 
 	public CardView(
 		Context context, AttributeSet attributes, int defaultStyle) {
 
 		super(context, attributes, defaultStyle);
+
+		inflate(context, R.layout.card, this);
+
+		TypedArray typed = context.getTheme().obtainStyledAttributes(
+			attributes, R.styleable.CardView, 0, 0);
+
+		String text = typed.getString(R.styleable.CardView_text);
+
+		TextView textView = (TextView)findViewById(R.id.text);
+		textView.setText(text);
+
+		typed.recycle();
 	}
 
 }
