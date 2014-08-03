@@ -3,4 +3,5 @@
 	<string name="failed_to_get_token_from_google">Failed to get token from Google</string>
 	<string name="failed_to_register">Failed to register!</string>
 	<string name="registered">Registered!</string>
+	<string name="welcome">Welcome to Liferay Alerts!</string>
 </resources>

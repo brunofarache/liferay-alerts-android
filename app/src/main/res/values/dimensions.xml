@@ -1,3 +1,4 @@
 <resources>
-	<dimen name="sign_in_margin">16dp</dimen>
+	<dimen name="card_padding">16dp</dimen>
+	<dimen name="main_padding">11dp</dimen>
 </resources>
