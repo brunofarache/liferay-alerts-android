@@ -44,15 +44,21 @@ public class CardView extends FrameLayout {
 
 		inflate(context, R.layout.card, this);
 
+		_text = (TextView)findViewById(R.id.text);
+
 		TypedArray typed = context.getTheme().obtainStyledAttributes(
 			attributes, R.styleable.CardView, 0, 0);
 
 		String text = typed.getString(R.styleable.CardView_text);
-
-		TextView textView = (TextView)findViewById(R.id.text);
-		textView.setText(text);
+		setText(text);
 
 		typed.recycle();
 	}
+
+	public void setText(String text) {
+		_text.setText(text);
+	}
+
+	private TextView _text;
 
 }

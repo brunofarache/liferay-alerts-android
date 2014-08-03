@@ -6,14 +6,15 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/main_background"
-	android:gravity="center_horizontal"
 	android:orientation="vertical"
 	android:padding="@dimen/main_padding"
 	tools:context=".activity.MainActivity">
 
 	<com.liferay.alerts.widget.CardView
 		android:layout_width="match_parent"
-		android:layout_height="100dp"
+		android:layout_height="wrap_content"
+		android:minHeight="100dp"
+		android:layout_marginBottom="@dimen/main_padding"
 		android:padding="@dimen/card_padding"
 		android:background="@drawable/card_background"
 		liferay:text="@string/welcome" />

@@ -18,10 +18,13 @@ import android.app.Activity;
 
 import android.os.Bundle;
 
+import android.widget.LinearLayout;
+
 import com.liferay.alerts.R;
 import com.liferay.alerts.task.GCMRegistrationAsyncTask;
 import com.liferay.alerts.util.PushNotificationsUtil;
 import com.liferay.alerts.util.SettingsUtil;
+import com.liferay.alerts.widget.CardView;
 
 /**
  * @author Bruno Farache
@@ -33,6 +36,8 @@ public class MainActivity extends Activity {
 		super.onCreate(state);
 
 		setContentView(R.layout.main);
+
+		_cardList = (LinearLayout)findViewById(R.id.card_list);
 
 		SettingsUtil.init(this);
 
@@ -48,5 +53,17 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+
+	private void _addCard(String text) {
+		CardView card = new CardView(this);
+
+		card.setBackground(
+			getResources().getDrawable(R.drawable.card_background));
+		card.setText(text);
+
+		_cardList.addView(card);
+	}
+
+	private LinearLayout _cardList;
 
 }
