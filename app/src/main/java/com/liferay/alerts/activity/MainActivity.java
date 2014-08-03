@@ -16,7 +16,15 @@ package com.liferay.alerts.activity;
 
 import android.app.Activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Resources;
+
 import android.os.Bundle;
+
+import android.support.v4.content.LocalBroadcastManager;
 
 import android.widget.LinearLayout;
 
@@ -30,6 +38,10 @@ import com.liferay.alerts.widget.CardView;
  * @author Bruno Farache
  */
 public class MainActivity extends Activity {
+
+	public static final String ADD_CARD = "add-card";
+
+	public static final String MESSAGE = "message";
 
 	@Override
 	protected void onCreate(Bundle state) {
@@ -52,18 +64,42 @@ public class MainActivity extends Activity {
 				PushNotificationsUtil.register(this, token);
 			}
 		}
+
+		_receiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				_addCard(intent.getStringExtra(MESSAGE));
+			}
+
+		};
+
+		_getBroadcastManager().registerReceiver(
+			_receiver, new IntentFilter(ADD_CARD));
+	}
+
+	@Override
+	protected void onDestroy() {
+		_getBroadcastManager().unregisterReceiver(_receiver);
+
+		super.onDestroy();
 	}
 
 	private void _addCard(String text) {
 		CardView card = new CardView(this);
 
-		card.setBackground(
-			getResources().getDrawable(R.drawable.card_background));
+		Resources resources = getResources();
+		card.setBackground(resources.getDrawable(R.drawable.card_background));
 		card.setText(text);
 
 		_cardList.addView(card);
 	}
 
+	private LocalBroadcastManager _getBroadcastManager() {
+		return LocalBroadcastManager.getInstance(this);
+	}
+
 	private LinearLayout _cardList;
+	private BroadcastReceiver _receiver;
 
 }

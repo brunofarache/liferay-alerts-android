@@ -25,6 +25,7 @@ import android.os.Bundle;
 
 import android.support.v4.app.NotificationCompat.BigTextStyle;
 import android.support.v4.app.NotificationCompat.Builder;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -54,10 +55,18 @@ public class PushNotificationService extends IntentService {
 			!extras.isEmpty()) {
 
 			String message = extras.getString("data");
+			_addCard(message);
 			_showNotification(message);
 		}
 
 		PushNotificationReceiver.completeWakefulIntent(intent);
+	}
+
+	private void _addCard(String message) {
+		Intent intent = new Intent(MainActivity.ADD_CARD);
+
+		intent.putExtra(MainActivity.MESSAGE, message);
+		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 	}
 
 	private void _showNotification(String message) {
