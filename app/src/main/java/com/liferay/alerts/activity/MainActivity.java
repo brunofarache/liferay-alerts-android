@@ -20,7 +20,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 
 import android.os.Bundle;
 
@@ -76,6 +75,8 @@ public class MainActivity extends Activity {
 
 		_getBroadcastManager().registerReceiver(
 			_receiver, new IntentFilter(ADD_CARD));
+
+		_addCard(getString(R.string.welcome));
 	}
 
 	@Override
@@ -86,13 +87,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void _addCard(String text) {
-		CardView card = new CardView(this);
-
-		Resources resources = getResources();
-		card.setBackground(resources.getDrawable(R.drawable.card_background));
-		card.setText(text);
-
-		_cardList.addView(card);
+		_cardList.addView(new CardView(this, text));
 	}
 
 	private LocalBroadcastManager _getBroadcastManager() {
