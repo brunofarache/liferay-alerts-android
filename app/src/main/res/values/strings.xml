@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Liferay Alerts</string>
 	<string name="failed_to_get_token_from_google">Failed to get token from Google</string>
