@@ -37,7 +37,7 @@ import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.database.DatabaseException;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.receiver.PushNotificationReceiver;
-import com.liferay.alerts.util.PushNotificationsUtil;
+import com.liferay.alerts.util.GCMUtil;
 
 /**
  * @author Bruno Farache
@@ -50,8 +50,7 @@ public class PushNotificationService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		GoogleCloudMessaging gcm =
-			PushNotificationsUtil.getGoogleCloudMessaging(this);
+		GoogleCloudMessaging gcm = GCMUtil.getGoogleCloudMessaging(this);
 
 		String type = gcm.getMessageType(intent);
 		Bundle extras = intent.getExtras();

@@ -22,7 +22,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.activity.MainActivity;
-import com.liferay.alerts.util.PushNotificationsUtil;
+import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.util.ToastUtil;
 
@@ -39,8 +39,8 @@ public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 		String token = null;
 
 		try {
-			GoogleCloudMessaging gcm =
-				PushNotificationsUtil.getGoogleCloudMessaging(_context);
+			GoogleCloudMessaging gcm = GCMUtil.getGoogleCloudMessaging(
+				_context);
 
 			token = gcm.register(_SENDER_ID);
 			SettingsUtil.setToken(token);
@@ -56,7 +56,7 @@ public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 	@Override
 	public void onPostExecute(String token) {
 		if (token != null) {
-			PushNotificationsUtil.register(_context, token);
+			GCMUtil.addPushNotificationsDevice(_context, token);
 		}
 	}
 

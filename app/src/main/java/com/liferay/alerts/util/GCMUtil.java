@@ -33,7 +33,35 @@ import com.liferay.mobile.android.service.SessionImpl;
 /**
  * @author Bruno Farache
  */
-public class PushNotificationsUtil {
+public class GCMUtil {
+
+	public static void addPushNotificationsDevice(
+		Context context, String token) {
+
+		String server = SettingsUtil.getServer(context);
+		Session session = new SessionImpl(server);
+		session.setCallback(new RegistrationCallback(context));
+
+		PushNotificationsDeviceService service;
+
+		if (server.equals("http://10.0.2.2:8080")) {
+			service =
+				new com.liferay.mobile.android.v7.pushnotificationsdevice.
+					PushNotificationsDeviceService(session);
+		}
+		else {
+			service =
+				new com.liferay.mobile.android.v62.pushnotificationsdevice.
+					PushNotificationsDeviceService(session);
+		}
+
+		try {
+			service.addPushNotificationsDevice(token, "android");
+		}
+		catch (Exception e) {
+			ToastUtil.show(context, R.string.failed_to_register, true);
+		}
+	}
 
 	public static GoogleCloudMessaging getGoogleCloudMessaging(
 		Context context) {
@@ -61,33 +89,6 @@ public class PushNotificationsUtil {
 		return false;
 	}
 
-	public static void register(Context context, String token) {
-		String server = SettingsUtil.getServer(context);
-		Session session = new SessionImpl(server);
-		session.setCallback(new RegistrationCallback(context));
-
-		PushNotificationsDeviceService service;
-
-		if (server.equals("http://10.0.2.2:8080")) {
-			service =
-				new com.liferay.mobile.android.v7.pushnotificationsdevice.
-					PushNotificationsDeviceService(session);
-		}
-		else {
-			service =
-				new com.liferay.mobile.android.v62.pushnotificationsdevice.
-					PushNotificationsDeviceService(session);
-		}
-
-		try {
-			service.addPushNotificationsDevice(token, "android");
-		}
-		catch (Exception e) {
-			ToastUtil.show(context, R.string.failed_to_register, true);
-		}
-	}
-
-	private static final String _TAG =
-		PushNotificationsUtil.class.getSimpleName();
+	private static final String _TAG = GCMUtil.class.getSimpleName();
 
 }

@@ -30,7 +30,7 @@ import android.widget.LinearLayout;
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.task.GCMRegistrationAsyncTask;
-import com.liferay.alerts.util.PushNotificationsUtil;
+import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.widget.CardView;
 
@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 
 		SettingsUtil.init(this);
 
-		if (PushNotificationsUtil.isGooglePlayServicesAvailable(this)) {
+		if (GCMUtil.isGooglePlayServicesAvailable(this)) {
 			String token = SettingsUtil.getToken();
 
 			if (token.isEmpty()) {
@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
 				task.execute();
 			}
 			else {
-				PushNotificationsUtil.register(this, token);
+				GCMUtil.addPushNotificationsDevice(this, token);
 			}
 		}
 
