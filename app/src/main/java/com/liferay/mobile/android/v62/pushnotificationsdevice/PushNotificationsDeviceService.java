@@ -23,12 +23,14 @@ import org.json.JSONObject;
 /**
  * @author Bruno Farache
  */
-public class PushNotificationsDeviceService extends BaseService {
+public class PushNotificationsDeviceService extends BaseService
+	implements com.liferay.mobile.android.PushNotificationsDeviceService {
 
 	public PushNotificationsDeviceService(Session session) {
 		super(session);
 	}
 
+	@Override
 	public JSONObject addPushNotificationsDevice(String token, String platform)
 		throws Exception {
 
@@ -52,6 +54,7 @@ public class PushNotificationsDeviceService extends BaseService {
 		return (JSONObject)session.invoke(_command);
 	}
 
+	@Override
 	public JSONObject deletePushNotificationsDevice(String token)
 		throws Exception {
 
@@ -74,6 +77,7 @@ public class PushNotificationsDeviceService extends BaseService {
 		return (JSONObject)session.invoke(_command);
 	}
 
+	@Override
 	public void sendPushNotification(String message) throws Exception {
 		JSONObject _command = new JSONObject();
 
