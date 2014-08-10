@@ -18,8 +18,6 @@ import android.content.ContentValues;
 
 import android.database.Cursor;
 
-import java.util.Random;
-
 /**
  * @author Bruno Farache
  */
@@ -36,9 +34,6 @@ public class Alert extends BaseModel {
 
 	public Alert(String message) {
 		_message = message;
-
-		Random random = new Random();
-		_id = random.nextLong();
 	}
 
 	@Override
@@ -54,7 +49,6 @@ public class Alert extends BaseModel {
 	public ContentValues toContentValues() {
 		ContentValues values = new ContentValues();
 
-		values.put(ID, getId());
 		values.put(MESSAGE, getMessage());
 
 		return values;

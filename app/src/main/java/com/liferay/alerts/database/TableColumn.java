@@ -21,6 +21,8 @@ import com.liferay.alerts.util.CharPool;
  */
 public class TableColumn {
 
+	public static final String AUTOINCREMENT = "AUTOINCREMENT";
+
 	public static final String BLOB = "BLOB";
 
 	public static final String FOREIGN_KEY = "FOREIGN KEY";
@@ -42,16 +44,23 @@ public class TableColumn {
 	}
 
 	public TableColumn(String name, String type, boolean primaryKey) {
-		this(name, type, primaryKey, null, null);
+		this(name, type, primaryKey, false);
 	}
 
 	public TableColumn(
-		String name, String type, boolean primaryKey, String foreignTable,
-		String foreignColumn) {
+		String name, String type, boolean primaryKey, boolean autoIncrement) {
+
+		this(name, type, primaryKey, autoIncrement, null, null);
+	}
+
+	public TableColumn(
+		String name, String type, boolean primaryKey, boolean autoIncrement,
+		String foreignTable, String foreignColumn) {
 
 		_name = name;
 		_type = type;
 		_primaryKey = primaryKey;
+		_autoIncrement = autoIncrement;
 		_foreignTable = foreignTable;
 		_foreignColumn = foreignColumn;
 	}
@@ -59,7 +68,7 @@ public class TableColumn {
 	public TableColumn(
 		String name, String type, String foreignTable, String foreignColumn) {
 
-		this(name, type, false, foreignTable, foreignColumn);
+		this(name, type, false, false, foreignTable, foreignColumn);
 	}
 
 	public String getName() {
@@ -76,6 +85,11 @@ public class TableColumn {
 		if (_primaryKey) {
 			sb.append(CharPool.SPACE);
 			sb.append(PRIMARY_KEY);
+
+			if (_autoIncrement) {
+				sb.append(CharPool.SPACE);
+				sb.append(AUTOINCREMENT);
+			}
 		}
 		else if (_foreignTable != null) {
 			sb.append(CharPool.COMMA);
@@ -101,6 +115,7 @@ public class TableColumn {
 		return sb.toString();
 	}
 
+	private boolean _autoIncrement;
 	private String _foreignColumn;
 	private String _foreignTable;
 	private String _name;

@@ -54,7 +54,7 @@ public class AlertDAO extends BaseDAO<Alert> {
 	}
 
 	private static final TableColumn[] _TABLE_COLUMNS = {
-		new TableColumn(Alert.ID, TableColumn.INTEGER, true),
+		new TableColumn(Alert.ID, TableColumn.INTEGER, true, true),
 		new TableColumn(Alert.MESSAGE, TableColumn.TEXT)
 	};
 
