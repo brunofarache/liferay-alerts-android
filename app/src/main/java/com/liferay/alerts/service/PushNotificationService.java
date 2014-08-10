@@ -27,10 +27,15 @@ import android.support.v4.app.NotificationCompat.BigTextStyle;
 import android.support.v4.app.NotificationCompat.Builder;
 import android.support.v4.content.LocalBroadcastManager;
 
+import android.util.Log;
+
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.activity.MainActivity;
+import com.liferay.alerts.database.AlertDAO;
+import com.liferay.alerts.database.DatabaseException;
+import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.receiver.PushNotificationReceiver;
 import com.liferay.alerts.util.PushNotificationsUtil;
 
@@ -63,9 +68,16 @@ public class PushNotificationService extends IntentService {
 	}
 
 	private void _addCard(String message) {
-		Intent intent = new Intent(MainActivity.ADD_CARD);
+		try {
+			Alert alert = new Alert(message);
+			AlertDAO.getInstance(this).insert(alert);
+		}
+		catch (DatabaseException de) {
+			Log.e(_TAG, "Couldn't insert alert.", de);
+		}
 
-		intent.putExtra(MainActivity.MESSAGE, message);
+		Intent intent = new Intent(MainActivity.ADD_CARD);
+		intent.putExtra(Alert.MESSAGE, message);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 	}
 
@@ -88,5 +100,8 @@ public class PushNotificationService extends IntentService {
 	}
 
 	private static final int _NOTIFICATION_ID = 1;
+
+	private static final String _TAG =
+		PushNotificationService.class.getSimpleName();
 
 }

@@ -28,6 +28,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.LinearLayout;
 
 import com.liferay.alerts.R;
+import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.task.GCMRegistrationAsyncTask;
 import com.liferay.alerts.util.PushNotificationsUtil;
 import com.liferay.alerts.util.SettingsUtil;
@@ -39,8 +40,6 @@ import com.liferay.alerts.widget.CardView;
 public class MainActivity extends Activity {
 
 	public static final String ADD_CARD = "add-card";
-
-	public static final String MESSAGE = "message";
 
 	@Override
 	protected void onCreate(Bundle state) {
@@ -54,9 +53,11 @@ public class MainActivity extends Activity {
 
 		if (PushNotificationsUtil.isGooglePlayServicesAvailable(this)) {
 			String token = SettingsUtil.getToken();
-			GCMRegistrationAsyncTask task = new GCMRegistrationAsyncTask(this);
 
 			if (token.isEmpty()) {
+				GCMRegistrationAsyncTask task = new GCMRegistrationAsyncTask(
+					this);
+
 				task.execute();
 			}
 			else {
@@ -68,7 +69,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				_addCard(intent.getStringExtra(MESSAGE));
+				_addCard(intent.getStringExtra(Alert.MESSAGE));
 			}
 
 		};

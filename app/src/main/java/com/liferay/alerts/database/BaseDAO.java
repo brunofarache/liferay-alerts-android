@@ -169,7 +169,7 @@ public abstract class BaseDAO<M extends BaseModel> {
 		}
 	}
 
-	protected abstract M fromCursor(Cursor c);
+	protected abstract M fromCursor(Cursor cursor);
 
 	protected ArrayList<M> get(String where, String... values) {
 		ArrayList<M> models = new ArrayList<M>();
