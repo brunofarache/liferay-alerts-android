@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.mobile.android.v7.pushnotificationsdevice;
+package com.liferay.mobile.android.pushnotificationsdevice;
 
 import com.liferay.mobile.android.service.BaseService;
 import com.liferay.mobile.android.service.Session;
@@ -23,10 +23,10 @@ import org.json.JSONObject;
 /**
  * @author Bruno Farache
  */
-public class PushNotificationsDeviceService extends BaseService
+public class PushNotificationsDeviceServiceImpl extends BaseService
 	implements com.liferay.mobile.android.PushNotificationsDeviceService {
 
-	public PushNotificationsDeviceService(Session session) {
+	public PushNotificationsDeviceServiceImpl(Session session) {
 		super(session);
 	}
 
