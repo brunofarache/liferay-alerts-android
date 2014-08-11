@@ -54,32 +54,6 @@ public class MainActivity extends Activity {
 
 		SettingsUtil.init(this);
 
-		if (GCMUtil.isGooglePlayServicesAvailable(this)) {
-			String token = SettingsUtil.getToken();
-
-			if (token.isEmpty()) {
-				GCMRegistrationAsyncTask task = new GCMRegistrationAsyncTask(
-					this);
-
-				task.execute();
-			}
-			else {
-				GCMUtil.addPushNotificationsDevice(this, token);
-			}
-		}
-
-		_receiver = new BroadcastReceiver() {
-
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				_addCard(intent.getStringExtra(Alert.MESSAGE));
-			}
-
-		};
-
-		_getBroadcastManager().registerReceiver(
-			_receiver, new IntentFilter(ADD_CARD));
-
 		if (state != null) {
 			_alerts = state.getParcelableArrayList(_ALERTS);
 		}
@@ -90,6 +64,9 @@ public class MainActivity extends Activity {
 		for (Alert alert : _alerts) {
 			_addCard(alert.getMessage());
 		}
+
+		_addPushNotificationsDevice();
+		_registerAddCardReceiver();
 	}
 
 	@Override
@@ -110,8 +87,38 @@ public class MainActivity extends Activity {
 		_cardList.addView(new CardView(this, text));
 	}
 
+	private void _addPushNotificationsDevice() {
+		if (GCMUtil.isGooglePlayServicesAvailable(this)) {
+			String token = SettingsUtil.getToken();
+
+			if (token.isEmpty()) {
+				GCMRegistrationAsyncTask task = new GCMRegistrationAsyncTask(
+					this);
+
+				task.execute();
+			}
+			else {
+				GCMUtil.addPushNotificationsDevice(this, token);
+			}
+		}
+	}
+
 	private LocalBroadcastManager _getBroadcastManager() {
 		return LocalBroadcastManager.getInstance(this);
+	}
+
+	private void _registerAddCardReceiver() {
+		_receiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				_addCard(intent.getStringExtra(Alert.MESSAGE));
+			}
+
+		};
+
+		_getBroadcastManager().registerReceiver(
+			_receiver, new IntentFilter(ADD_CARD));
 	}
 
 	private static final String _ALERTS = "alerts";
