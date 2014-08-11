@@ -3,6 +3,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="@color/main_background"
 	android:orientation="vertical"
 	android:divider="@drawable/divider"
 	android:showDividers="middle"
@@ -13,14 +14,18 @@
 		android:layout_height="@dimen/top_bar_height"
 		android:background="@drawable/top_bar_background" />
 
-	<LinearLayout
-		android:id="@+id/card_list"
+	<ScrollView
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="@color/main_background"
-		android:orientation="vertical"
-		android:paddingTop="@dimen/card_list_padding_top"
-		android:paddingRight="@dimen/card_list_padding"
-		android:paddingBottom="@dimen/card_list_padding"
-		android:paddingLeft="@dimen/card_list_padding" />
+		android:layout_height="match_parent">
+
+		<LinearLayout
+			android:id="@+id/card_list"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			android:paddingTop="@dimen/card_list_padding_top"
+			android:paddingRight="@dimen/card_list_padding"
+			android:paddingBottom="@dimen/card_list_padding"
+			android:paddingLeft="@dimen/card_list_padding" />
+	</ScrollView>
 </LinearLayout>
