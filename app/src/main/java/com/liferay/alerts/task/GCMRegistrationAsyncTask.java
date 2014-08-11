@@ -18,13 +18,13 @@ import android.content.Context;
 
 import android.os.AsyncTask;
 
+import android.util.Log;
+
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-import com.liferay.alerts.R;
 import com.liferay.alerts.activity.MainActivity;
 import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.SettingsUtil;
-import com.liferay.alerts.util.ToastUtil;
 
 /**
  * @author Bruno Farache
@@ -46,8 +46,7 @@ public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 			SettingsUtil.setToken(token);
 		}
 		catch (Exception e) {
-			ToastUtil.show(
-				_context, R.string.failed_to_get_token_from_google, true);
+			Log.e(_TAG, "Failed to get token from Google", e);
 		}
 
 		return token;
@@ -61,6 +60,9 @@ public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 	}
 
 	private static final String _SENDER_ID = "248816535314";
+
+	private static final String _TAG =
+		GCMRegistrationAsyncTask.class.getSimpleName();
 
 	private Context _context;
 
