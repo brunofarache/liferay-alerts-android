@@ -18,10 +18,24 @@ import android.content.ContentValues;
 
 import android.database.Cursor;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @author Bruno Farache
  */
-public class Alert extends BaseModel {
+public class Alert extends BaseModel implements Parcelable {
+
+	public static final Parcelable.Creator<Alert> CREATOR =
+		new Parcelable.Creator<Alert>() {
+			public Alert createFromParcel(Parcel parcel) {
+				return new Alert(parcel);
+			}
+
+			public Alert[] newArray(int size) {
+				return new Alert[size];
+			}
+		};
 
 	public static final String ID = "_id";
 
@@ -34,6 +48,11 @@ public class Alert extends BaseModel {
 
 	public Alert(String message) {
 		_message = message;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
 	}
 
 	@Override
@@ -52,6 +71,17 @@ public class Alert extends BaseModel {
 		values.put(MESSAGE, getMessage());
 
 		return values;
+	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeLong(getId());
+		parcel.writeString(_message);
+	}
+
+	private Alert(Parcel parcel) {
+		_id = parcel.readInt();
+		_message = parcel.readString();
 	}
 
 	private long _id = -1;

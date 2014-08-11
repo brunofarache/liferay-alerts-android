@@ -21,6 +21,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.liferay.alerts.model.BaseModel;
 import com.liferay.alerts.util.CharPool;
+import com.liferay.alerts.util.StringPool;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +39,10 @@ public abstract class BaseDAO<M extends BaseModel> {
 		String[] values = { String.valueOf(id) };
 
 		delete(getIdWhereClause(), values, true);
+	}
+
+	public ArrayList<M> get() {
+		return get(StringPool.BLANK);
 	}
 
 	public M get(long id) {

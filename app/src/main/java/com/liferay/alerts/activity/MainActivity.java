@@ -28,11 +28,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.LinearLayout;
 
 import com.liferay.alerts.R;
+import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.task.GCMRegistrationAsyncTask;
 import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.widget.CardView;
+
+import java.util.ArrayList;
 
 /**
  * @author Bruno Farache
@@ -77,7 +80,16 @@ public class MainActivity extends Activity {
 		_getBroadcastManager().registerReceiver(
 			_receiver, new IntentFilter(ADD_CARD));
 
-		_addCard(getString(R.string.welcome));
+		if (state != null) {
+			_alerts = state.getParcelableArrayList(_ALERTS);
+		}
+		else {
+			_alerts = AlertDAO.getInstance(this).get();
+		}
+
+		for (Alert alert : _alerts) {
+			_addCard(alert.getMessage());
+		}
 	}
 
 	@Override
@@ -85,6 +97,13 @@ public class MainActivity extends Activity {
 		_getBroadcastManager().unregisterReceiver(_receiver);
 
 		super.onDestroy();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle state) {
+		super.onSaveInstanceState(state);
+
+		state.putParcelableArrayList(_ALERTS, _alerts);
 	}
 
 	private void _addCard(String text) {
@@ -95,6 +114,9 @@ public class MainActivity extends Activity {
 		return LocalBroadcastManager.getInstance(this);
 	}
 
+	private static final String _ALERTS = "alerts";
+
+	private ArrayList<Alert> _alerts;
 	private LinearLayout _cardList;
 	private BroadcastReceiver _receiver;
 
