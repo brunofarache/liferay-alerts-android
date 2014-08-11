@@ -15,7 +15,6 @@
 package com.liferay.alerts.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 
 import android.util.AttributeSet;
@@ -51,22 +50,16 @@ public class CardView extends FrameLayout {
 			attributes, R.styleable.CardView, 0, 0);
 
 		String text = typed.getString(R.styleable.CardView_text);
-		setText(text);
+
+		if (text != null) {
+			setText(text);
+		}
 
 		typed.recycle();
 	}
 
 	public CardView(Context context, String text) {
 		this(context);
-
-		Resources resources = getResources();
-
-		int padding = resources.getDimensionPixelSize(R.dimen.card_padding);
-
-		setPadding(padding, padding, padding, padding);
-		setBackground(resources.getDrawable(R.drawable.card_background));
-		setMinimumHeight(
-			resources.getDimensionPixelSize(R.dimen.card_minHeight));
 
 		setText(text);
 	}

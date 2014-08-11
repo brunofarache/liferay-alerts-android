@@ -5,6 +5,10 @@
 		android:id="@+id/text"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_marginBottom="@dimen/card_list_padding"
+		android:padding="@dimen/card_padding"
+		android:minHeight="@dimen/card_minHeight"
+		android:background="@drawable/card_background"
 		android:textColor="@color/card_text_color"
 		android:fontFamily="sans-serif-light" />
 </merge>
