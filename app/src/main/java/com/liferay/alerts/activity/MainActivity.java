@@ -88,7 +88,9 @@ public class MainActivity extends Activity {
 	}
 
 	private void _addPushNotificationsDevice() {
-		if (GCMUtil.isGooglePlayServicesAvailable(this)) {
+		if (!SettingsUtil.isRegistered() &&
+			GCMUtil.isGooglePlayServicesAvailable(this)) {
+
 			String token = SettingsUtil.getToken();
 
 			if (token.isEmpty()) {

@@ -39,11 +39,23 @@ public class SettingsUtil {
 		_preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
+	public static boolean isRegistered() {
+		return _preferences.getBoolean(_REGISTERED, false);
+	}
+
+	public static void setRegistered(boolean registered) {
+		Editor editor = _preferences.edit();
+		editor.putBoolean(_REGISTERED, registered);
+		editor.commit();
+	}
+
 	public static void setToken(String registrationId) {
 		Editor editor = _preferences.edit();
 		editor.putString(_TOKEN, registrationId);
 		editor.commit();
 	}
+
+	private static final String _REGISTERED = "registered";
 
 	private static final String _TOKEN = "token";
 

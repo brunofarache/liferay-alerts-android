@@ -17,6 +17,7 @@ package com.liferay.alerts.callback;
 import android.content.Context;
 
 import com.liferay.alerts.R;
+import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.util.ToastUtil;
 import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
@@ -37,6 +38,7 @@ public class RegistrationCallback extends JSONObjectAsyncTaskCallback {
 
 	public void onSuccess(JSONObject jsonObj) {
 		ToastUtil.show(_context, R.string.registered, true);
+		SettingsUtil.setRegistered(true);
 	}
 
 	private Context _context;

@@ -44,7 +44,7 @@ public class GCMUtil {
 
 		PushNotificationsDeviceService service;
 
-		if (server.equals("http://10.0.2.2:8080")) {
+		if (server.endsWith(":8080")) {
 			service =
 				new com.liferay.mobile.android.v7.pushnotificationsdevice.
 					PushNotificationsDeviceService(session);
