@@ -12,17 +12,11 @@
  * details.
  */
 
-package com.liferay.alerts.task;
-
-import android.content.Context;
-
-import android.os.AsyncTask;
+package com.liferay.alerts.util;
 
 import android.util.Base64;
 import android.util.Log;
 
-import com.liferay.alerts.activity.MainActivity;
-import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.util.Validator;
 
 import java.net.URLEncoder;
@@ -32,28 +26,22 @@ import java.security.MessageDigest;
 /**
  * @author Bruno Farache
  */
-public class PortraitAsyncTask extends AsyncTask<Void, Void, String> {
+public class PortraitUtil {
 
-	public PortraitAsyncTask(MainActivity activity) {
-		_context = activity.getApplicationContext();
-	}
+	public static String getPortraitURL(
+		String server, String uuid, long portraitId) {
 
-	public String doInBackground(Void... params) {
-		String uuid = null;
+		StringBuilder sb = new StringBuilder();
 
-		try {
-		}
-		catch (Exception e) {
-			Log.e(_TAG, "Failed to download portrait.", e);
-		}
+		sb.append(server);
+		sb.append("/image/user_male");
 
-		return uuid;
-	}
+		sb.append("_portrait?img_id=");
+		sb.append(portraitId);
 
-	@Override
-	public void onPostExecute(String uuid) {
-		if (uuid != null) {
-		}
+		_appendToken(sb, uuid);
+
+		return sb.toString();
 	}
 
 	private static void _appendToken(StringBuilder sb, String uuid) {
@@ -76,24 +64,6 @@ public class PortraitAsyncTask extends AsyncTask<Void, Void, String> {
 		}
 	}
 
-	private String _getPortraitURL(
-		Session session, long portraitId, String uuid) {
-
-		StringBuilder sb = new StringBuilder();
-
-		sb.append(session.getServer());
-		sb.append("/image/user_male");
-
-		sb.append("_portrait?img_id=");
-		sb.append(portraitId);
-
-		_appendToken(sb, uuid);
-
-		return sb.toString();
-	}
-
-	private static final String _TAG = PortraitAsyncTask.class.getSimpleName();
-
-	private Context _context;
+	private static final String _TAG = PortraitUtil.class.getSimpleName();
 
 }

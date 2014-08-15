@@ -33,6 +33,8 @@ public class User implements Parcelable {
 			}
 		};
 
+	public static final String USER = "user";
+
 	public User(String uuid, long userId, String fullName, long portraitId) {
 		_uuid = uuid;
 		_userId = userId;

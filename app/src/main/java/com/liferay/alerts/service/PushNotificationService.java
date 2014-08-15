@@ -84,6 +84,7 @@ public class PushNotificationService extends IntentService {
 		}
 
 		Intent intent = new Intent(MainActivity.ADD_CARD);
+		intent.putExtra(User.USER, user);
 		intent.putExtra(Alert.MESSAGE, message);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 	}

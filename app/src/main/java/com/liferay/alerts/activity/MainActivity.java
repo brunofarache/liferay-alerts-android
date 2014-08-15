@@ -30,7 +30,9 @@ import android.widget.LinearLayout;
 import com.liferay.alerts.R;
 import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.model.User;
 import com.liferay.alerts.task.GCMRegistrationAsyncTask;
+import com.liferay.alerts.util.PortraitUtil;
 import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.widget.CardView;
@@ -114,7 +116,14 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				_addCard(intent.getStringExtra(Alert.MESSAGE));
+				User user = intent.getParcelableExtra(User.USER);
+				String portraitURL = PortraitUtil.getPortraitURL(
+					SettingsUtil.getServer(context), user.getUuid(),
+					user.getPortraitId());
+
+				String message = intent.getStringExtra(Alert.MESSAGE);
+
+				_addCard(message);
 			}
 
 		};
