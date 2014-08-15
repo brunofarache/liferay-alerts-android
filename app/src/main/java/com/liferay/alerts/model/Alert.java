@@ -37,8 +37,6 @@ public class Alert extends BaseModel implements Parcelable {
 			}
 		};
 
-	public static final String ID = "_id";
-
 	public static final String MESSAGE = "message";
 
 	public Alert(Cursor cursor) {

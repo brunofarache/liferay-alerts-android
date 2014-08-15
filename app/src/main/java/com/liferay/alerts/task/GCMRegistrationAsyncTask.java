@@ -22,7 +22,6 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-import com.liferay.alerts.activity.MainActivity;
 import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.SettingsUtil;
 
@@ -31,8 +30,8 @@ import com.liferay.alerts.util.SettingsUtil;
  */
 public class GCMRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 
-	public GCMRegistrationAsyncTask(MainActivity activity) {
-		_context = activity.getApplicationContext();
+	public GCMRegistrationAsyncTask(Context context) {
+		_context = context.getApplicationContext();
 	}
 
 	public String doInBackground(Void... params) {

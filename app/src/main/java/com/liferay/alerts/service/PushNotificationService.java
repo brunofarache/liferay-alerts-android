@@ -36,6 +36,7 @@ import com.liferay.alerts.activity.MainActivity;
 import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.database.DatabaseException;
 import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.model.User;
 import com.liferay.alerts.receiver.PushNotificationReceiver;
 import com.liferay.alerts.util.GCMUtil;
 
@@ -58,15 +59,22 @@ public class PushNotificationService extends IntentService {
 		if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(type) &&
 			!extras.isEmpty()) {
 
-			String message = extras.getString("data");
-			_addCard(message);
+			String uuid = extras.getString("uuid");
+			long userId = Long.parseLong(extras.getString("fromUserId"));
+			String fullName = extras.getString("fullName");
+			long portraitId = Long.parseLong(extras.getString("portraitId"));
+			String message = extras.getString("message");
+
+			User user = new User(uuid, userId, fullName, portraitId);
+
+			_addCard(user, message);
 			_showNotification(message);
 		}
 
 		PushNotificationReceiver.completeWakefulIntent(intent);
 	}
 
-	private void _addCard(String message) {
+	private void _addCard(User user, String message) {
 		try {
 			Alert alert = new Alert(message);
 			AlertDAO.getInstance(this).insert(alert);
