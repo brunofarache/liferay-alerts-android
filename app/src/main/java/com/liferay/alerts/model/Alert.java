@@ -26,6 +26,8 @@ import android.os.Parcelable;
  */
 public class Alert extends BaseModel implements Parcelable {
 
+	public static final String ALERT = "alert";
+
 	public static final Parcelable.Creator<Alert> CREATOR =
 		new Parcelable.Creator<Alert>() {
 			public Alert createFromParcel(Parcel parcel) {

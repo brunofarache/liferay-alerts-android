@@ -19,15 +19,22 @@ import android.content.res.TypedArray;
 
 import android.util.AttributeSet;
 
-import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.liferay.alerts.R;
+import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.model.User;
+import com.liferay.alerts.util.PortraitUtil;
+import com.liferay.alerts.util.SettingsUtil;
+
+import com.squareup.picasso.Picasso;
 
 /**
  * @author Bruno Farache
  */
-public class CardView extends FrameLayout {
+public class CardView extends LinearLayout {
 
 	public CardView(Context context) {
 		this(context, (AttributeSet)null);
@@ -58,10 +65,19 @@ public class CardView extends FrameLayout {
 		typed.recycle();
 	}
 
-	public CardView(Context context, String text) {
+	public CardView(Context context, User user, Alert alert) {
 		this(context);
 
-		setText(text);
+		if (user != null) {
+			String portraitURL = PortraitUtil.getPortraitURL(
+				SettingsUtil.getServer(context), user.getUuid(),
+				user.getPortraitId());
+
+			ImageView portrait = (ImageView)findViewById(R.id.portrait);
+			Picasso.with(context).load(portraitURL).into(portrait);
+		}
+
+		setText(alert.getMessage());
 	}
 
 	public void setText(String text) {

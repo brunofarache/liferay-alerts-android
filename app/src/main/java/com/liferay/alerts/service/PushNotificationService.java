@@ -75,8 +75,9 @@ public class PushNotificationService extends IntentService {
 	}
 
 	private void _addCard(User user, String message) {
+		Alert alert = new Alert(message);
+
 		try {
-			Alert alert = new Alert(message);
 			AlertDAO.getInstance(this).insert(alert);
 		}
 		catch (DatabaseException de) {
@@ -85,7 +86,7 @@ public class PushNotificationService extends IntentService {
 
 		Intent intent = new Intent(MainActivity.ADD_CARD);
 		intent.putExtra(User.USER, user);
-		intent.putExtra(Alert.MESSAGE, message);
+		intent.putExtra(Alert.ALERT, alert);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 	}
 

@@ -32,7 +32,6 @@ import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.task.GCMRegistrationAsyncTask;
-import com.liferay.alerts.util.PortraitUtil;
 import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.widget.CardView;
@@ -64,7 +63,7 @@ public class MainActivity extends Activity {
 		}
 
 		for (Alert alert : _alerts) {
-			_addCard(alert.getMessage());
+			_addCard(null, alert);
 		}
 
 		_addPushNotificationsDevice();
@@ -85,8 +84,8 @@ public class MainActivity extends Activity {
 		state.putParcelableArrayList(_ALERTS, _alerts);
 	}
 
-	private void _addCard(String text) {
-		_cardList.addView(new CardView(this, text));
+	private void _addCard(User user, Alert alert) {
+		_cardList.addView(new CardView(this, user, alert));
 	}
 
 	private void _addPushNotificationsDevice() {
@@ -117,13 +116,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				User user = intent.getParcelableExtra(User.USER);
-				String portraitURL = PortraitUtil.getPortraitURL(
-					SettingsUtil.getServer(context), user.getUuid(),
-					user.getPortraitId());
+				Alert alert = intent.getParcelableExtra(Alert.ALERT);
 
-				String message = intent.getStringExtra(Alert.MESSAGE);
-
-				_addCard(message);
+				_addCard(user, alert);
 			}
 
 		};
