@@ -6,6 +6,12 @@
 	android:background="@color/main_background"
 	tools:context=".activity.MainActivity">
 
+	<View
+		android:layout_width="@dimen/card_list_vertical_line_width"
+		android:layout_height="match_parent"
+		android:layout_marginLeft="@dimen/card_list_vertical_line_margin_left"
+		android:background="@color/card_list_vertical_line" />
+
 	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"

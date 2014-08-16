@@ -2,8 +2,11 @@
 <resources>
 	<dimen name="card_list_padding">10.5dp</dimen>
 	<dimen name="card_list_padding_top">110dp</dimen>
+	<dimen name="card_list_vertical_line_margin_left">27.5dp</dimen>
+	<dimen name="card_list_vertical_line_width">2dp</dimen>
 	<dimen name="card_minHeight">100dp</dimen>
 	<dimen name="card_padding">16dp</dimen>
+	<dimen name="portrait_margin_top">14dp</dimen>
 	<dimen name="portrait_width">35dp</dimen>
 	<item name="top_bar_alpha" format="float" type="dimen">0.95</item>
 	<dimen name="top_bar_height">70dp</dimen>
