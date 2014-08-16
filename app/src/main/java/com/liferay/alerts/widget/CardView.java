@@ -41,6 +41,25 @@ public class CardView extends LinearLayout {
 		this(context, (AttributeSet)null);
 	}
 
+	public CardView(Context context, Alert alert) {
+		this(context);
+
+		User user = alert.getUser();
+
+		if (user != null) {
+			String portraitURL = PortraitUtil.getPortraitURL(
+				SettingsUtil.getServer(context), user.getUuid(),
+				user.getPortraitId());
+
+			Transformation transformation = new RoundedTransformation();
+			ImageView portrait = (ImageView)findViewById(R.id.portrait);
+			Picasso.with(context).load(portraitURL).transform(
+				transformation).into(portrait);
+		}
+
+		setText(alert.getMessage());
+	}
+
 	public CardView(Context context, AttributeSet attributes) {
 		this(context, attributes, 0);
 	}
@@ -64,23 +83,6 @@ public class CardView extends LinearLayout {
 		}
 
 		typed.recycle();
-	}
-
-	public CardView(Context context, User user, Alert alert) {
-		this(context);
-
-		if (user != null) {
-			String portraitURL = PortraitUtil.getPortraitURL(
-				SettingsUtil.getServer(context), user.getUuid(),
-				user.getPortraitId());
-
-			Transformation transformation = new RoundedTransformation();
-			ImageView portrait = (ImageView)findViewById(R.id.portrait);
-			Picasso.with(context).load(portraitURL).transform(
-				transformation).into(portrait);
-		}
-
-		setText(alert.getMessage());
 	}
 
 	public void setText(String text) {

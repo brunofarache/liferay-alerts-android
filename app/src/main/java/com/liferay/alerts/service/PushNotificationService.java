@@ -60,26 +60,33 @@ public class PushNotificationService extends IntentService {
 		if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(type) &&
 			!extras.isEmpty()) {
 
-			String uuid = extras.getString("uuid");
 			long userId = Long.parseLong(extras.getString("fromUserId"));
+			String uuid = extras.getString("uuid");
 			String fullName = extras.getString("fullName");
 			long portraitId = Long.parseLong(extras.getString("portraitId"));
 			String message = extras.getString("message");
 
-			User user = new User(userId, uuid, fullName, portraitId);
-
-			_addCard(user, message);
+			_addCard(userId, uuid, fullName, portraitId, message);
 			_showNotification(message);
 		}
 
 		PushNotificationReceiver.completeWakefulIntent(intent);
 	}
 
-	private void _addCard(User user, String message) {
-		Alert alert = new Alert(message);
+	private void _addCard(
+		long userId, String uuid, String fullName, long portraitId,
+		String message) {
+
+		User user = new User(userId, uuid, fullName, portraitId);
+		Alert alert = new Alert(user, message);
 
 		try {
-			UserDAO.getInstance(this).insert(user);
+			UserDAO userDAO = UserDAO.getInstance(this);
+
+			if (userDAO.get(user.getId()) == null) {
+				userDAO.getInstance(this).insert(user);
+			}
+
 			AlertDAO.getInstance(this).insert(alert);
 		}
 		catch (DatabaseException de) {
@@ -87,7 +94,6 @@ public class PushNotificationService extends IntentService {
 		}
 
 		Intent intent = new Intent(MainActivity.ADD_CARD);
-		intent.putExtra(User.USER, user);
 		intent.putExtra(Alert.ALERT, alert);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 	}

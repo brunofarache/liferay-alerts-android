@@ -41,8 +41,6 @@ public class User extends BaseModel implements Parcelable {
 
 	public static final String PORTRAIT_ID = "portraitId";
 
-	public static final String USER = "user";
-
 	public static final String UUID = "uuid";
 
 	public User(Cursor cursor) {

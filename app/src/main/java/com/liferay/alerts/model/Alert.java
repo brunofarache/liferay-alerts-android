@@ -46,7 +46,9 @@ public class Alert extends BaseModel implements Parcelable {
 		_message = cursor.getString(cursor.getColumnIndex(MESSAGE));
 	}
 
-	public Alert(String message) {
+	public Alert(User user, String message) {
+		_user = user;
+		_userId = user.getId();
 		_message = message;
 	}
 
@@ -64,6 +66,10 @@ public class Alert extends BaseModel implements Parcelable {
 		return _message;
 	}
 
+	public User getUser() {
+		return _user;
+	}
+
 	@Override
 	public ContentValues toContentValues() {
 		ContentValues values = new ContentValues();
@@ -76,15 +82,19 @@ public class Alert extends BaseModel implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
 		parcel.writeLong(_id);
+		parcel.writeParcelable(_user, 0);
 		parcel.writeString(_message);
 	}
 
 	private Alert(Parcel parcel) {
 		_id = parcel.readInt();
+		_user = parcel.readParcelable(User.class.getClassLoader());
 		_message = parcel.readString();
 	}
 
 	private long _id = -1;
 	private String _message;
+	private User _user;
+	private long _userId;
 
 }

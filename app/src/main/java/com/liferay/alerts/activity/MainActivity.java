@@ -30,7 +30,6 @@ import android.widget.LinearLayout;
 import com.liferay.alerts.R;
 import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.model.Alert;
-import com.liferay.alerts.model.User;
 import com.liferay.alerts.task.GCMRegistrationAsyncTask;
 import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.SettingsUtil;
@@ -63,7 +62,7 @@ public class MainActivity extends Activity {
 		}
 
 		for (Alert alert : _alerts) {
-			_addCard(null, alert);
+			_addCard(alert);
 		}
 
 		_addPushNotificationsDevice();
@@ -84,8 +83,8 @@ public class MainActivity extends Activity {
 		state.putParcelableArrayList(_ALERTS, _alerts);
 	}
 
-	private void _addCard(User user, Alert alert) {
-		_cardList.addView(new CardView(this, user, alert));
+	private void _addCard(Alert alert) {
+		_cardList.addView(new CardView(this, alert));
 	}
 
 	private void _addPushNotificationsDevice() {
@@ -115,10 +114,10 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				User user = intent.getParcelableExtra(User.USER);
 				Alert alert = intent.getParcelableExtra(Alert.ALERT);
+				_alerts.add(alert);
 
-				_addCard(user, alert);
+				_addCard(alert);
 			}
 
 		};
