@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void _addCard(Alert alert) {
-		_cardList.addView(new CardView(this, alert));
+		_cardList.addView(new CardView(this, alert), 0);
 	}
 
 	private void _addPushNotificationsDevice() {
