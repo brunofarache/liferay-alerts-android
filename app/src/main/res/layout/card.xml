@@ -3,14 +3,16 @@
 
 	<ImageView
 		android:id="@+id/portrait"
-		android:layout_width="wrap_content"
+		android:layout_width="@dimen/portrait_width"
 		android:layout_height="wrap_content"
-		android:padding="@dimen/card_list_padding" />
+		android:layout_marginTop="@dimen/card_list_padding"
+		android:layout_marginRight="@dimen/card_list_padding" />
 
 	<TextView
 		android:id="@+id/text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_weight="1"
 		android:layout_marginBottom="@dimen/card_list_padding"
 		android:padding="@dimen/card_padding"
 		android:minHeight="@dimen/card_minHeight"
