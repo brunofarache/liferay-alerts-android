@@ -30,6 +30,7 @@ import com.liferay.alerts.util.PortraitUtil;
 import com.liferay.alerts.util.SettingsUtil;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 /**
  * @author Bruno Farache
@@ -73,8 +74,10 @@ public class CardView extends LinearLayout {
 				SettingsUtil.getServer(context), user.getUuid(),
 				user.getPortraitId());
 
+			Transformation transformation = new RoundedTransformation();
 			ImageView portrait = (ImageView)findViewById(R.id.portrait);
-			Picasso.with(context).load(portraitURL).into(portrait);
+			Picasso.with(context).load(portraitURL).transform(
+				transformation).into(portrait);
 		}
 
 		setText(alert.getMessage());
