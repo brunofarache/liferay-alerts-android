@@ -14,13 +14,17 @@
 
 package com.liferay.alerts.model;
 
+import android.content.ContentValues;
+
+import android.database.Cursor;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
  * @author Bruno Farache
  */
-public class User implements Parcelable {
+public class User extends BaseModel implements Parcelable {
 
 	public static final Creator<User> CREATOR =
 		new Creator<User>() {
@@ -33,11 +37,24 @@ public class User implements Parcelable {
 			}
 		};
 
+	public static final String FULL_NAME = "fullName";
+
+	public static final String PORTRAIT_ID = "portraitId";
+
 	public static final String USER = "user";
 
-	public User(String uuid, long userId, String fullName, long portraitId) {
+	public static final String UUID = "uuid";
+
+	public User(Cursor cursor) {
+		_id = cursor.getLong(cursor.getColumnIndex(ID));
+		_uuid = cursor.getString(cursor.getColumnIndex(UUID));
+		_fullName = cursor.getString(cursor.getColumnIndex(FULL_NAME));
+		_portraitId = cursor.getLong(cursor.getColumnIndex(PORTRAIT_ID));
+	}
+
+	public User(long userId, String uuid, String fullName, long portraitId) {
+		_id = userId;
 		_uuid = uuid;
-		_userId = userId;
 		_fullName = fullName;
 		_portraitId = portraitId;
 	}
@@ -51,12 +68,13 @@ public class User implements Parcelable {
 		return _fullName;
 	}
 
-	public long getPortraitId() {
-		return _portraitId;
+	@Override
+	public long getId() {
+		return _id;
 	}
 
-	public long getUserId() {
-		return _userId;
+	public long getPortraitId() {
+		return _portraitId;
 	}
 
 	public String getUuid() {
@@ -64,23 +82,35 @@ public class User implements Parcelable {
 	}
 
 	@Override
+	public ContentValues toContentValues() {
+		ContentValues values = new ContentValues();
+
+		values.put(ID, _id);
+		values.put(UUID, _uuid);
+		values.put(FULL_NAME, _fullName);
+		values.put(PORTRAIT_ID, _portraitId);
+
+		return values;
+	}
+
+	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeLong(_id);
 		parcel.writeString(_uuid);
-		parcel.writeLong(_userId);
 		parcel.writeString(_fullName);
 		parcel.writeLong(_portraitId);
 	}
 
 	private User(Parcel parcel) {
+		_id = parcel.readLong();
 		_uuid = parcel.readString();
-		_userId = parcel.readInt();
 		_fullName = parcel.readString();
 		_portraitId = parcel.readLong();
 	}
 
 	private String _fullName;
+	private long _id;
 	private long _portraitId;
-	private long _userId;
 	private String _uuid;
 
 }

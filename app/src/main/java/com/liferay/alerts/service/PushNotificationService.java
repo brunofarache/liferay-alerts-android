@@ -35,6 +35,7 @@ import com.liferay.alerts.R;
 import com.liferay.alerts.activity.MainActivity;
 import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.database.DatabaseException;
+import com.liferay.alerts.database.UserDAO;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.receiver.PushNotificationReceiver;
@@ -65,7 +66,7 @@ public class PushNotificationService extends IntentService {
 			long portraitId = Long.parseLong(extras.getString("portraitId"));
 			String message = extras.getString("message");
 
-			User user = new User(uuid, userId, fullName, portraitId);
+			User user = new User(userId, uuid, fullName, portraitId);
 
 			_addCard(user, message);
 			_showNotification(message);
@@ -78,6 +79,7 @@ public class PushNotificationService extends IntentService {
 		Alert alert = new Alert(message);
 
 		try {
+			UserDAO.getInstance(this).insert(user);
 			AlertDAO.getInstance(this).insert(alert);
 		}
 		catch (DatabaseException de) {

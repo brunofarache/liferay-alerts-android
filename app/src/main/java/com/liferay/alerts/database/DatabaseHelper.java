@@ -35,6 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public void deleteDatabase(Context context) {
 		AlertDAO.destroy();
+		UserDAO.destroy();
 
 		try {
 			_instance.close();
@@ -47,8 +48,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public void onCreate(SQLiteDatabase database) {
 		AlertDAO alertDAO = new AlertDAO();
+		UserDAO userDAO = new UserDAO();
 
 		database.execSQL(alertDAO.getCreateTableSQL());
+		database.execSQL(userDAO.getCreateTableSQL());
 	}
 
 	public void onOpen(SQLiteDatabase database) {

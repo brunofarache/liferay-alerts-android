@@ -68,14 +68,14 @@ public class Alert extends BaseModel implements Parcelable {
 	public ContentValues toContentValues() {
 		ContentValues values = new ContentValues();
 
-		values.put(MESSAGE, getMessage());
+		values.put(MESSAGE, _message);
 
 		return values;
 	}
 
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
-		parcel.writeLong(getId());
+		parcel.writeLong(_id);
 		parcel.writeString(_message);
 	}
 
