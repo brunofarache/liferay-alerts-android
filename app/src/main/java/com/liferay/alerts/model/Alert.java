@@ -15,11 +15,14 @@
 package com.liferay.alerts.model;
 
 import android.content.ContentValues;
+import android.content.Context;
 
 import android.database.Cursor;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.liferay.alerts.database.UserDAO;
 
 /**
  * @author Bruno Farache
@@ -41,8 +44,11 @@ public class Alert extends BaseModel implements Parcelable {
 
 	public static final String MESSAGE = "message";
 
+	public static final String USER_ID = "userId";
+
 	public Alert(Cursor cursor) {
 		_id = cursor.getLong(cursor.getColumnIndex(ID));
+		_userId = cursor.getLong(cursor.getColumnIndex(USER_ID));
 		_message = cursor.getString(cursor.getColumnIndex(MESSAGE));
 	}
 
@@ -66,7 +72,11 @@ public class Alert extends BaseModel implements Parcelable {
 		return _message;
 	}
 
-	public User getUser() {
+	public User getUser(Context context) {
+		if (_user == null) {
+			_user = UserDAO.getInstance(context).get(_userId);
+		}
+
 		return _user;
 	}
 
@@ -74,6 +84,7 @@ public class Alert extends BaseModel implements Parcelable {
 	public ContentValues toContentValues() {
 		ContentValues values = new ContentValues();
 
+		values.put(USER_ID, _userId);
 		values.put(MESSAGE, _message);
 
 		return values;
@@ -87,8 +98,9 @@ public class Alert extends BaseModel implements Parcelable {
 	}
 
 	private Alert(Parcel parcel) {
-		_id = parcel.readInt();
+		_id = parcel.readLong();
 		_user = parcel.readParcelable(User.class.getClassLoader());
+		_userId = _user.getId();
 		_message = parcel.readString();
 	}
 

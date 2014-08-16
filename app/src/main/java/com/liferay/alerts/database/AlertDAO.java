@@ -19,11 +19,14 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.model.User;
 
 /**
  * @author Bruno Farache
  */
 public class AlertDAO extends BaseDAO<Alert> {
+
+	public static final String TABLE_NAME = "Alert";
 
 	public synchronized static void destroy() {
 		_instance = null;
@@ -50,15 +53,15 @@ public class AlertDAO extends BaseDAO<Alert> {
 
 	@Override
 	protected String getTableName() {
-		return _TABLE_NAME;
+		return TABLE_NAME;
 	}
 
 	private static final TableColumn[] _TABLE_COLUMNS = {
 		new TableColumn(Alert.ID, TableColumn.INTEGER, true, true),
-		new TableColumn(Alert.MESSAGE, TableColumn.TEXT)
+		new TableColumn(Alert.MESSAGE, TableColumn.TEXT),
+		new TableColumn(
+			Alert.USER_ID, TableColumn.INTEGER, UserDAO.TABLE_NAME, User.ID)
 	};
-
-	private static final String _TABLE_NAME = "Alert";
 
 	private static AlertDAO _instance;
 

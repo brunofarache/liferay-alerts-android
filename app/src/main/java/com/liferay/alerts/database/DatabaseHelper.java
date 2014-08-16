@@ -47,11 +47,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public void onCreate(SQLiteDatabase database) {
-		AlertDAO alertDAO = new AlertDAO();
 		UserDAO userDAO = new UserDAO();
+		AlertDAO alertDAO = new AlertDAO();
 
-		database.execSQL(alertDAO.getCreateTableSQL());
 		database.execSQL(userDAO.getCreateTableSQL());
+		database.execSQL(alertDAO.getCreateTableSQL());
 	}
 
 	public void onOpen(SQLiteDatabase database) {

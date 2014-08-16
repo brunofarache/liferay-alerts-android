@@ -25,6 +25,8 @@ import com.liferay.alerts.model.User;
  */
 public class UserDAO extends BaseDAO<User> {
 
+	public static final String TABLE_NAME = "User";
+
 	public synchronized static void destroy() {
 		_instance = null;
 	}
@@ -50,7 +52,7 @@ public class UserDAO extends BaseDAO<User> {
 
 	@Override
 	protected String getTableName() {
-		return _TABLE_NAME;
+		return TABLE_NAME;
 	}
 
 	private static final TableColumn[] _TABLE_COLUMNS = {
@@ -59,8 +61,6 @@ public class UserDAO extends BaseDAO<User> {
 		new TableColumn(User.FULL_NAME, TableColumn.TEXT),
 		new TableColumn(User.PORTRAIT_ID, TableColumn.INTEGER)
 	};
-
-	private static final String _TABLE_NAME = "User";
 
 	private static UserDAO _instance;
 

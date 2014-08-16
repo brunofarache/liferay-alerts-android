@@ -44,7 +44,7 @@ public class CardView extends LinearLayout {
 	public CardView(Context context, Alert alert) {
 		this(context);
 
-		User user = alert.getUser();
+		User user = alert.getUser(context);
 
 		if (user != null) {
 			String portraitURL = PortraitUtil.getPortraitURL(
