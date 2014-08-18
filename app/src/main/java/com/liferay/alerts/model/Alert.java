@@ -22,7 +22,11 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import android.text.format.DateUtils;
+
 import com.liferay.alerts.database.UserDAO;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Bruno Farache
@@ -44,23 +48,51 @@ public class Alert extends BaseModel implements Parcelable {
 
 	public static final String MESSAGE = "message";
 
+	public static final String TIMESTAMP = "timestamp";
+
 	public static final String USER_ID = "userId";
 
 	public Alert(Cursor cursor) {
 		_id = cursor.getLong(cursor.getColumnIndex(ID));
 		_userId = cursor.getLong(cursor.getColumnIndex(USER_ID));
 		_message = cursor.getString(cursor.getColumnIndex(MESSAGE));
+		_timestamp = cursor.getLong(cursor.getColumnIndex(TIMESTAMP));
 	}
 
 	public Alert(User user, String message) {
 		_user = user;
 		_userId = user.getId();
 		_message = message;
+		_timestamp = System.currentTimeMillis();
 	}
 
 	@Override
 	public int describeContents() {
 		return 0;
+	}
+
+	public String getFormattedTimestamp() {
+		String formattedTimestamp;
+		long elapsedTime = System.currentTimeMillis() - _timestamp;
+
+		if (elapsedTime < DateUtils.MINUTE_IN_MILLIS) {
+			formattedTimestamp = String.format(
+				"%ds", TimeUnit.MILLISECONDS.toSeconds(elapsedTime));
+		}
+		else if (elapsedTime < DateUtils.HOUR_IN_MILLIS) {
+			formattedTimestamp = String.format(
+				"%dm", TimeUnit.MILLISECONDS.toMinutes(elapsedTime));
+		}
+		else if (elapsedTime < DateUtils.DAY_IN_MILLIS) {
+			formattedTimestamp = String.format(
+				"%dh", TimeUnit.MILLISECONDS.toHours(elapsedTime));
+		}
+		else {
+			formattedTimestamp = String.format(
+				"%dd", TimeUnit.MILLISECONDS.toDays(elapsedTime));
+		}
+
+		return formattedTimestamp;
 	}
 
 	@Override
@@ -86,6 +118,7 @@ public class Alert extends BaseModel implements Parcelable {
 
 		values.put(USER_ID, _userId);
 		values.put(MESSAGE, _message);
+		values.put(TIMESTAMP, _timestamp);
 
 		return values;
 	}
@@ -95,6 +128,7 @@ public class Alert extends BaseModel implements Parcelable {
 		parcel.writeLong(_id);
 		parcel.writeParcelable(_user, 0);
 		parcel.writeString(_message);
+		parcel.writeLong(_timestamp);
 	}
 
 	private Alert(Parcel parcel) {
@@ -102,10 +136,12 @@ public class Alert extends BaseModel implements Parcelable {
 		_user = parcel.readParcelable(User.class.getClassLoader());
 		_userId = _user.getId();
 		_message = parcel.readString();
+		_timestamp = parcel.readLong();
 	}
 
 	private long _id = -1;
 	private String _message;
+	private long _timestamp;
 	private User _user;
 	private long _userId;
 

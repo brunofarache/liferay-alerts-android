@@ -47,17 +47,11 @@ public class CardView extends LinearLayout {
 		User user = alert.getUser(context);
 
 		if (user != null) {
-			String portraitURL = PortraitUtil.getPortraitURL(
-				SettingsUtil.getServer(context), user.getUuid(),
-				user.getPortraitId());
-
-			Transformation transformation = new RoundedTransformation();
-			ImageView portrait = (ImageView)findViewById(R.id.portrait);
-			Picasso.with(context).load(portraitURL).transform(
-				transformation).into(portrait);
+			setPortrait(context, user);
 		}
 
 		setText(alert.getMessage());
+		setTimestamp(alert.getFormattedTimestamp());
 	}
 
 	public CardView(Context context, AttributeSet attributes) {
@@ -72,6 +66,7 @@ public class CardView extends LinearLayout {
 		inflate(context, R.layout.card, this);
 
 		_text = (TextView)findViewById(R.id.text);
+		_timestamp = (TextView)findViewById(R.id.timestamp);
 
 		TypedArray typed = context.getTheme().obtainStyledAttributes(
 			attributes, R.styleable.CardView, 0, 0);
@@ -89,6 +84,22 @@ public class CardView extends LinearLayout {
 		_text.setText(text);
 	}
 
+	public void setTimestamp(String timestamp) {
+		_timestamp.setText(timestamp);
+	}
+
+	protected void setPortrait(Context context, User user) {
+		String portraitURL = PortraitUtil.getPortraitURL(
+			SettingsUtil.getServer(context), user.getUuid(),
+			user.getPortraitId());
+
+		Transformation transformation = new RoundedTransformation();
+		ImageView portrait = (ImageView)findViewById(R.id.portrait);
+		Picasso.with(context).load(portraitURL).transform(transformation).into(
+			portrait);
+	}
+
 	private TextView _text;
+	private TextView _timestamp;
 
 }

@@ -8,15 +8,48 @@
 		android:layout_marginTop="@dimen/portrait_margin_top"
 		android:layout_marginRight="@dimen/card_list_padding" />
 
-	<TextView
-		android:id="@+id/text"
+	<LinearLayout
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_weight="1"
 		android:layout_marginBottom="@dimen/card_list_padding"
-		android:padding="@dimen/card_padding"
+		android:layout_weight="1"
+		android:orientation="vertical"
 		android:minHeight="@dimen/card_minHeight"
-		android:background="@drawable/card_background"
-		android:textColor="@color/card_text_color"
-		android:fontFamily="sans-serif-light" />
+		android:background="@drawable/card_background">
+
+		<TextView
+			android:id="@+id/text"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:padding="@dimen/card_padding"
+			android:fontFamily="sans-serif-light"
+			android:textColor="@color/card_text"
+			android:textSize="@dimen/card_text_size" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingTop="@dimen/card_badge_padding"
+					android:paddingLeft="@dimen/card_badge_padding"
+					android:paddingBottom="@dimen/card_badge_padding"
+					android:src="@drawable/badge_alert" />
+
+				<TextView
+					android:id="@+id/timestamp"
+					android:layout_width="0dp"
+				    android:layout_height="match_parent"
+				    android:layout_weight="1"
+				    android:gravity="center_vertical"
+				    android:layout_marginTop="@dimen/card_timestamp_margin_top"
+				    android:paddingLeft="@dimen/card_timestamp_padding_left"
+				    android:fontFamily="sans-serif-light"
+				    android:textColor="@color/card_timestamp"
+				    android:textSize="@dimen/card_timestamp_text_size" />
+		</LinearLayout>
+	</LinearLayout>
 </merge>

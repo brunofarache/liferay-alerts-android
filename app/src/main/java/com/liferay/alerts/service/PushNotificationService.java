@@ -82,15 +82,16 @@ public class PushNotificationService extends IntentService {
 
 		try {
 			UserDAO userDAO = UserDAO.getInstance(this);
+			User existingUser = userDAO.get(user.getId());
 
-			if (userDAO.get(user.getId()) == null) {
-				userDAO.getInstance(this).insert(user);
+			if (existingUser == null) {
+				userDAO.insert(user);
 			}
 
 			AlertDAO.getInstance(this).insert(alert);
 		}
 		catch (DatabaseException de) {
-			Log.e(_TAG, "Couldn't insert alert.", de);
+			Log.e(_TAG, "Couldn't insert user or alert.", de);
 		}
 
 		Intent intent = new Intent(MainActivity.ADD_CARD);
