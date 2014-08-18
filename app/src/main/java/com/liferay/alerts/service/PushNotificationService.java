@@ -108,7 +108,7 @@ public class PushNotificationService extends IntentService {
 
 		Builder builder = new Builder(this);
 
-		builder.setSmallIcon(R.drawable.ic_launcher);
+		builder.setSmallIcon(R.drawable.launcher);
 		builder.setContentTitle(getString(R.string.app_name));
 		builder.setStyle(new BigTextStyle().bigText(message));
 		builder.setContentText(message);
