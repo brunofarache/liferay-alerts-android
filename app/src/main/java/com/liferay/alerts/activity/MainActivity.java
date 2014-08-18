@@ -20,12 +20,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import android.os.Bundle;
 
 import android.support.v4.content.LocalBroadcastManager;
 
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.database.AlertDAO;
@@ -51,6 +54,16 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 
 		_cardList = (LinearLayout)findViewById(R.id.card_list);
+
+		try {
+			TextView version = (TextView)findViewById(R.id.version);
+			PackageInfo info = getPackageManager().getPackageInfo(
+				getPackageName(), 0);
+
+			version.setText(info.versionName);
+		}
+		catch (PackageManager.NameNotFoundException nnfe) {
+		}
 
 		SettingsUtil.init(this);
 
