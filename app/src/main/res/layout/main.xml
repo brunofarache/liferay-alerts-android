@@ -22,14 +22,14 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
-			android:paddingTop="@dimen/card_list_padding_top"
+			android:paddingLeft="@dimen/card_list_padding"
 			android:paddingRight="@dimen/card_list_padding"
-			android:paddingLeft="@dimen/card_list_padding" />
+			android:paddingTop="@dimen/card_list_padding_top" />
 	</ScrollView>
 
 	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/top_bar_height"
-		android:background="@drawable/top_bar_background"
-		android:alpha="@dimen/top_bar_alpha" />
+		android:alpha="@dimen/top_bar_alpha"
+		android:background="@drawable/top_bar_background" />
 </FrameLayout>
