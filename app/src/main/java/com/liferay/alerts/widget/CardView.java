@@ -47,7 +47,7 @@ public class CardView extends LinearLayout {
 		User user = alert.getUser(context);
 
 		if (user != null) {
-			setPortrait(context, user);
+			setPortrait(context, user.getUuid(), user.getPortraitId());
 		}
 
 		setText(alert.getMessage());
@@ -77,6 +77,14 @@ public class CardView extends LinearLayout {
 			setText(text);
 		}
 
+		int portraitId = typed.getInt(R.styleable.CardView_portraitId, 0);
+
+		if (portraitId != 0) {
+			setPortrait(context, null, portraitId);
+		}
+
+		setTimestamp(getResources().getString(R.string.release_date));
+
 		typed.recycle();
 	}
 
@@ -88,10 +96,9 @@ public class CardView extends LinearLayout {
 		_timestamp.setText(timestamp);
 	}
 
-	protected void setPortrait(Context context, User user) {
+	protected void setPortrait(Context context, String uuid, long portraitId) {
 		String portraitURL = PortraitUtil.getPortraitURL(
-			SettingsUtil.getServer(context), user.getUuid(),
-			user.getPortraitId());
+			SettingsUtil.getServer(context), uuid, portraitId);
 
 		Transformation transformation = new RoundedTransformation();
 		ImageView portrait = (ImageView)findViewById(R.id.portrait);
