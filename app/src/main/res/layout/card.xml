@@ -36,7 +36,6 @@
 					android:layout_height="wrap_content"
 					android:paddingBottom="@dimen/card_badge_padding"
 					android:paddingLeft="@dimen/card_badge_padding"
-					android:paddingTop="@dimen/card_badge_padding"
 					android:src="@drawable/badge_alert" />
 
 				<TextView
