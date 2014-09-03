@@ -104,7 +104,8 @@ public class PushNotificationService extends IntentService {
 			Context.NOTIFICATION_SERVICE);
 
 		PendingIntent intent = PendingIntent.getActivity(
-			this, 0, new Intent(this, MainActivity.class), 0);
+			this, 0, new Intent(this, MainActivity.class),
+			PendingIntent.FLAG_UPDATE_CURRENT);
 
 		Builder builder = new Builder(this);
 
