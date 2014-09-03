@@ -97,11 +97,18 @@ public class CardView extends LinearLayout {
 	}
 
 	protected void setPortrait(Context context, String uuid, long portraitId) {
+		ImageView portrait = (ImageView)findViewById(R.id.portrait);
+
+		if (isInEditMode()) {
+			portrait.setImageResource(R.drawable.launcher);
+
+			return;
+		}
+
 		String portraitURL = PortraitUtil.getPortraitURL(
 			SettingsUtil.getServer(context), uuid, portraitId);
 
 		Transformation transformation = new RoundedTransformation();
-		ImageView portrait = (ImageView)findViewById(R.id.portrait);
 		Picasso.with(context).load(portraitURL).transform(transformation).into(
 			portrait);
 	}
