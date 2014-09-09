@@ -15,9 +15,14 @@
 package com.liferay.alerts.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 
+import android.net.Uri;
+
 import android.util.AttributeSet;
+
+import android.view.View;
 
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,7 +40,7 @@ import com.squareup.picasso.Transformation;
 /**
  * @author Bruno Farache
  */
-public class CardView extends LinearLayout {
+public class CardView extends LinearLayout implements View.OnClickListener {
 
 	public CardView(Context context) {
 		this(context, (AttributeSet)null);
@@ -51,6 +56,17 @@ public class CardView extends LinearLayout {
 		}
 
 		setText(alert.getMessage());
+
+		_url = alert.getUrl();
+
+		if (_url != null) {
+			if (!_url.startsWith("http://") && !_url.startsWith("https://")) {
+				_url = "http://" + _url;
+			}
+
+			setOnClickListener(this);
+		}
+
 		setTimestamp(alert.getFormattedTimestamp());
 	}
 
@@ -88,6 +104,12 @@ public class CardView extends LinearLayout {
 		typed.recycle();
 	}
 
+	@Override
+	public void onClick(View view) {
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(_url));
+		getContext().startActivity(intent);
+	}
+
 	public void setText(String text) {
 		_text.setText(text);
 	}
@@ -115,5 +137,6 @@ public class CardView extends LinearLayout {
 
 	private TextView _text;
 	private TextView _timestamp;
+	private String _url;
 
 }
