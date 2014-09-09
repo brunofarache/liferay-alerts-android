@@ -41,6 +41,8 @@ import com.liferay.alerts.model.User;
 import com.liferay.alerts.receiver.PushNotificationReceiver;
 import com.liferay.alerts.util.GCMUtil;
 
+import org.json.JSONException;
+
 /**
  * @author Bruno Farache
  */
@@ -60,26 +62,21 @@ public class PushNotificationService extends IntentService {
 		if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(type) &&
 			!extras.isEmpty()) {
 
-			long userId = Long.parseLong(extras.getString("fromUserId"));
-			String uuid = extras.getString("uuid");
-			String fullName = extras.getString("fullName");
-			long portraitId = Long.parseLong(extras.getString("portraitId"));
-			String message = extras.getString("message");
+			try {
+				User user = new User(extras.getString("fromUser"));
+				Alert alert = new Alert(user, extras.getString(Alert.PAYLOAD));
 
-			_addCard(userId, uuid, fullName, portraitId, message);
-			_showNotification(message);
+				_addCard(user, alert);
+				_showNotification(alert.getMessage());
+			}
+			catch (JSONException je) {
+			}
 		}
 
 		PushNotificationReceiver.completeWakefulIntent(intent);
 	}
 
-	private void _addCard(
-		long userId, String uuid, String fullName, long portraitId,
-		String message) {
-
-		User user = new User(userId, uuid, fullName, portraitId);
-		Alert alert = new Alert(user, message);
-
+	private void _addCard(User user, Alert alert) {
 		try {
 			UserDAO userDAO = UserDAO.getInstance(this);
 			User existingUser = userDAO.get(user.getId());

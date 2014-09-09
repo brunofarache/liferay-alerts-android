@@ -28,6 +28,9 @@ import com.liferay.alerts.database.UserDAO;
 
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * @author Bruno Farache
  */
@@ -48,21 +51,32 @@ public class Alert extends BaseModel implements Parcelable {
 
 	public static final String MESSAGE = "message";
 
+	public static final String PAYLOAD = "payload";
+
 	public static final String TIMESTAMP = "timestamp";
+
+	public static final String URL = "url";
 
 	public static final String USER_ID = "userId";
 
 	public Alert(Cursor cursor) {
 		_id = cursor.getLong(cursor.getColumnIndex(ID));
 		_userId = cursor.getLong(cursor.getColumnIndex(USER_ID));
-		_message = cursor.getString(cursor.getColumnIndex(MESSAGE));
+
+		try {
+			_payload = new JSONObject(
+				cursor.getString(cursor.getColumnIndex(PAYLOAD)));
+		}
+		catch (JSONException je) {
+		}
+
 		_timestamp = cursor.getLong(cursor.getColumnIndex(TIMESTAMP));
 	}
 
-	public Alert(User user, String message) {
+	public Alert(User user, String payload) throws JSONException {
 		_user = user;
 		_userId = user.getId();
-		_message = message;
+		_payload = new JSONObject(payload);
 		_timestamp = System.currentTimeMillis();
 	}
 
@@ -101,7 +115,27 @@ public class Alert extends BaseModel implements Parcelable {
 	}
 
 	public String getMessage() {
-		return _message;
+		String message = null;
+
+		try {
+			message = _payload.getString(MESSAGE);
+		}
+		catch (JSONException je) {
+		}
+
+		return message;
+	}
+
+	public String getUrl() {
+		String url = null;
+
+		try {
+			url = _payload.getString(URL);
+		}
+		catch (JSONException je) {
+		}
+
+		return url;
 	}
 
 	public User getUser(Context context) {
@@ -117,7 +151,7 @@ public class Alert extends BaseModel implements Parcelable {
 		ContentValues values = new ContentValues();
 
 		values.put(USER_ID, _userId);
-		values.put(MESSAGE, _message);
+		values.put(PAYLOAD, _payload.toString());
 		values.put(TIMESTAMP, _timestamp);
 
 		return values;
@@ -127,7 +161,7 @@ public class Alert extends BaseModel implements Parcelable {
 	public void writeToParcel(Parcel parcel, int flags) {
 		parcel.writeLong(_id);
 		parcel.writeParcelable(_user, 0);
-		parcel.writeString(_message);
+		parcel.writeString(_payload.toString());
 		parcel.writeLong(_timestamp);
 	}
 
@@ -135,12 +169,18 @@ public class Alert extends BaseModel implements Parcelable {
 		_id = parcel.readLong();
 		_user = parcel.readParcelable(User.class.getClassLoader());
 		_userId = _user.getId();
-		_message = parcel.readString();
+
+		try {
+			_payload = new JSONObject(parcel.readString());
+		}
+		catch (JSONException je) {
+		}
+
 		_timestamp = parcel.readLong();
 	}
 
 	private long _id = -1;
-	private String _message;
+	private JSONObject _payload;
 	private long _timestamp;
 	private User _user;
 	private long _userId;

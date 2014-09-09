@@ -21,6 +21,9 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * @author Bruno Farache
  */
@@ -50,11 +53,13 @@ public class User extends BaseModel implements Parcelable {
 		_portraitId = cursor.getLong(cursor.getColumnIndex(PORTRAIT_ID));
 	}
 
-	public User(long userId, String uuid, String fullName, long portraitId) {
-		_id = userId;
-		_uuid = uuid;
-		_fullName = fullName;
-		_portraitId = portraitId;
+	public User(String json) throws JSONException {
+		JSONObject jsonObject = new JSONObject(json);
+
+		_id = jsonObject.getLong("userId");
+		_uuid = jsonObject.getString(User.UUID);
+		_fullName = jsonObject.getString(User.FULL_NAME);
+		_portraitId = jsonObject.getLong(User.PORTRAIT_ID);
 	}
 
 	@Override
