@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<dimen name="card_badge_padding">8dp</dimen>
+	<dimen name="card_image_padding">1dp</dimen>
 	<dimen name="card_list_padding">10.5dp</dimen>
 	<dimen name="card_list_padding_top">110dp</dimen>
 	<dimen name="card_list_vertical_line_margin_left">27.5dp</dimen>

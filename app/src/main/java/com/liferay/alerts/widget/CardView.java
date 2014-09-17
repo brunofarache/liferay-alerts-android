@@ -64,7 +64,14 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 				_url = "http://" + _url;
 			}
 
-			setOnClickListener(this);
+			String type = alert.getType();
+
+			if (Alert.LINK.equals(type)) {
+				setOnClickListener(this);
+			}
+			else if (Alert.IMAGE.equals(type)) {
+				setImage(context);
+			}
 		}
 
 		setTimestamp(alert.getFormattedTimestamp());
@@ -108,6 +115,12 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 	public void onClick(View view) {
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(_url));
 		getContext().startActivity(intent);
+	}
+
+	public void setImage(Context context) {
+		ImageView image = (ImageView)findViewById(R.id.image);
+
+		Picasso.with(context).load(_url).into(image);
 	}
 
 	public void setText(String text) {

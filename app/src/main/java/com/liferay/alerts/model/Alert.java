@@ -49,11 +49,17 @@ public class Alert extends BaseModel implements Parcelable {
 			}
 		};
 
+	public static final String IMAGE = "image";
+
+	public static final String LINK = "link";
+
 	public static final String MESSAGE = "message";
 
 	public static final String PAYLOAD = "payload";
 
 	public static final String TIMESTAMP = "timestamp";
+
+	public static final String TYPE = "type";
 
 	public static final String URL = "url";
 
@@ -124,6 +130,18 @@ public class Alert extends BaseModel implements Parcelable {
 		}
 
 		return message;
+	}
+
+	public String getType() {
+		String type = null;
+
+		try {
+			type = _payload.getString(TYPE);
+		}
+		catch (JSONException je) {
+		}
+
+		return type;
 	}
 
 	public String getUrl() {
