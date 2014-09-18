@@ -100,7 +100,7 @@ public abstract class BaseDAO<M extends BaseModel> {
 			}
 		}
 		catch (Exception e) {
-			throw new DatabaseException("Couldn't insert models");
+			throw new DatabaseException("Couldn't insert models", e);
 		}
 		finally {
 			if (commit) {
@@ -139,7 +139,7 @@ public abstract class BaseDAO<M extends BaseModel> {
 			}
 		}
 		catch (Exception e) {
-			throw new DatabaseException("Couldn't insert models");
+			throw new DatabaseException("Couldn't insert models", e);
 		}
 		finally {
 			if (commit) {
@@ -165,7 +165,7 @@ public abstract class BaseDAO<M extends BaseModel> {
 			}
 		}
 		catch (Exception e) {
-			throw new DatabaseException("Couldn't delete models");
+			throw new DatabaseException("Couldn't delete models", e);
 		}
 		finally {
 			if (commit) {
@@ -286,7 +286,7 @@ public abstract class BaseDAO<M extends BaseModel> {
 			}
 		}
 		catch (Exception e) {
-			throw new DatabaseException("Couldn't update model");
+			throw new DatabaseException("Couldn't update model", e);
 		}
 		finally {
 			if (commit) {
