@@ -84,12 +84,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		alterTable.append("ALTER TABLE ");
 		alterTable.append(AlertDAO.TABLE_NAME);
-		alterTable.append(" RENAME COLUMN ");
-		alterTable.append(Alert.MESSAGE);
-		alterTable.append(" TO ");
-		alterTable.append(Alert.PAYLOAD);
+		alterTable.append(" RENAME TO ");
+		alterTable.append("TEMP_" + AlertDAO.TABLE_NAME);
 
 		database.execSQL(alterTable.toString());
+		database.execSQL(new AlertDAO().getCreateTableSQL());
+
+		StringBuilder copyValues = new StringBuilder();
+
+		copyValues.append("INSERT INTO ");
+		copyValues.append(AlertDAO.TABLE_NAME);
+		copyValues.append(" SELECT * FROM ");
+		copyValues.append("TEMP_" + AlertDAO.TABLE_NAME);
+
+		database.execSQL(copyValues.toString());
+
+		StringBuilder drop = new StringBuilder();
+
+		drop.append("DROP TABLE ");
+		drop.append("TEMP_" + AlertDAO.TABLE_NAME);
+
+		database.execSQL(drop.toString());
 
 		StringBuilder select = new StringBuilder();
 
@@ -97,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		select.append(Alert.ID);
 		select.append(", ");
 		select.append(Alert.PAYLOAD);
-		select.append(" FROM");
+		select.append(" FROM ");
 		select.append(AlertDAO.TABLE_NAME);
 
 		Cursor cursor = database.rawQuery(select.toString(), null);
