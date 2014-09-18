@@ -20,6 +20,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import android.util.Log;
+
 import com.liferay.alerts.model.Alert;
 
 import org.json.JSONException;
@@ -79,33 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		super(context, _DATABASE_NAME, null, _DATABASE_VERSION);
 	}
 
-	private void _upgradeToVersion2(SQLiteDatabase database) {
-		StringBuilder alterTable = new StringBuilder();
-
-		alterTable.append("ALTER TABLE ");
-		alterTable.append(AlertDAO.TABLE_NAME);
-		alterTable.append(" RENAME TO ");
-		alterTable.append("TEMP_" + AlertDAO.TABLE_NAME);
-
-		database.execSQL(alterTable.toString());
-		database.execSQL(new AlertDAO().getCreateTableSQL());
-
-		StringBuilder copyValues = new StringBuilder();
-
-		copyValues.append("INSERT INTO ");
-		copyValues.append(AlertDAO.TABLE_NAME);
-		copyValues.append(" SELECT * FROM ");
-		copyValues.append("TEMP_" + AlertDAO.TABLE_NAME);
-
-		database.execSQL(copyValues.toString());
-
-		StringBuilder drop = new StringBuilder();
-
-		drop.append("DROP TABLE ");
-		drop.append("TEMP_" + AlertDAO.TABLE_NAME);
-
-		database.execSQL(drop.toString());
-
+	private void _convertMessageToJSONObject(SQLiteDatabase database) {
 		StringBuilder select = new StringBuilder();
 
 		select.append("SELECT ");
@@ -142,9 +118,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				database.execSQL(update.toString());
 			}
 			catch (JSONException je) {
-				je.printStackTrace();
+				Log.e(_TAG, "Couldn't convert message.", je);
 			}
 		}
+	}
+
+	private void _renameColumn(
+		SQLiteDatabase database, String tableName, String createTableSQL) {
+
+		String temp = "TEMP_" + tableName;
+
+		StringBuilder alter = new StringBuilder();
+
+		alter.append("ALTER TABLE ");
+		alter.append(tableName);
+		alter.append(" RENAME TO ");
+		alter.append(temp);
+
+		database.execSQL(alter.toString());
+		database.execSQL(createTableSQL);
+
+		StringBuilder copy = new StringBuilder();
+
+		copy.append("INSERT INTO ");
+		copy.append(tableName);
+		copy.append(" SELECT * FROM ");
+		copy.append(temp);
+
+		database.execSQL(copy.toString());
+
+		StringBuilder drop = new StringBuilder();
+
+		drop.append("DROP TABLE ");
+		drop.append(temp);
+
+		database.execSQL(drop.toString());
+	}
+
+	private void _upgradeToVersion2(SQLiteDatabase database) {
+		_renameColumn(
+			database, AlertDAO.TABLE_NAME, new AlertDAO().getCreateTableSQL());
+
+		_convertMessageToJSONObject(database);
 	}
 
 	private static final String _DATABASE_NAME = "liferay-alerts.db";
@@ -152,6 +167,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final int _DATABASE_VERSION = 2;
 
 	private static final String _FOREIGN_KEYS_ON = "PRAGMA foreign_keys = ON;";
+
+	private static final String _TAG = DatabaseHelper.class.getSimpleName();
 
 	private static DatabaseHelper _instance;
 
