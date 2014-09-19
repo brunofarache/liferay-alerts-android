@@ -5,7 +5,6 @@
 	<color name="card_list_vertical_line">#ECEDEE</color>
 	<color name="card_text">#233240</color>
 	<color name="card_timestamp">#A7ADB3</color>
-	<color name="main_background">#F7F7F7</color>
 	<color name="top_bar_background">#FBD22A</color>
 	<color name="top_bar_background_center">#FFD12B</color>
 	<color name="top_bar_margin_stroke">#E4C143</color>
