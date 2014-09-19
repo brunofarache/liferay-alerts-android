@@ -27,6 +27,8 @@ public interface PushNotificationsDeviceService {
 	public JSONObject deletePushNotificationsDevice(String token)
 		throws Exception;
 
-	public void sendPushNotification(String message) throws Exception;
+	public Boolean hasPermission(String actionId) throws Exception;
+
+	public void sendPushNotification(String payload) throws Exception;
 
 }

@@ -78,13 +78,34 @@ public class PushNotificationsDeviceServiceImpl extends BaseService
 	}
 
 	@Override
-	public void sendPushNotification(String message) throws Exception {
+	public Boolean hasPermission(String actionId) throws Exception {
 		JSONObject _command = new JSONObject();
 
 		try {
 			JSONObject _params = new JSONObject();
 
-			_params.put("message", message);
+			_params.put("actionId", actionId);
+
+			_command.put(
+				"/push-notifications-portlet.pushnotificationsdevice/" +
+					"has-permission",
+				_params);
+		}
+		catch (JSONException _je) {
+			throw new Exception(_je);
+		}
+
+		return (Boolean)session.invoke(_command);
+	}
+
+	@Override
+	public void sendPushNotification(String payload) throws Exception {
+		JSONObject _command = new JSONObject();
+
+		try {
+			JSONObject _params = new JSONObject();
+
+			_params.put("payload", payload);
 
 			_command.put(
 				"/push-notifications-portlet.pushnotificationsdevice/" +
