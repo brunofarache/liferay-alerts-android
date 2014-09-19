@@ -7,5 +7,5 @@
 	<color name="card_timestamp">#A7ADB3</color>
 	<color name="top_bar_background">#FBD22A</color>
 	<color name="top_bar_background_center">#FFD12B</color>
-	<color name="top_bar_margin_stroke">#E4C143</color>
+	<color name="top_bar_divider">#E4C143</color>
 </resources>
