@@ -75,10 +75,4 @@
 		    android:textColor="@android:color/white"
 		    android:textSize="@dimen/top_bar_send_text_size" />
 	</FrameLayout>
-
-	<FrameLayout
-		android:layout_width="match_parent"
-		android:layout_height="?android:attr/actionBarSize"
-		android:layout_gravity="bottom"
-		android:background="@color/navigation_bar_background" />
 </FrameLayout>
