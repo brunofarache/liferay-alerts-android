@@ -4,8 +4,8 @@
 	<dimen name="card_image_padding">1dp</dimen>
 	<dimen name="card_list_padding">10.5dp</dimen>
 	<dimen name="card_list_padding_top">110dp</dimen>
-	<dimen name="card_list_vertical_line_margin_left">27.5dp</dimen>
-	<dimen name="card_list_vertical_line_width">2dp</dimen>
+	<dimen name="card_list_vertical_line_margin_left">37.6dp</dimen>
+	<dimen name="card_list_vertical_line_width">0.6dp</dimen>
 	<dimen name="card_minHeight">40dp</dimen>
 	<dimen name="card_padding">16dp</dimen>
 	<dimen name="card_text_size">16sp</dimen>
