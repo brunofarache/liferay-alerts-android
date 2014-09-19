@@ -42,7 +42,7 @@
 					android:layout_height="wrap_content"
 					android:paddingBottom="@dimen/card_badge_padding"
 					android:paddingLeft="@dimen/card_badge_padding"
-					android:src="@drawable/badge_alert" />
+					android:src="@drawable/launcher_small" />
 
 				<TextView
 					android:id="@+id/timestamp"
