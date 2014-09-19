@@ -27,6 +27,14 @@ import com.liferay.alerts.R;
  */
 public class SettingsUtil {
 
+	public static String getEmail(Context context) {
+		return context.getString(R.string.email);
+	}
+
+	public static String getPassword(Context context) {
+		return context.getString(R.string.password);
+	}
+
 	public static String getServer(Context context) {
 		return context.getString(R.string.server);
 	}
