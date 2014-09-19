@@ -27,6 +27,8 @@ import android.os.Bundle;
 
 import android.support.v4.content.LocalBroadcastManager;
 
+import android.view.View;
+
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,6 +39,7 @@ import com.liferay.alerts.task.GCMRegistrationAsyncTask;
 import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.widget.CardView;
+import com.liferay.mobile.android.util.Validator;
 
 import java.util.ArrayList;
 
@@ -54,6 +57,19 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 
 		_cardList = (LinearLayout)findViewById(R.id.card_list);
+		_send = (TextView)findViewById(R.id.send);
+
+		_send.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(
+					MainActivity.this, SendActivity.class);
+
+				startActivity(intent);
+			}
+
+		});
 
 		try {
 			TextView version = (TextView)findViewById(R.id.version);
@@ -80,6 +96,7 @@ public class MainActivity extends Activity {
 
 		_addPushNotificationsDevice();
 		_registerAddCardReceiver();
+		_checkSendPermission();
 	}
 
 	@Override
@@ -118,6 +135,17 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	private void _checkSendPermission() {
+		String email = SettingsUtil.getEmail(this);
+		String password = SettingsUtil.getPassword(this);
+
+		if (Validator.isNull(email) || Validator.isNull(password)) {
+			return;
+		}
+
+		_send.setVisibility(View.VISIBLE);
+	}
+
 	private LocalBroadcastManager _getBroadcastManager() {
 		return LocalBroadcastManager.getInstance(this);
 	}
@@ -144,5 +172,6 @@ public class MainActivity extends Activity {
 	private ArrayList<Alert> _alerts;
 	private LinearLayout _cardList;
 	private BroadcastReceiver _receiver;
+	private TextView _send;
 
 }

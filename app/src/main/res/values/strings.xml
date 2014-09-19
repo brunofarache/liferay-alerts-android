@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Liferay Alerts</string>
-	<string name="failed_to_register">Failed to register!</string>
+	<string name="registration_failure">Something went wrong, you won\'t be able to receive notifications.</string>
+	<string name="registration_success">You will receive notifications from now on!</string>
 	<string name="release_date">Aug 19</string>
-	<string name="registered">Registered!</string>
+	<string name="send">Send</string>
+	<string name="send_notification_failure">Something went wrong while sending notifcation, try again later.</string>
+	<string name="send_notification_success">Notification sent!</string>
 	<string name="welcome">E aí, galerinha!\nBem-vindos ao Liferay Alerts :)\n\nA partir de agora, vocês receberão notificações sobre o mundo Liferay.\n\nEssa é uma versão alpha, com a participação fechada para alguns convidados. Por isso, aguardamos ansiosamente o feedback de vocês.\n\nValeu pela participação ;D</string>
 </resources>

@@ -32,12 +32,14 @@ public class RegistrationCallback extends JSONObjectAsyncTaskCallback {
 		_context = context.getApplicationContext();
 	}
 
+	@Override
 	public void onFailure(Exception e) {
-		ToastUtil.show(_context, R.string.failed_to_register, true);
+		ToastUtil.show(_context, R.string.registration_failure, true);
 	}
 
+	@Override
 	public void onSuccess(JSONObject jsonObj) {
-		ToastUtil.show(_context, R.string.registered, true);
+		ToastUtil.show(_context, R.string.registration_success, true);
 		SettingsUtil.setRegistered(true);
 	}
 

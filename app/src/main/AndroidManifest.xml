@@ -25,6 +25,8 @@
 			</intent-filter>
 		</activity>
 
+		<activity android:name=".activity.SendActivity" />
+
 		<receiver
 			android:name=".receiver.PushNotificationReceiver"
 			android:permission="com.google.android.c2dm.permission.SEND">

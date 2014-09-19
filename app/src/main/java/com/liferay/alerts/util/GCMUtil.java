@@ -50,7 +50,7 @@ public class GCMUtil {
 			service.addPushNotificationsDevice(token, "android");
 		}
 		catch (Exception e) {
-			ToastUtil.show(context, R.string.failed_to_register, true);
+			ToastUtil.show(context, R.string.registration_failure, true);
 		}
 	}
 
