@@ -3,15 +3,15 @@
 
 	<ImageView
 		android:id="@+id/portrait"
-		android:layout_width="@dimen/portrait_width"
-		android:layout_height="wrap_content"
-		android:layout_marginRight="@dimen/card_list_padding"
-		android:layout_marginTop="@dimen/portrait_margin_top" />
+		android:layout_width="@dimen/portrait_diameter"
+		android:layout_height="@dimen/portrait_diameter" />
 
 	<LinearLayout
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/card_list_padding"
+		android:layout_marginLeft="@dimen/card_list_padding"
+		android:layout_marginTop="@dimen/card_list_margin_top"
 		android:layout_weight="1"
 		android:background="@drawable/card_background"
 		android:minHeight="@dimen/card_minHeight"
