@@ -18,6 +18,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
+
 import android.net.Uri;
 
 import android.util.AttributeSet;
@@ -75,6 +80,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		}
 
 		setTimestamp(alert.getFormattedTimestamp());
+		setBackground();
 	}
 
 	public CardView(Context context, AttributeSet attributes) {
@@ -107,6 +113,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		}
 
 		setTimestamp(getResources().getString(R.string.release_date));
+		setBackground();
 
 		typed.recycle();
 	}
@@ -115,6 +122,30 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 	public void onClick(View view) {
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(_url));
 		getContext().startActivity(intent);
+	}
+
+	public void setBackground() {
+		int backgroundColor = getResources().getColor(R.color.card_background);
+		int borderColor = getResources().getColor(R.color.card_border);
+		float arrowY = 170;
+		float arrowHeight = 30;
+		float arrowWidth = 60;
+		float cornerRadius = 20;
+
+		CardShape borderShape = new CardShape(
+			Paint.Style.STROKE, borderColor, arrowY, arrowHeight, arrowWidth,
+			cornerRadius);
+
+		CardShape backgroundShape = new CardShape(
+			Paint.Style.FILL, backgroundColor, arrowY, arrowHeight, arrowWidth,
+			cornerRadius);
+
+		Drawable[] layers = {
+			new ShapeDrawable(borderShape), new ShapeDrawable(backgroundShape)
+		};
+
+		LinearLayout card = (LinearLayout)findViewById(R.id.card);
+		card.setBackground(new LayerDrawable(layers));
 	}
 
 	public void setImage(Context context) {
