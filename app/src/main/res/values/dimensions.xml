@@ -2,11 +2,12 @@
 <resources>
 	<dimen name="card_badge_padding">8dp</dimen>
 	<dimen name="card_image_padding">1dp</dimen>
-	<dimen name="card_list_margin_top">4.3dp</dimen>
-	<dimen name="card_list_padding">13.5dp</dimen>
-	<dimen name="card_list_padding_top">110dp</dimen>
+	<dimen name="card_list_padding">14dp</dimen>
+	<dimen name="card_list_padding_top">88dp</dimen>
 	<dimen name="card_list_vertical_line_margin_left">37.6dp</dimen>
 	<dimen name="card_list_vertical_line_width">0.6dp</dimen>
+	<dimen name="card_margin_bottom">13.5dp</dimen>
+	<dimen name="card_margin_top">4.3dp</dimen>
 	<dimen name="card_minHeight">40dp</dimen>
 	<dimen name="card_padding">16dp</dimen>
 	<dimen name="card_text_size">16sp</dimen>
@@ -17,10 +18,10 @@
 	<dimen name="send_notification_message_height">200dp</dimen>
 	<item name="top_bar_alpha" format="float" type="dimen">0.95</item>
 	<dimen name="top_bar_divider_height">0.6dp</dimen>
-	<dimen name="top_bar_height">74.6dp</dimen>
+	<dimen name="top_bar_height">75.6dp</dimen>
 	<dimen name="top_bar_send_text_size">16dp</dimen>
 	<dimen name="top_bar_title_margin_left">-5.3dp</dimen>
-	<dimen name="top_bar_title_margin_top">-2dp</dimen>
+	<dimen name="top_bar_title_margin_top">-1dp</dimen>
 	<dimen name="top_bar_title_text_size">18dp</dimen>
 	<dimen name="version_margin_top">10dp</dimen>
 	<dimen name="version_padding_bottom">8dp</dimen>

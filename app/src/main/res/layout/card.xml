@@ -10,9 +10,8 @@
 		android:id="@+id/card"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/card_list_padding"
-		android:layout_marginLeft="@dimen/card_list_padding"
-		android:layout_marginTop="@dimen/card_list_margin_top"
+		android:layout_marginBottom="@dimen/card_margin_bottom"
+		android:layout_marginTop="@dimen/card_margin_top"
 		android:layout_weight="1"
 		android:minHeight="@dimen/card_minHeight"
 		android:orientation="vertical">
