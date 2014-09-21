@@ -23,8 +23,8 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
-			android:paddingLeft="@dimen/card_list_padding"
-			android:paddingRight="@dimen/card_list_padding"
+			android:paddingLeft="@dimen/card_list_padding_left"
+			android:paddingRight="@dimen/card_list_padding_right"
 			android:paddingTop="@dimen/card_list_padding_top">
 
 			<com.liferay.alerts.widget.CardView

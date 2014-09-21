@@ -23,7 +23,10 @@
 			android:layout_height="0dp"
 			android:layout_weight="1"
 			android:fontFamily="sans-serif-light"
-			android:padding="@dimen/card_padding"
+			android:paddingBottom="@dimen/card_padding_top"
+			android:paddingLeft="@dimen/card_padding_left"
+			android:paddingRight="@dimen/card_padding_right"
+			android:paddingTop="@dimen/card_padding_top"
 			android:textColor="@color/card_text"
 			android:textSize="@dimen/card_text_size" />
 
