@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<dimen name="card_arrow_height">6dp</dimen>
+	<dimen name="card_arrow_width">10.3dp</dimen>
+	<dimen name="card_arrow_y">14.6dp</dimen>
+	<item name="card_corner_radius" format="float" type="dimen">17</item>
 	<dimen name="card_badge_padding">8dp</dimen>
 	<dimen name="card_image_padding">1dp</dimen>
 	<dimen name="card_list_padding">14dp</dimen>
@@ -7,7 +11,8 @@
 	<dimen name="card_list_vertical_line_margin_left">37.6dp</dimen>
 	<dimen name="card_list_vertical_line_width">0.6dp</dimen>
 	<dimen name="card_margin_bottom">13.5dp</dimen>
-	<dimen name="card_margin_top">4.3dp</dimen>
+	<dimen name="card_margin_left">8dp</dimen>
+	<dimen name="card_margin_top">4dp</dimen>
 	<dimen name="card_minHeight">40dp</dimen>
 	<dimen name="card_padding">16dp</dimen>
 	<dimen name="card_text_size">16sp</dimen>

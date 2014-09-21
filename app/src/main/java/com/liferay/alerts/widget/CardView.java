@@ -16,6 +16,7 @@ package com.liferay.alerts.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 
 import android.graphics.Paint;
@@ -27,6 +28,7 @@ import android.net.Uri;
 
 import android.util.AttributeSet;
 
+import android.util.TypedValue;
 import android.view.View;
 
 import android.widget.ImageView;
@@ -125,12 +127,20 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 	}
 
 	public void setBackground() {
-		int backgroundColor = getResources().getColor(R.color.card_background);
-		int borderColor = getResources().getColor(R.color.card_border);
-		float arrowY = 170;
-		float arrowHeight = 30;
-		float arrowWidth = 60;
-		float cornerRadius = 20;
+		Resources resources = getResources();
+
+		int backgroundColor = resources.getColor(R.color.card_background);
+		int borderColor = resources.getColor(R.color.card_border);
+		float arrowY = resources.getDimensionPixelSize(R.dimen.card_arrow_y);
+		float arrowHeight = resources.getDimensionPixelSize(
+				R.dimen.card_arrow_height);
+
+		float arrowWidth = resources.getDimensionPixelSize(
+			R.dimen.card_arrow_width);;
+
+		TypedValue outValue = new TypedValue();
+		getResources().getValue(R.dimen.card_corner_radius, outValue, true);
+		float cornerRadius = outValue.getFloat();
 
 		CardShape borderShape = new CardShape(
 			Paint.Style.STROKE, borderColor, arrowY, arrowHeight, arrowWidth,
