@@ -4,4 +4,12 @@
 		<attr name="portraitId" format="integer" />
 		<attr name="text" format="string" />
 	</declare-styleable>
+
+	<declare-styleable name="TextView">
+		<attr name="font" format="enum">
+			<enum name="roboto_light" value="0" />
+			<enum name="roboto_regular" value="1" />
+			<enum name="icons" value="2" />
+		</attr>
+	</declare-styleable>
 </resources>
