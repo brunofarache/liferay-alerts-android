@@ -27,6 +27,7 @@ import android.widget.EditText;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.util.ToastUtil;
 import com.liferay.mobile.android.PushNotificationsDeviceService;
@@ -86,7 +87,7 @@ public class SendActivity extends Activity {
 
 					JSONObject payload = new JSONObject();
 					payload.put(Alert.MESSAGE, message);
-					payload.put(Alert.TYPE, "text");
+					payload.put(Alert.TYPE, AlertType.TEXT.toString());
 
 					service.sendPushNotification(payload.toString());
 				}

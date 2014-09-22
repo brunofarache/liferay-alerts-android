@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.util.PortraitUtil;
 import com.liferay.alerts.util.SettingsUtil;
@@ -71,12 +72,12 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 				_url = "http://" + _url;
 			}
 
-			String type = alert.getType();
+			AlertType type = alert.getType();
 
-			if (Alert.LINK.equals(type)) {
+			if (type == AlertType.LINK) {
 				setOnClickListener(this);
 			}
-			else if (Alert.IMAGE.equals(type)) {
+			else if (type == AlertType.IMAGE) {
 				setImage(context);
 			}
 		}
