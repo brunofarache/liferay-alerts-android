@@ -6,7 +6,22 @@
 	<ImageView
 		android:id="@+id/portrait"
 		android:layout_width="@dimen/portrait_diameter"
-		android:layout_height="@dimen/portrait_diameter" />
+		android:layout_height="@dimen/portrait_diameter"
+		android:layout_marginTop="@dimen/card_portrait_margin_top" />
+
+	<com.liferay.alerts.widget.TextView
+		android:layout_width="@dimen/badge_size"
+		android:layout_height="@dimen/badge_size"
+		android:text="@string/badge_message"
+		android:layout_marginLeft="@dimen/card_badge_margin_left"
+		android:paddingBottom="@dimen/card_badge_padding_bottom"
+		android:paddingLeft="@dimen/card_badge_padding_left"
+		android:background="@drawable/badge_message_background"
+		android:gravity="center"
+		android:includeFontPadding="false"
+		android:textColor="@color/badge"
+		android:textSize="@dimen/badge_message"
+		liferay:font="icons" />
 
 	<LinearLayout
 		android:id="@+id/card"

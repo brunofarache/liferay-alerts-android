@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<color name="badge">@android:color/white</color>
+	<color name="badge_message_background">#FC5B3F</color>
 	<color name="card_background">@android:color/white</color>
 	<color name="card_border">#A7ADB3</color>
 	<color name="card_list_vertical_line">#DADAD3</color>
