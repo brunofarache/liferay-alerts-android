@@ -10,17 +10,18 @@
 		android:layout_marginTop="@dimen/card_portrait_margin_top" />
 
 	<com.liferay.alerts.widget.TextView
-		android:layout_width="@dimen/badge_size"
-		android:layout_height="@dimen/badge_size"
-		android:text="@string/badge_message"
-		android:layout_marginLeft="@dimen/card_badge_margin_left"
-		android:paddingBottom="@dimen/card_badge_padding_bottom"
-		android:paddingLeft="@dimen/card_badge_padding_left"
-		android:background="@drawable/badge_message_background"
+		android:id="@+id/type"
+		android:layout_width="@dimen/card_type_size"
+		android:layout_height="@dimen/card_type_size"
+		android:text="@string/icon_type_text"
+		android:layout_marginLeft="@dimen/card_type_margin_left"
+		android:paddingBottom="@dimen/card_type_padding_bottom"
+		android:paddingLeft="@dimen/card_type_padding_left"
+		android:background="@drawable/type_text_background"
 		android:gravity="center"
 		android:includeFontPadding="false"
-		android:textColor="@color/badge"
-		android:textSize="@dimen/badge_message"
+		android:textColor="@color/type_text"
+		android:textSize="@dimen/card_type_text"
 		liferay:font="icons" />
 
 	<LinearLayout

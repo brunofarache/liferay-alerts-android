@@ -84,6 +84,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 		setTimestamp(alert.getFormattedTimestamp());
 		setBackground();
+		setType(alert.getType());
 	}
 
 	public CardView(Context context, AttributeSet attributes) {
@@ -99,6 +100,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 		_text = (TextView)findViewById(R.id.text);
 		_timestamp = (TextView)findViewById(R.id.timestamp);
+		_type = (com.liferay.alerts.widget.TextView)findViewById(R.id.type);
 
 		TypedArray typed = context.getTheme().obtainStyledAttributes(
 			attributes, R.styleable.CardView, 0, 0);
@@ -117,6 +119,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 		setTimestamp(getResources().getString(R.string.release_date));
 		setBackground();
+		setType(AlertType.TEXT);
 
 		typed.recycle();
 	}
@@ -173,6 +176,11 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		_timestamp.setText(timestamp);
 	}
 
+	public void setType(AlertType type) {
+		_type.setText(type.getText());
+		_type.setBackgroundResource(type.getBackground());
+	}
+
 	protected void setPortrait(Context context, String uuid, long portraitId) {
 		ImageView portrait = (ImageView)findViewById(R.id.portrait);
 
@@ -192,6 +200,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 	private TextView _text;
 	private TextView _timestamp;
+	private com.liferay.alerts.widget.TextView _type;
 	private String _url;
 
 }

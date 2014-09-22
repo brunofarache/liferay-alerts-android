@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="badge_image">c</string>
-	<string name="badge_link">b</string>
-	<string name="badge_map">d</string>
-	<string name="badge_message">a</string>
 	<string name="icon_timestamp">e</string>
+	<string name="icon_type_image">c</string>
+	<string name="icon_type_link">b</string>
+	<string name="icon_type_map">d</string>
+	<string name="icon_type_text">a</string>
 </resources>

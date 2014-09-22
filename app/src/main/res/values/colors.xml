@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="badge">@android:color/white</color>
-	<color name="badge_message_background">#FC5B3F</color>
 	<color name="card_background">@android:color/white</color>
 	<color name="card_border">#A7ADB3</color>
 	<color name="card_list_vertical_line">#DADAD3</color>
@@ -10,4 +8,9 @@
 	<color name="top_bar_background">#FBD22A</color>
 	<color name="top_bar_background_center">#FFD12B</color>
 	<color name="top_bar_divider">#E4C143</color>
+	<color name="type_image_background">#33C749</color>
+	<color name="type_link_background">#647EFB</color>
+	<color name="type_map_background">#FF5653</color>
+	<color name="type_text">@android:color/white</color>
+	<color name="type_text_background">#FC5B3F</color>
 </resources>
