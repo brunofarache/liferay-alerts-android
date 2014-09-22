@@ -27,8 +27,8 @@ import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
 
 import android.util.AttributeSet;
-
 import android.util.TypedValue;
+
 import android.view.View;
 
 import android.widget.ImageView;

@@ -4,7 +4,6 @@
 	<dimen name="card_arrow_width">10.3dp</dimen>
 	<dimen name="card_arrow_y">14.6dp</dimen>
 	<item name="card_corner_radius" format="float" type="dimen">17</item>
-	<dimen name="card_badge_padding">8dp</dimen>
 	<dimen name="card_image_padding">1dp</dimen>
 	<dimen name="card_list_padding_left">14dp</dimen>
 	<dimen name="card_list_padding_right">17.3dp</dimen>
@@ -19,9 +18,11 @@
 	<dimen name="card_padding_right">11.3dp</dimen>
 	<dimen name="card_padding_top">9dp</dimen>
 	<dimen name="card_text_size">14sp</dimen>
-	<dimen name="card_timestamp_margin_top">-9.5dp</dimen>
-	<dimen name="card_timestamp_padding_left">5dp</dimen>
-	<dimen name="card_timestamp_text_size">13sp</dimen>
+	<dimen name="card_timestamp_icon_size">10.3dp</dimen>
+	<dimen name="card_timestamp_text_padding_bottom">3dp</dimen>
+	<dimen name="card_timestamp_text_padding_left">2.6dp</dimen>
+	<dimen name="card_timestamp_text_padding_right">6.3dp</dimen>
+	<dimen name="card_timestamp_text_size">12dp</dimen>
 	<dimen name="portrait_diameter">48dp</dimen>
 	<dimen name="send_notification_message_height">200dp</dimen>
 	<item name="top_bar_alpha" format="float" type="dimen">0.95</item>
