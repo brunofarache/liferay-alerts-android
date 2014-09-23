@@ -56,6 +56,8 @@
 			android:paddingLeft="@dimen/card_padding_left"
 			android:paddingRight="@dimen/card_padding_right"
 			android:fontFamily="sans-serif-light"
+			android:ellipsize="end"
+			android:singleLine="true"
 			android:textColor="@color/type_link_background"
 			android:visibility="gone" />
 
