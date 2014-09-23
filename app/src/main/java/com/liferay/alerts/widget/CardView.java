@@ -203,9 +203,12 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		String portraitURL = PortraitUtil.getPortraitURL(
 			SettingsUtil.getServer(context), uuid, portraitId);
 
-		Transformation transformation = new RoundedTransformation();
-		Picasso.with(context).load(portraitURL).transform(transformation).into(
-			portrait);
+		int diameter = getResources().getDimensionPixelSize(
+			R.dimen.portrait_diameter);
+
+		Transformation transformation = new RoundedTransformation(getContext());
+		Picasso.with(context).load(portraitURL).resize(
+			diameter, diameter).transform(transformation).into(portrait);
 	}
 
 	private TextView _text;

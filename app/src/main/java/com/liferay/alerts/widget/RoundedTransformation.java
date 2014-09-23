@@ -14,11 +14,16 @@
 
 package com.liferay.alerts.widget;
 
+import android.content.Context;
+
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Shader;
+
+import com.liferay.alerts.R;
 
 import com.squareup.picasso.Transformation;
 
@@ -26,6 +31,10 @@ import com.squareup.picasso.Transformation;
  * @author Bruno Farache
  */
 public class RoundedTransformation implements Transformation {
+
+	public RoundedTransformation(Context context) {
+		_context = context.getApplicationContext();
+	}
 
 	@Override
 	public String key() {
@@ -52,9 +61,16 @@ public class RoundedTransformation implements Transformation {
 		Canvas canvas = new Canvas(output);
 		canvas.drawCircle(x, y, radius, paint);
 
+		Bitmap shadow = BitmapFactory.decodeResource(
+			_context.getResources(), R.drawable.portrait_shadow);
+
+		canvas.drawBitmap(shadow, 0, 0, paint);
+
 		bitmap.recycle();
 
 		return output;
 	}
+
+	private Context _context;
 
 }
