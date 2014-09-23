@@ -11,6 +11,7 @@
 		android:layout_width="@dimen/card_list_vertical_line_width"
 		android:layout_height="match_parent"
 		android:layout_marginLeft="@dimen/card_list_vertical_line_margin_left"
+		android:layout_marginTop="@dimen/top_bar_height"
 		android:background="@color/card_list_vertical_line" />
 
 	<ScrollView
@@ -69,6 +70,12 @@
 			android:layout_gravity="bottom"
 			android:background="@color/top_bar_divider" />
 	</FrameLayout>
+
+	<View
+		android:layout_width="@dimen/card_list_vertical_line_width"
+		android:layout_height="@dimen/top_bar_height"
+		android:layout_marginLeft="@dimen/card_list_vertical_line_margin_left"
+		android:background="@color/top_bar_vertical_line" />
 
 	<ImageView
 		android:layout_width="wrap_content"
