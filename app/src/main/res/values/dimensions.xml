@@ -4,7 +4,8 @@
 	<dimen name="card_arrow_width">10.3dp</dimen>
 	<dimen name="card_arrow_y">14.3dp</dimen>
 	<item name="card_corner_radius" format="float" type="dimen">17</item>
-	<dimen name="card_image_padding">1dp</dimen>
+	<dimen name="card_image_padding_left">6.6dp</dimen>
+	<dimen name="card_image_padding_right">1dp</dimen>
 	<dimen name="card_list_padding_left">14dp</dimen>
 	<dimen name="card_list_padding_right">17.6dp</dimen>
 	<dimen name="card_list_padding_top">80.3dp</dimen>
