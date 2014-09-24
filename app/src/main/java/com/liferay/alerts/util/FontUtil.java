@@ -38,6 +38,8 @@ public class FontUtil {
 
 	public static final String ROBOTO_LIGHT = "Roboto-Light.ttf";
 
+	public static final String ROBOTO_MEDIUM = "Roboto-Medium.ttf";
+
 	public static final String ROBOTO_REGULAR = "Roboto-Regular.ttf";
 
 	public static void setFont(TextView view, AttributeSet attributes) {
@@ -81,6 +83,9 @@ public class FontUtil {
 			return ROBOTO_LIGHT;
 		}
 		else if (font == 1) {
+			return ROBOTO_MEDIUM;
+		}
+		else if (font == 2) {
 			return ROBOTO_REGULAR;
 		}
 		else {

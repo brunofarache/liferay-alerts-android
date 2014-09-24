@@ -33,7 +33,13 @@
 	<dimen name="top_bar_height">74.6dp</dimen>
 	<dimen name="top_bar_icon_left">-5.3dp</dimen>
 	<dimen name="top_bar_icon_margin_top">-2dp</dimen>
+	<dimen name="top_bar_last_alert_margin_left">75.3dp</dimen>
+	<dimen name="top_bar_last_alert_margin_top">23.3dp</dimen>
+	<dimen name="top_bar_last_alert_text_size">10dp</dimen>
 	<dimen name="top_bar_send_text_size">16dp</dimen>
+	<dimen name="top_bar_user_name_margin_left">75dp</dimen>
+	<dimen name="top_bar_user_name_margin_top">33.6dp</dimen>
+	<dimen name="top_bar_user_name_text_size">19.8dp</dimen>
 	<dimen name="type_link_padding_left">0.3dp</dimen>
 	<dimen name="type_link_padding_top">0.3dp</dimen>
 	<dimen name="type_link_text">10.6dp</dimen>

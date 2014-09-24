@@ -8,6 +8,9 @@
 	<color name="top_bar_background">#FBD22A</color>
 	<color name="top_bar_background_center">#FFD12B</color>
 	<color name="top_bar_divider">#E4C143</color>
+	<color name="top_bar_last_alert">#B29734</color>
+	<color name="top_bar_user_name">@android:color/white</color>
+	<color name="top_bar_user_name_shadow">@color/top_bar_divider</color>
 	<color name="top_bar_vertical_line">#D9B73F</color>
 	<color name="type_image_background">#33C749</color>
 	<color name="type_link_background">#647EFB</color>
