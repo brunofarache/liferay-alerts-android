@@ -41,7 +41,7 @@
 			android:layout_height="0dp"
 			android:layout_weight="1"
 			android:fontFamily="sans-serif-light"
-			android:paddingBottom="@dimen/card_padding_top"
+			android:paddingBottom="@dimen/card_padding_bottom"
 			android:paddingLeft="@dimen/card_padding_left"
 			android:paddingRight="@dimen/card_padding_right"
 			android:paddingTop="@dimen/card_padding_top"

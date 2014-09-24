@@ -2,21 +2,22 @@
 <resources>
 	<dimen name="card_arrow_height">6dp</dimen>
 	<dimen name="card_arrow_width">10.3dp</dimen>
-	<dimen name="card_arrow_y">14.6dp</dimen>
+	<dimen name="card_arrow_y">14.3dp</dimen>
 	<item name="card_corner_radius" format="float" type="dimen">17</item>
 	<dimen name="card_image_padding">1dp</dimen>
 	<dimen name="card_list_padding_left">14dp</dimen>
-	<dimen name="card_list_padding_right">17.3dp</dimen>
-	<dimen name="card_list_padding_top">85dp</dimen>
-	<dimen name="card_list_vertical_line_margin_left">37.6dp</dimen>
+	<dimen name="card_list_padding_right">17.6dp</dimen>
+	<dimen name="card_list_padding_top">80.3dp</dimen>
+	<dimen name="card_list_vertical_line_margin_left">37.3dp</dimen>
 	<dimen name="card_list_vertical_line_width">0.6dp</dimen>
 	<dimen name="card_margin_bottom">13.5dp</dimen>
-	<dimen name="card_margin_left">8dp</dimen>
-	<dimen name="card_margin_top">7dp</dimen>
+	<dimen name="card_margin_left">5.6dp</dimen>
+	<dimen name="card_margin_top">7.3dp</dimen>
 	<dimen name="card_minHeight">40dp</dimen>
+	<dimen name="card_padding_bottom">4.3dp</dimen>
 	<dimen name="card_padding_left">17.3dp</dimen>
 	<dimen name="card_padding_right">11.3dp</dimen>
-	<dimen name="card_padding_top">9dp</dimen>
+	<dimen name="card_padding_top">8.6dp</dimen>
 	<dimen name="card_portrait_margin_top">3dp</dimen>
 	<dimen name="card_text_size">14sp</dimen>
 	<dimen name="card_timestamp_icon_size">10.3dp</dimen>
@@ -24,8 +25,8 @@
 	<dimen name="card_timestamp_text_padding_left">2.6dp</dimen>
 	<dimen name="card_timestamp_text_padding_right">6.3dp</dimen>
 	<dimen name="card_timestamp_text_size">12dp</dimen>
-	<dimen name="card_type_margin_left">-17dp</dimen>
-	<dimen name="card_type_padding_bottom">0.6dp</dimen>
+	<dimen name="card_type_margin_left">-17.3dp</dimen>
+	<dimen name="card_type_padding_bottom">1.3dp</dimen>
 	<dimen name="card_type_padding_left">0.3dp</dimen>
 	<dimen name="card_type_radius">9.5dp</dimen>
 	<dimen name="card_type_size">19dp</dimen>
@@ -34,11 +35,10 @@
 	<dimen name="send_notification_message_height">200dp</dimen>
 	<item name="top_bar_alpha" format="float" type="dimen">0.95</item>
 	<dimen name="top_bar_divider_height">0.6dp</dimen>
-	<dimen name="top_bar_height">75.6dp</dimen>
+	<dimen name="top_bar_height">74.6dp</dimen>
+	<dimen name="top_bar_icon_left">-5.3dp</dimen>
+	<dimen name="top_bar_icon_margin_top">-2dp</dimen>
 	<dimen name="top_bar_send_text_size">16dp</dimen>
-	<dimen name="top_bar_title_margin_left">-5.3dp</dimen>
-	<dimen name="top_bar_title_margin_top">-1dp</dimen>
-	<dimen name="top_bar_title_text_size">18dp</dimen>
 	<dimen name="version_margin_top">10dp</dimen>
 	<dimen name="version_padding_bottom">8dp</dimen>
 	<dimen name="version_text_size">10dp</dimen>
