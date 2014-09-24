@@ -104,19 +104,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				JSONObject jsonObject = new JSONObject();
 				jsonObject.put(Alert.MESSAGE, payload);
 
-				StringBuilder update = new StringBuilder();
-
-				update.append("UPDATE ");
-				update.append(AlertDAO.TABLE_NAME);
-				update.append(" SET ");
-				update.append(Alert.PAYLOAD);
-				update.append(" = '");
-				update.append(jsonObject.toString());
-				update.append("' WHERE ");
-				update.append(Alert.ID);
-				update.append(" = ");
-				update.append(id);
-
 				ContentValues values = new ContentValues();
 				values.put(Alert.PAYLOAD, jsonObject.toString());
 
