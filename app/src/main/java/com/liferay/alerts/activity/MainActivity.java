@@ -58,6 +58,7 @@ public class MainActivity extends Activity {
 
 		_cardList = (LinearLayout)findViewById(R.id.card_list);
 		_send = (TextView)findViewById(R.id.send);
+		_userName = (TextView)findViewById(R.id.user_name);
 
 		_send.setOnClickListener(new View.OnClickListener() {
 
@@ -115,6 +116,7 @@ public class MainActivity extends Activity {
 
 	private void _addCard(Alert alert) {
 		_cardList.addView(new CardView(this, alert), 0);
+		_userName.setText(alert.getUser(this).getFullName());
 	}
 
 	private void _addPushNotificationsDevice() {
@@ -173,5 +175,6 @@ public class MainActivity extends Activity {
 	private LinearLayout _cardList;
 	private BroadcastReceiver _receiver;
 	private TextView _send;
+	private TextView _userName;
 
 }
