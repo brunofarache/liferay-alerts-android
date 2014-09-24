@@ -187,6 +187,29 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 	}
 
 	public void setType(AlertType type) {
+		Resources resources = getResources();
+		int left = _type.getPaddingLeft();
+		int top = _type.getPaddingTop();
+		int right = _type.getPaddingRight();
+		int bottom = _type.getPaddingBottom();
+
+		if (type == AlertType.TEXT) {
+			left = resources.getDimensionPixelSize(
+				R.dimen.type_text_padding_left);
+		}
+		else if (type == AlertType.LINK) {
+			top = resources.getDimensionPixelSize(
+				R.dimen.type_link_padding_top);
+
+			left = resources.getDimensionPixelSize(
+				R.dimen.type_link_padding_left);
+
+			_type.setTextSize(
+				TypedValue.COMPLEX_UNIT_PX,
+				resources.getDimensionPixelSize(R.dimen.type_link_text));
+		}
+
+		_type.setPadding(left, top, right, bottom);
 		_type.setText(type.getText());
 		_type.setBackgroundResource(type.getBackground());
 	}

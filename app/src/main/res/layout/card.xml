@@ -11,17 +11,16 @@
 
 	<com.liferay.alerts.widget.TextView
 		android:id="@+id/type"
-		android:layout_width="@dimen/card_type_size"
-		android:layout_height="@dimen/card_type_size"
+		android:layout_width="@dimen/type_size"
+		android:layout_height="@dimen/type_size"
 		android:text="@string/icon_type_text"
-		android:layout_marginLeft="@dimen/card_type_margin_left"
-		android:paddingBottom="@dimen/card_type_padding_bottom"
-		android:paddingLeft="@dimen/card_type_padding_left"
+		android:layout_marginLeft="@dimen/type_margin_left"
+		android:paddingBottom="@dimen/type_padding_bottom"
 		android:background="@drawable/type_text_background"
 		android:gravity="center"
 		android:includeFontPadding="false"
 		android:textColor="@color/type_text"
-		android:textSize="@dimen/card_type_text"
+		android:textSize="@dimen/type_text"
 		liferay:font="icons" />
 
 	<LinearLayout
