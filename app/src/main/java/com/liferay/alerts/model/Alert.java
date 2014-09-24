@@ -135,6 +135,7 @@ public class Alert extends BaseModel implements Parcelable {
 			type = AlertType.getType(_payload.getString(TYPE));
 		}
 		catch (JSONException je) {
+			type = AlertType.TEXT;
 		}
 
 		return type;

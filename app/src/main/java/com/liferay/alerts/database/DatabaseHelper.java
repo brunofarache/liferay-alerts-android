@@ -14,6 +14,7 @@
 
 package com.liferay.alerts.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 
 import android.database.Cursor;
@@ -23,6 +24,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.util.CharPool;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -115,7 +117,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				update.append(" = ");
 				update.append(id);
 
-				database.execSQL(update.toString());
+				ContentValues values = new ContentValues();
+				values.put(Alert.PAYLOAD, jsonObject.toString());
+
+				StringBuilder sb = new StringBuilder();
+
+				sb.append(Alert.ID);
+				sb.append(CharPool.SPACE);
+				sb.append("= ?");
+
+				String whereClause = sb.toString();
+
+				String[] whereArgs = {
+					String.valueOf(id)
+				};
+
+				database.update(
+					AlertDAO.TABLE_NAME, values, whereClause, whereArgs);
 			}
 			catch (JSONException je) {
 				Log.e(_TAG, "Couldn't convert message.", je);
