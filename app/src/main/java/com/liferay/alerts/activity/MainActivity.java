@@ -91,8 +91,11 @@ public class MainActivity extends Activity {
 			_alerts = AlertDAO.getInstance(this).get();
 		}
 
+		int position = 0;
+
 		for (Alert alert : _alerts) {
-			_addCard(alert);
+			_addCard(alert, position);
+			position++;
 		}
 
 		_addPushNotificationsDevice();
@@ -114,9 +117,12 @@ public class MainActivity extends Activity {
 		state.putParcelableArrayList(_ALERTS, _alerts);
 	}
 
-	private void _addCard(Alert alert) {
+	private void _addCard(Alert alert, int position) {
 		_cardList.addView(new CardView(this, alert), 0);
-		_userName.setText(alert.getUser(this).getFullName());
+
+		if (position == 0) {
+			_userName.setText(alert.getUser(this).getFullName());
+		}
 	}
 
 	private void _addPushNotificationsDevice() {
@@ -160,7 +166,7 @@ public class MainActivity extends Activity {
 				Alert alert = intent.getParcelableExtra(Alert.ALERT);
 				_alerts.add(alert);
 
-				_addCard(alert);
+				_addCard(alert, 0);
 			}
 
 		};
