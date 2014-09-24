@@ -19,7 +19,8 @@
 	<dimen name="card_padding_right">11.3dp</dimen>
 	<dimen name="card_padding_top">8.6dp</dimen>
 	<dimen name="card_portrait_margin_top">3dp</dimen>
-	<dimen name="card_text_size">14sp</dimen>
+	<item name="card_text_line_spacing_multiplier" format="float" type="dimen">1.13</item>
+	<dimen name="card_text_size">14dp</dimen>
 	<dimen name="card_timestamp_icon_size">10.3dp</dimen>
 	<dimen name="card_timestamp_text_padding_bottom">3dp</dimen>
 	<dimen name="card_timestamp_text_padding_left">2.6dp</dimen>
