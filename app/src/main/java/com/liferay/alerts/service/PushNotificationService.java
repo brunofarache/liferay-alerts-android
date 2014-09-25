@@ -67,7 +67,7 @@ public class PushNotificationService extends IntentService {
 				Alert alert = new Alert(user, extras.getString(Alert.PAYLOAD));
 
 				_addCard(user, alert);
-				_showNotification(alert.getMessage());
+				_showNotification(user, alert);
 			}
 			catch (JSONException je) {
 			}
@@ -96,9 +96,11 @@ public class PushNotificationService extends IntentService {
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 	}
 
-	private void _showNotification(String message) {
+	private void _showNotification(User user, Alert alert) {
 		NotificationManager manager = (NotificationManager)getSystemService(
 			Context.NOTIFICATION_SERVICE);
+
+		String message = alert.getMessage();
 
 		PendingIntent intent = PendingIntent.getActivity(
 			this, 0, new Intent(this, MainActivity.class),
@@ -109,7 +111,7 @@ public class PushNotificationService extends IntentService {
 		builder.setAutoCancel(true);
 		builder.setContentIntent(intent);
 		builder.setContentText(message);
-		builder.setContentTitle(getString(R.string.app_name));
+		builder.setContentTitle(user.getFullName());
 		builder.setSmallIcon(R.drawable.launcher_small);
 		builder.setStyle(new BigTextStyle().bigText(message));
 
