@@ -43,9 +43,6 @@ import com.liferay.alerts.model.User;
 import com.liferay.alerts.receiver.PushNotificationReceiver;
 import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.PortraitUtil;
-import com.liferay.alerts.util.SettingsUtil;
-
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
@@ -109,24 +106,11 @@ public class PushNotificationService extends IntentService {
 			Context.NOTIFICATION_SERVICE);
 
 		String message = alert.getMessage();
-
-		String uuid = user.getUuid();
-		long portraitId = user.getPortraitId();
-
-		String portraitURL = PortraitUtil.getPortraitURL(
-			SettingsUtil.getServer(this), uuid, portraitId);
-
+		String fullName = user.getFullName();
 		Bitmap largeIcon = null;
 
 		try {
-			int width = getResources().getDimensionPixelSize(
-				android.R.dimen.notification_large_icon_width);
-
-			int height = getResources().getDimensionPixelSize(
-				android.R.dimen.notification_large_icon_width);
-
-			largeIcon = Picasso.with(this).load(portraitURL).resize(
-				width, height).centerCrop().get();
+			largeIcon = PortraitUtil.getPortrait(this, user);
 		}
 		catch (IOException ioe) {
 		}
@@ -140,7 +124,7 @@ public class PushNotificationService extends IntentService {
 		builder.setAutoCancel(true);
 		builder.setContentIntent(intent);
 		builder.setContentText(message);
-		builder.setContentTitle(user.getFullName());
+		builder.setContentTitle(fullName);
 
 		if (largeIcon != null) {
 			builder.setLargeIcon(largeIcon);

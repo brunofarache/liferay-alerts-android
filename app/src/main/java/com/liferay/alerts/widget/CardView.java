@@ -16,8 +16,6 @@ package com.liferay.alerts.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 
@@ -42,10 +40,8 @@ import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.util.PortraitUtil;
-import com.liferay.alerts.util.SettingsUtil;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 /**
  * @author Bruno Farache
@@ -225,28 +221,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 			return;
 		}
 
-		String portraitURL = PortraitUtil.getPortraitURL(
-			SettingsUtil.getServer(context), uuid, portraitId);
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(portraitURL);
-
-		try {
-			PackageInfo info = context.getPackageManager().getPackageInfo(
-				context.getPackageName(), 0);
-
-			sb.append("&version=");
-			sb.append(info.versionCode);
-		}
-		catch (PackageManager.NameNotFoundException nnfe) {
-		}
-
-		int diameter = getResources().getDimensionPixelSize(
-			R.dimen.portrait_diameter);
-
-		Transformation transformation = new RoundedTransformation(getContext());
-		Picasso.with(context).load(sb.toString()).resize(
-			diameter, diameter).transform(transformation).into(portrait);
+		PortraitUtil.setPortrait(context, uuid, portraitId, portrait);
 	}
 
 	private TextView _text;
