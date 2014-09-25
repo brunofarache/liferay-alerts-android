@@ -21,6 +21,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import android.graphics.Bitmap;
+
 import android.os.Bundle;
 
 import android.support.v4.app.NotificationCompat.BigTextStyle;
@@ -40,6 +42,12 @@ import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.receiver.PushNotificationReceiver;
 import com.liferay.alerts.util.GCMUtil;
+import com.liferay.alerts.util.PortraitUtil;
+import com.liferay.alerts.util.SettingsUtil;
+
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 import org.json.JSONException;
 
@@ -102,6 +110,27 @@ public class PushNotificationService extends IntentService {
 
 		String message = alert.getMessage();
 
+		String uuid = user.getUuid();
+		long portraitId = user.getPortraitId();
+
+		String portraitURL = PortraitUtil.getPortraitURL(
+			SettingsUtil.getServer(this), uuid, portraitId);
+
+		Bitmap largeIcon = null;
+
+		try {
+			int width = getResources().getDimensionPixelSize(
+				android.R.dimen.notification_large_icon_width);
+
+			int height = getResources().getDimensionPixelSize(
+				android.R.dimen.notification_large_icon_width);
+
+			largeIcon = Picasso.with(this).load(portraitURL).resize(
+				width, height).centerCrop().get();
+		}
+		catch (IOException ioe) {
+		}
+
 		PendingIntent intent = PendingIntent.getActivity(
 			this, 0, new Intent(this, MainActivity.class),
 			PendingIntent.FLAG_UPDATE_CURRENT);
@@ -112,6 +141,11 @@ public class PushNotificationService extends IntentService {
 		builder.setContentIntent(intent);
 		builder.setContentText(message);
 		builder.setContentTitle(user.getFullName());
+
+		if (largeIcon != null) {
+			builder.setLargeIcon(largeIcon);
+		}
+
 		builder.setSmallIcon(R.drawable.launcher_small);
 		builder.setStyle(new BigTextStyle().bigText(message));
 
