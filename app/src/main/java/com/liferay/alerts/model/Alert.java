@@ -128,6 +128,10 @@ public class Alert extends BaseModel implements Parcelable {
 		return message;
 	}
 
+	public long getTimestamp() {
+		return _timestamp;
+	}
+
 	public AlertType getType() {
 		AlertType type = null;
 

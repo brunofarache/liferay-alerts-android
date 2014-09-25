@@ -108,6 +108,7 @@ public class PushNotificationService extends IntentService {
 		String message = alert.getMessage();
 		String fullName = user.getFullName();
 		Bitmap largeIcon = null;
+		int notificationId = (int)alert.getTimestamp();
 
 		try {
 			largeIcon = PortraitUtil.getPortrait(this, user);
@@ -133,10 +134,8 @@ public class PushNotificationService extends IntentService {
 		builder.setSmallIcon(R.drawable.launcher_small);
 		builder.setStyle(new BigTextStyle().bigText(message));
 
-		manager.notify(_NOTIFICATION_ID, builder.build());
+		manager.notify(notificationId, builder.build());
 	}
-
-	private static final int _NOTIFICATION_ID = 1;
 
 	private static final String _TAG =
 		PushNotificationService.class.getSimpleName();
