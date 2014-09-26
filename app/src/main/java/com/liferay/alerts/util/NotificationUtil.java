@@ -49,6 +49,8 @@ public class NotificationUtil {
 
 	public static final String GROUP = "GROUP";
 
+	public static final int MAX_ALERTS = 7;
+
 	public static void cancel(Context context) {
 		_getNotificationManager(context).cancel(ALERTS_ID);
 
@@ -104,7 +106,13 @@ public class NotificationUtil {
 			builder.setContentTitle(newAlerts);
 		}
 
-		for (int i = size - 1; i >= 0; i--) {
+		int end = 0;
+
+		if (size > MAX_ALERTS) {
+			end = size - MAX_ALERTS;
+		}
+
+		for (int i = (size - 1); i >= end; i--) {
 			Alert alert = alerts.get(i);
 			String message = alert.getMessage();
 
