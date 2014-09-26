@@ -26,6 +26,7 @@ import android.graphics.Bitmap;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
 import android.support.v4.app.NotificationCompat.InboxStyle;
+import android.support.v4.app.NotificationCompat.Style;
 
 import android.util.Log;
 
@@ -75,103 +76,54 @@ public class NotificationUtil {
 		thread.start();
 	}
 
-	private static Notification _buildGroupedNotification(
-		Context context, List<Alert> alerts) {
+	private static Notification _buildNotification(
+			Context context, List<Alert> alerts) {
 
 		PendingIntent intent = PendingIntent.getActivity(
-			context, 0, new Intent(context, MainActivity.class),
-			PendingIntent.FLAG_UPDATE_CURRENT);
+				context, 0, new Intent(context, MainActivity.class),
+				PendingIntent.FLAG_UPDATE_CURRENT);
+
+		String title;
+		Alert alert = alerts.get(0);
+		boolean singleUser = _fromSingleUser(alerts);
+		int size = alerts.size();
+		String summary = size + " " + context.getString(R.string.new_alerts);
 
 		Builder builder = new NotificationCompat.Builder(context);
 
-		builder.setContentIntent(intent);
-		builder.setSmallIcon(R.drawable.launcher_small);
-
-		boolean sameUser = _isFromSameUser(alerts);
-		int size = alerts.size();
-
-		InboxStyle style = new NotificationCompat.InboxStyle();
-		String newAlerts = size + " " + context.getString(R.string.new_alerts);
-
-		if (sameUser) {
-			Alert alert = alerts.get(0);
-			User user = alert.getUser(context);
-
-			builder.setContentTitle(user.getFullName());
-			_setPortrait(context, builder, user);
-
+		if (singleUser) {
 			builder.setNumber(size);
+
+			User user = alert.getUser(context);
+			_setPortrait(context, builder, user);
+			title = user.getFullName();
 		}
 		else {
-			builder.setContentTitle(newAlerts);
+			title = summary;
 		}
 
-		int end = 0;
-
-		if (size > MAX_ALERTS) {
-			end = size - MAX_ALERTS;
-		}
-
-		for (int i = (size - 1); i >= end; i--) {
-			Alert alert = alerts.get(i);
-			String message = alert.getMessage();
-
-			if (!sameUser) {
-				User user = alert.getUser(context);
-				message = user.getFullName() + ": " + message;
-			}
-
-			if (i == (size - 1)) {
-				builder.setContentText(message);
-			}
-
-			style.addLine(message);
-		}
-
-		style.setSummaryText(newAlerts);
-
+		builder.setContentIntent(intent);
+		builder.setContentTitle(title);
+		builder.setSmallIcon(R.drawable.launcher_small);
 		builder.setGroup(GROUP);
 		builder.setGroupSummary(true);
+
+		Style style;
+
+		if (size == 1) {
+			style = _getBigTextStyle(builder, alert);
+		}
+		else {
+			style = _getInboxStyle(
+				context, builder, alerts, summary, singleUser);
+		}
+
 		builder.setStyle(style);
 
 		return builder.build();
 	}
 
-	private static Notification _buildSingleNotification(
-		Context context, List<Alert> alerts) {
-
-		Alert alert = alerts.get(0);
-		String message = alert.getMessage();
-		User user = alert.getUser(context);
-		String title = user.getFullName();
-
-		PendingIntent intent = PendingIntent.getActivity(
-			context, 0, new Intent(context, MainActivity.class),
-			PendingIntent.FLAG_UPDATE_CURRENT);
-
-		Builder builder = new NotificationCompat.Builder(context);
-
-		builder.setContentIntent(intent);
-		builder.setContentText(message);
-		builder.setContentTitle(title);
-
-		_setPortrait(context, builder, user);
-
-		builder.setSmallIcon(R.drawable.launcher_small);
-		builder.setStyle(
-			new NotificationCompat.BigTextStyle().bigText(message));
-
-		return builder.build();
-	}
-
-	private static NotificationManager _getNotificationManager(
-		Context context) {
-
-		return (NotificationManager)context.getSystemService(
-			Context.NOTIFICATION_SERVICE);
-	}
-
-	private static boolean _isFromSameUser(List<Alert> alerts) {
+	private static boolean _fromSingleUser(List<Alert> alerts) {
 		long userId = alerts.get(0).getUserId();
 
 		for (int i = 1; i < alerts.size(); i++) {
@@ -183,21 +135,61 @@ public class NotificationUtil {
 		return true;
 	}
 
+	private static Style _getBigTextStyle(Builder builder, Alert alert) {
+		String message = alert.getMessage();
+		builder.setContentText(message);
+
+		return new NotificationCompat.BigTextStyle().bigText(message);
+	}
+
+	private static Style _getInboxStyle(
+		Context context, Builder builder, List<Alert> alerts, String summary,
+		boolean singleUser) {
+
+		int size = alerts.size();
+
+		InboxStyle style = new NotificationCompat.InboxStyle();
+
+		int end = 0;
+
+		if (size > MAX_ALERTS) {
+			end = size - MAX_ALERTS;
+		}
+
+		for (int i = (size - 1); i >= end; i--) {
+			Alert alert = alerts.get(i);
+			String message = alert.getMessage();
+
+			if (!singleUser) {
+				User user = alert.getUser(context);
+				message = user.getFullName() + ": " + message;
+			}
+
+			if (i == (size - 1)) {
+				builder.setContentText(message);
+			}
+
+			style.addLine(message);
+		}
+
+		style.setSummaryText(summary);
+
+		return style;
+	}
+
+	private static NotificationManager _getNotificationManager(
+		Context context) {
+
+		return (NotificationManager)context.getSystemService(
+			Context.NOTIFICATION_SERVICE);
+	}
+
 	private static void _notify(Context context, List<Alert> alerts) {
 		if ((alerts == null) || (alerts.size() == 0)) {
 			return;
 		}
 
-		int size = alerts.size();
-		Notification notification = null;
-
-		if (size == 1) {
-			notification = _buildSingleNotification(context, alerts);
-		}
-		else if (size > 1) {
-			notification = _buildGroupedNotification(context, alerts);
-		}
-
+		Notification notification = _buildNotification(context, alerts);
 		_getNotificationManager(context).notify(ALERTS_ID, notification);
 	}
 
