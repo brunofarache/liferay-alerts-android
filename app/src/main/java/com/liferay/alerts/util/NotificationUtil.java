@@ -25,6 +25,7 @@ import android.graphics.Bitmap;
 
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
+import android.support.v4.app.NotificationCompat.InboxStyle;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.activity.MainActivity;
@@ -77,20 +78,6 @@ public class NotificationUtil {
 	private static Notification _buildGroupedNotification(
 		Context context, List<Alert> alerts) {
 
-		boolean sameUser = _sameUser(alerts);
-		Alert alert = alerts.get(0);
-		String message = alert.getMessage();
-		User user = alert.getUser(context);
-		String title;
-
-		if (sameUser) {
-			title = user.getFullName();
-		}
-		else {
-			title = alerts.size() + CharPool.SPACE + context.getString(
-				R.string.new_alerts);
-		}
-
 		PendingIntent intent = PendingIntent.getActivity(
 			context, 0, new Intent(context, MainActivity.class),
 			PendingIntent.FLAG_UPDATE_CURRENT);
@@ -98,17 +85,32 @@ public class NotificationUtil {
 		Builder builder = new NotificationCompat.Builder(context);
 
 		builder.setContentIntent(intent);
-		builder.setContentText(message);
-		builder.setContentTitle(title);
-
 		builder.setSmallIcon(R.drawable.launcher_small);
 
+		boolean sameUser = _sameUser(alerts);
+
 		if (sameUser) {
-			_setPortrait(context, builder, user);
+			Alert alert = alerts.get(0);
+			User user = alert.getUser(context);
+			builder.setContentTitle(user.getFullName());
+			_setPortrait(context, builder, alert.getUser(context));
+		}
+		else {
+			builder.setContentTitle(
+				alerts.size() + CharPool.SPACE + context.getString(
+					R.string.new_alerts));
 		}
 
-		builder.setStyle(
-			new NotificationCompat.BigTextStyle().bigText(message));
+		InboxStyle style = new NotificationCompat.InboxStyle();
+
+		for (int i = alerts.size() - 1; i >= 0; i--) {
+			Alert alert = alerts.get(i);
+			style.addLine(
+				alert.getUser(context).getFullName() + ": " +
+					alert.getMessage());
+		}
+
+		builder.setStyle(style);
 
 		return builder.build();
 	}
