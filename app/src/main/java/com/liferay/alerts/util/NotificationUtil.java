@@ -106,7 +106,14 @@ public class NotificationUtil {
 
 		for (int i = size - 1; i >= 0; i--) {
 			Alert alert = alerts.get(i);
-			style.addLine(alert.getMessage());
+			String message = alert.getMessage();
+
+			if (!sameUser) {
+				User user = alert.getUser(context);
+				message = user.getFullName() + ": " + message;
+			}
+
+			style.addLine(message);
 		}
 
 		builder.setGroup(GROUP);
