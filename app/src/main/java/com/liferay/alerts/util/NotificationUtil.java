@@ -93,8 +93,7 @@ public class NotificationUtil {
 		}
 		else {
 			builder.setContentTitle(
-				alerts.size() + CharPool.SPACE + context.getString(
-					R.string.new_alerts));
+				alerts.size() + " " + context.getString(R.string.new_alerts));
 		}
 
 		InboxStyle style = new NotificationCompat.InboxStyle();
