@@ -34,7 +34,6 @@ import android.widget.TextView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.database.AlertDAO;
-import com.liferay.alerts.database.DatabaseException;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.task.GCMRegistrationAsyncTask;
 import com.liferay.alerts.util.GCMUtil;
@@ -97,12 +96,6 @@ public class MainActivity extends Activity {
 			_addCard(alert);
 		}
 
-		try {
-			NotificationUtil.cancel(this);
-		}
-		catch (DatabaseException de) {
-		}
-
 		_addPushNotificationsDevice();
 		_registerAddCardReceiver();
 		_checkSendPermission();
@@ -113,6 +106,22 @@ public class MainActivity extends Activity {
 		_getBroadcastManager().unregisterReceiver(_receiver);
 
 		super.onDestroy();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		_paused = true;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		_paused = false;
+
+		NotificationUtil.cancel(this);
 	}
 
 	@Override
@@ -164,11 +173,24 @@ public class MainActivity extends Activity {
 		_receiver = new BroadcastReceiver() {
 
 			@Override
-			public void onReceive(Context context, Intent intent) {
-				Alert alert = intent.getParcelableExtra(Alert.ALERT);
+			public void onReceive(final Context context, Intent intent) {
+				final Alert alert = intent.getParcelableExtra(Alert.ALERT);
 				_alerts.add(alert);
 
 				_addCard(alert);
+
+				if (_paused) {
+					Thread thread = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							NotificationUtil.notify(context, alert);
+						}
+
+					});
+
+					thread.start();
+				}
 			}
 
 		};
@@ -181,6 +203,7 @@ public class MainActivity extends Activity {
 
 	private ArrayList<Alert> _alerts;
 	private LinearLayout _cardList;
+	private boolean _paused;
 	private BroadcastReceiver _receiver;
 	private TextView _send;
 	private TextView _userName;

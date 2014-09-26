@@ -42,13 +42,19 @@ public class NotificationUtil {
 
 	public static final int ALERTS_ID = 1;
 
-	public static void cancel(Context context) throws DatabaseException {
+	public static void cancel(Context context) {
 		_getManager(context).cancel(ALERTS_ID);
-		AlertDAO.getInstance(context).markAllAsRead();
+
+		try {
+			AlertDAO.getInstance(context).markAllAsRead();
+		}
+		catch (DatabaseException de) {
+		}
 	}
 
-	public static void notify(Context context, User user, Alert alert) {
+	public static void notify(Context context, Alert alert) {
 		String message = alert.getMessage();
+		User user = alert.getUser(context);
 		String fullName = user.getFullName();
 		Bitmap largeIcon = null;
 
