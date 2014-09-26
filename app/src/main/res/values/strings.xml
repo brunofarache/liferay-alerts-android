@@ -2,6 +2,7 @@
 <resources>
 	<string name="app_name">Liferay Alerts</string>
 	<string name="last_alert_from">LAST ALERT FROM</string>
+	<string name="new_alerts">new alerts</string>
 	<string name="registration_failure">Something went wrong, you won\'t be able to receive notifications.</string>
 	<string name="registration_success">You will receive notifications from now on!</string>
 	<string name="release_date">Aug 19</string>

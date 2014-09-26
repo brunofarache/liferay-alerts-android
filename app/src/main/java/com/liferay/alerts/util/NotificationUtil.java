@@ -81,7 +81,15 @@ public class NotificationUtil {
 		Alert alert = alerts.get(0);
 		String message = alert.getMessage();
 		User user = alert.getUser(context);
-		String fullName = user.getFullName();
+		String title;
+
+		if (sameUser) {
+			title = user.getFullName();
+		}
+		else {
+			title = alerts.size() + CharPool.SPACE + context.getString(
+				R.string.new_alerts);
+		}
 
 		PendingIntent intent = PendingIntent.getActivity(
 			context, 0, new Intent(context, MainActivity.class),
@@ -91,7 +99,7 @@ public class NotificationUtil {
 
 		builder.setContentIntent(intent);
 		builder.setContentText(message);
-		builder.setContentTitle(fullName);
+		builder.setContentTitle(title);
 
 		builder.setSmallIcon(R.drawable.launcher_small);
 
@@ -110,7 +118,7 @@ public class NotificationUtil {
 
 		String message = alert.getMessage();
 		User user = alert.getUser(context);
-		String fullName = user.getFullName();
+		String title = user.getFullName();
 
 		PendingIntent intent = PendingIntent.getActivity(
 			context, 0, new Intent(context, MainActivity.class),
@@ -120,7 +128,7 @@ public class NotificationUtil {
 
 		builder.setContentIntent(intent);
 		builder.setContentText(message);
-		builder.setContentTitle(fullName);
+		builder.setContentTitle(title);
 
 		_setPortrait(context, builder, user);
 
