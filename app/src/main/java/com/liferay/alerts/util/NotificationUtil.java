@@ -58,22 +58,17 @@ public class NotificationUtil {
 		}
 	}
 
-	public static void notify(Context context, List<Alert> alerts) {
-		if ((alerts == null) || (alerts.size() == 0)) {
-			return;
-		}
+	public static void notify(final Context context, final List<Alert> alerts) {
+		Thread thread = new Thread(new Runnable() {
 
-		int size = alerts.size();
-		Notification notification = null;
+			@Override
+			public void run() {
+				_notify(context, alerts);
+			}
 
-		if (size == 1) {
-			notification = _buildSingleNotification(context, alerts);
-		}
-		else if (size > 1) {
-			notification = _buildGroupedNotification(context, alerts);
-		}
+		});
 
-		_getNotificationManager(context).notify(ALERTS_ID, notification);
+		thread.start();
 	}
 
 	private static Notification _buildGroupedNotification(
@@ -146,6 +141,24 @@ public class NotificationUtil {
 
 		return (NotificationManager)context.getSystemService(
 			Context.NOTIFICATION_SERVICE);
+	}
+
+	private static void _notify(Context context, List<Alert> alerts) {
+		if ((alerts == null) || (alerts.size() == 0)) {
+			return;
+		}
+
+		int size = alerts.size();
+		Notification notification = null;
+
+		if (size == 1) {
+			notification = _buildSingleNotification(context, alerts);
+		}
+		else if (size > 1) {
+			notification = _buildGroupedNotification(context, alerts);
+		}
+
+		_getNotificationManager(context).notify(ALERTS_ID, notification);
 	}
 
 	private static boolean _sameUser(List<Alert> alerts) {
