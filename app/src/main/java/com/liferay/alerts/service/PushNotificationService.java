@@ -15,25 +15,17 @@
 package com.liferay.alerts.service;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 
-import android.content.Context;
 import android.content.Intent;
-
-import android.graphics.Bitmap;
 
 import android.os.Bundle;
 
-import android.support.v4.app.NotificationCompat.BigTextStyle;
-import android.support.v4.app.NotificationCompat.Builder;
 import android.support.v4.content.LocalBroadcastManager;
 
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-import com.liferay.alerts.R;
 import com.liferay.alerts.activity.MainActivity;
 import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.database.DatabaseException;
@@ -42,9 +34,7 @@ import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.receiver.PushNotificationReceiver;
 import com.liferay.alerts.util.GCMUtil;
-import com.liferay.alerts.util.PortraitUtil;
-
-import java.io.IOException;
+import com.liferay.alerts.util.NotificationUtil;
 
 import org.json.JSONException;
 
@@ -71,8 +61,9 @@ public class PushNotificationService extends IntentService {
 				User user = new User(extras.getString("fromUser"));
 				Alert alert = new Alert(user, extras.getString(Alert.PAYLOAD));
 
-				_addCard(user, alert);
-				_showNotification(user, alert);
+				_insert(user, alert);
+				NotificationUtil.notify(this, user, alert);
+				_addCard(alert);
 			}
 			catch (JSONException je) {
 			}
@@ -81,7 +72,13 @@ public class PushNotificationService extends IntentService {
 		PushNotificationReceiver.completeWakefulIntent(intent);
 	}
 
-	private void _addCard(User user, Alert alert) {
+	private void _addCard(Alert alert) {
+		Intent intent = new Intent(MainActivity.ADD_CARD);
+		intent.putExtra(Alert.ALERT, alert);
+		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+	}
+
+	private void _insert(User user, Alert alert) {
 		try {
 			UserDAO userDAO = UserDAO.getInstance(this);
 			User existingUser = userDAO.get(user.getId());
@@ -95,46 +92,6 @@ public class PushNotificationService extends IntentService {
 		catch (DatabaseException de) {
 			Log.e(_TAG, "Couldn't insert user or alert.", de);
 		}
-
-		Intent intent = new Intent(MainActivity.ADD_CARD);
-		intent.putExtra(Alert.ALERT, alert);
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-	}
-
-	private void _showNotification(User user, Alert alert) {
-		NotificationManager manager = (NotificationManager)getSystemService(
-			Context.NOTIFICATION_SERVICE);
-
-		String message = alert.getMessage();
-		String fullName = user.getFullName();
-		Bitmap largeIcon = null;
-		int notificationId = (int)alert.getTimestamp();
-
-		try {
-			largeIcon = PortraitUtil.getPortrait(this, user);
-		}
-		catch (IOException ioe) {
-		}
-
-		PendingIntent intent = PendingIntent.getActivity(
-			this, 0, new Intent(this, MainActivity.class),
-			PendingIntent.FLAG_UPDATE_CURRENT);
-
-		Builder builder = new Builder(this);
-
-		builder.setAutoCancel(true);
-		builder.setContentIntent(intent);
-		builder.setContentText(message);
-		builder.setContentTitle(fullName);
-
-		if (largeIcon != null) {
-			builder.setLargeIcon(largeIcon);
-		}
-
-		builder.setSmallIcon(R.drawable.launcher_small);
-		builder.setStyle(new BigTextStyle().bigText(message));
-
-		manager.notify(notificationId, builder.build());
 	}
 
 	private static final String _TAG =

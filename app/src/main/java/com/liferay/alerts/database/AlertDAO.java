@@ -14,12 +14,16 @@
 
 package com.liferay.alerts.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 
 import android.database.Cursor;
 
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.User;
+import com.liferay.alerts.util.CharPool;
+
+import java.util.ArrayList;
 
 /**
  * @author Bruno Farache
@@ -41,9 +45,34 @@ public class AlertDAO extends BaseDAO<Alert> {
 		return _instance;
 	}
 
+	public ArrayList<Alert> getUnread() {
+		return get(getReadClause(), String.valueOf(0));
+	}
+
+	public void markAllAsRead() throws DatabaseException {
+		ContentValues values = new ContentValues();
+		values.put(Alert.READ, 1);
+
+		update(values, true);
+	}
+
 	@Override
 	protected Alert fromCursor(Cursor cursor) {
 		return new Alert(cursor);
+	}
+
+	protected String getReadClause() {
+		if (_readWhereClause == null) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append(Alert.READ);
+			sb.append(CharPool.SPACE);
+			sb.append("= ?");
+
+			_readWhereClause = sb.toString();
+		}
+
+		return _readWhereClause;
 	}
 
 	@Override
@@ -59,11 +88,14 @@ public class AlertDAO extends BaseDAO<Alert> {
 	private static final TableColumn[] _TABLE_COLUMNS = {
 		new TableColumn(Alert.ID, TableColumn.INTEGER, true, true),
 		new TableColumn(Alert.PAYLOAD, TableColumn.TEXT),
+		new TableColumn(Alert.READ, TableColumn.INTEGER),
 		new TableColumn(Alert.TIMESTAMP, TableColumn.INTEGER),
 		new TableColumn(
 			Alert.USER_ID, TableColumn.INTEGER, UserDAO.TABLE_NAME, User.ID)
 	};
 
 	private static AlertDAO _instance;
+
+	private String _readWhereClause;
 
 }

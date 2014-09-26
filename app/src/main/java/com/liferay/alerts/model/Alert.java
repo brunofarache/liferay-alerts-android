@@ -53,6 +53,8 @@ public class Alert extends BaseModel implements Parcelable {
 
 	public static final String PAYLOAD = "payload";
 
+	public static final String READ = "read";
+
 	public static final String TIMESTAMP = "timestamp";
 
 	public static final String TYPE = "type";
@@ -72,6 +74,7 @@ public class Alert extends BaseModel implements Parcelable {
 		catch (JSONException je) {
 		}
 
+		_read = (cursor.getInt(cursor.getColumnIndex(READ)) == 1);
 		_timestamp = cursor.getLong(cursor.getColumnIndex(TIMESTAMP));
 	}
 
@@ -133,7 +136,7 @@ public class Alert extends BaseModel implements Parcelable {
 	}
 
 	public AlertType getType() {
-		AlertType type = null;
+		AlertType type;
 
 		try {
 			type = AlertType.getType(_payload.getString(TYPE));
@@ -165,12 +168,17 @@ public class Alert extends BaseModel implements Parcelable {
 		return _user;
 	}
 
+	public boolean isRead() {
+		return _read;
+	}
+
 	@Override
 	public ContentValues toContentValues() {
 		ContentValues values = new ContentValues();
 
 		values.put(USER_ID, _userId);
 		values.put(PAYLOAD, _payload.toString());
+		values.put(READ, (_read ? 1 : 0));
 		values.put(TIMESTAMP, _timestamp);
 
 		return values;
@@ -181,6 +189,7 @@ public class Alert extends BaseModel implements Parcelable {
 		parcel.writeLong(_id);
 		parcel.writeParcelable(_user, 0);
 		parcel.writeString(_payload.toString());
+		parcel.writeInt((_read ? 1 : 0));
 		parcel.writeLong(_timestamp);
 	}
 
@@ -195,11 +204,13 @@ public class Alert extends BaseModel implements Parcelable {
 		catch (JSONException je) {
 		}
 
+		_read = (parcel.readInt() == 1);
 		_timestamp = parcel.readLong();
 	}
 
 	private long _id = -1;
 	private JSONObject _payload;
+	private boolean _read;
 	private long _timestamp;
 	private User _user;
 	private long _userId;

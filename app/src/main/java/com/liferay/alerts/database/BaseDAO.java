@@ -267,7 +267,13 @@ public abstract class BaseDAO<M extends BaseModel> {
 
 	protected abstract String getTableName();
 
-	protected void update(long modelId, ContentValues values, boolean commit)
+	protected void update(ContentValues values, boolean commit)
+		throws DatabaseException {
+
+		update(null, values, commit);
+	}
+
+	protected void update(Long modelId, ContentValues values, boolean commit)
 		throws DatabaseException {
 
 		SQLiteDatabase database = helper.getWritableDatabase();
@@ -277,9 +283,15 @@ public abstract class BaseDAO<M extends BaseModel> {
 		}
 
 		try {
-			String[] id = { String.valueOf(modelId) };
+			String[] id = null;
+			String idWhereClause = null;
 
-			database.update(getTableName(), values, getIdWhereClause(), id);
+			if (modelId != null) {
+				id = new String[]{ String.valueOf(modelId) };
+				idWhereClause = getIdWhereClause();
+			}
+
+			database.update(getTableName(), values, idWhereClause, id);
 
 			if (commit) {
 				database.setTransactionSuccessful();

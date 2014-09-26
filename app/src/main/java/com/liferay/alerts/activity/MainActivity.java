@@ -34,9 +34,11 @@ import android.widget.TextView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.database.AlertDAO;
+import com.liferay.alerts.database.DatabaseException;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.task.GCMRegistrationAsyncTask;
 import com.liferay.alerts.util.GCMUtil;
+import com.liferay.alerts.util.NotificationUtil;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.widget.CardView;
 import com.liferay.mobile.android.util.Validator;
@@ -88,11 +90,17 @@ public class MainActivity extends Activity {
 			_alerts = state.getParcelableArrayList(_ALERTS);
 		}
 		else {
-			_alerts = AlertDAO.getInstance(this).get();
+			_alerts = AlertDAO.getInstance(this).getInstance(this).get();
 		}
 
 		for (Alert alert : _alerts) {
 			_addCard(alert);
+		}
+
+		try {
+			NotificationUtil.cancel(this);
+		}
+		catch (DatabaseException de) {
 		}
 
 		_addPushNotificationsDevice();
