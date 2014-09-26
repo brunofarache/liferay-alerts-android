@@ -184,7 +184,10 @@ public class MainActivity extends Activity {
 
 						@Override
 						public void run() {
-							NotificationUtil.notify(context, alert);
+							AlertDAO dao = AlertDAO.getInstance(context);
+							List<Alert> alerts = dao.getUnread();
+
+							NotificationUtil.notify(context, alerts);
 						}
 
 					});

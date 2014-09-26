@@ -27,6 +27,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
 import android.support.v4.app.NotificationCompat.InboxStyle;
 
+import android.util.Log;
+
 import com.liferay.alerts.R;
 import com.liferay.alerts.activity.MainActivity;
 import com.liferay.alerts.database.AlertDAO;
@@ -52,12 +54,11 @@ public class NotificationUtil {
 			AlertDAO.getInstance(context).markAllAsRead();
 		}
 		catch (DatabaseException de) {
+			Log.e(_TAG, "Couldn't mark alerts as read", de);
 		}
 	}
 
-	public static void notify(Context context, Alert alert) {
-		List<Alert> alerts = AlertDAO.getInstance(context).getUnread();
-
+	public static void notify(Context context, List<Alert> alerts) {
 		if ((alerts == null) || (alerts.size() == 0)) {
 			return;
 		}
@@ -66,7 +67,7 @@ public class NotificationUtil {
 		Notification notification = null;
 
 		if (size == 1) {
-			notification = _buildSingleNotification(context, alert);
+			notification = _buildSingleNotification(context, alerts);
 		}
 		else if (size > 1) {
 			notification = _buildGroupedNotification(context, alerts);
@@ -105,9 +106,7 @@ public class NotificationUtil {
 
 		for (int i = alerts.size() - 1; i >= 0; i--) {
 			Alert alert = alerts.get(i);
-			style.addLine(
-				alert.getUser(context).getFullName() + ": " +
-					alert.getMessage());
+			style.addLine(alert.getMessage());
 		}
 
 		builder.setStyle(style);
@@ -116,8 +115,9 @@ public class NotificationUtil {
 	}
 
 	private static Notification _buildSingleNotification(
-		Context context, Alert alert) {
+		Context context, List<Alert> alerts) {
 
+		Alert alert = alerts.get(0);
 		String message = alert.getMessage();
 		User user = alert.getUser(context);
 		String title = user.getFullName();
@@ -170,5 +170,7 @@ public class NotificationUtil {
 		catch (IOException ioe) {
 		}
 	}
+
+	private static final String _TAG = NotificationUtil.class.getSimpleName();
 
 }
