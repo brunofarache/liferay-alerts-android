@@ -47,6 +47,8 @@ public class NotificationUtil {
 
 	public static final int ALERTS_ID = 1;
 
+	public static final String GROUP = "GROUP";
+
 	public static void cancel(Context context) {
 		_getNotificationManager(context).cancel(ALERTS_ID);
 
@@ -83,26 +85,33 @@ public class NotificationUtil {
 		builder.setContentIntent(intent);
 		builder.setSmallIcon(R.drawable.launcher_small);
 
-		boolean sameUser = _sameUser(alerts);
+		boolean sameUser = _isFromSameUser(alerts);
+		int size = alerts.size();
+
+		InboxStyle style = new NotificationCompat.InboxStyle();
+		String newAlerts = size + " " + context.getString(R.string.new_alerts);
 
 		if (sameUser) {
 			Alert alert = alerts.get(0);
 			User user = alert.getUser(context);
+
 			builder.setContentTitle(user.getFullName());
-			_setPortrait(context, builder, alert.getUser(context));
+			_setPortrait(context, builder, user);
+
+			style.setSummaryText(newAlerts);
 		}
 		else {
-			builder.setContentTitle(
-				alerts.size() + " " + context.getString(R.string.new_alerts));
+			builder.setContentTitle(newAlerts);
 		}
 
-		InboxStyle style = new NotificationCompat.InboxStyle();
-
-		for (int i = alerts.size() - 1; i >= 0; i--) {
+		for (int i = size - 1; i >= 0; i--) {
 			Alert alert = alerts.get(i);
 			style.addLine(alert.getMessage());
 		}
 
+		builder.setGroup(GROUP);
+		builder.setGroupSummary(true);
+		builder.setNumber(size);
 		builder.setStyle(style);
 
 		return builder.build();
@@ -142,6 +151,18 @@ public class NotificationUtil {
 			Context.NOTIFICATION_SERVICE);
 	}
 
+	private static boolean _isFromSameUser(List<Alert> alerts) {
+		long userId = alerts.get(0).getUserId();
+
+		for (int i = 1; i < alerts.size(); i++) {
+			if (userId != alerts.get(i).getUserId()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	private static void _notify(Context context, List<Alert> alerts) {
 		if ((alerts == null) || (alerts.size() == 0)) {
 			return;
@@ -158,18 +179,6 @@ public class NotificationUtil {
 		}
 
 		_getNotificationManager(context).notify(ALERTS_ID, notification);
-	}
-
-	private static boolean _sameUser(List<Alert> alerts) {
-		long userId = alerts.get(0).getUserId();
-
-		for (int i = 1; i < alerts.size(); i++) {
-			if (userId != alerts.get(i).getUserId()) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	private static void _setPortrait(
