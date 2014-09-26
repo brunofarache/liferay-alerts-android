@@ -113,6 +113,10 @@ public class NotificationUtil {
 				message = user.getFullName() + ": " + message;
 			}
 
+			if (i == (size - 1)) {
+				builder.setContentText(message);
+			}
+
 			style.addLine(message);
 		}
 
