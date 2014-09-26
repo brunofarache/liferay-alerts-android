@@ -98,7 +98,7 @@ public class NotificationUtil {
 			builder.setContentTitle(user.getFullName());
 			_setPortrait(context, builder, user);
 
-			style.setSummaryText(newAlerts);
+			builder.setNumber(size);
 		}
 		else {
 			builder.setContentTitle(newAlerts);
@@ -116,9 +116,10 @@ public class NotificationUtil {
 			style.addLine(message);
 		}
 
+		style.setSummaryText(newAlerts);
+
 		builder.setGroup(GROUP);
 		builder.setGroupSummary(true);
-		builder.setNumber(size);
 		builder.setStyle(style);
 
 		return builder.build();
