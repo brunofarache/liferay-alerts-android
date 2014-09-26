@@ -103,6 +103,8 @@ public class AlertTest {
 		List<Alert> alerts = new ArrayList<Alert>();
 		alerts.add(getTextAlert(user, "first message"));
 		alerts.add(getTextAlert(user, "second message"));
+		alerts.add(getTextAlert(user, "third message"));
+		alerts.add(getTextAlert(user, "fourth message"));
 
 		NotificationUtil.notify(context, alerts);
 	}
