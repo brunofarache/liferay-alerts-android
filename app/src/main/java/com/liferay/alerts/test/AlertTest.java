@@ -86,7 +86,7 @@ public class AlertTest {
 		return user;
 	}
 
-	public static void notifyAlertsMultipleUsers(Context context) {
+	public static void notifyMultipleUsers(Context context) {
 		User bruno = getBruno();
 		User zeno = getZeno();
 
@@ -104,14 +104,32 @@ public class AlertTest {
 		NotificationUtil.notify(context, alerts);
 	}
 
-	public static void notifyAlertsSingleUser(Context context) {
+	public static void notifySingleAlert(Context context) {
 		User user = getBruno();
 
 		List<Alert> alerts = new ArrayList<Alert>();
-		alerts.add(getTextAlert(user, "first message"));
-		alerts.add(getTextAlert(user, "second message"));
-		alerts.add(getTextAlert(user, "third message"));
-		alerts.add(getTextAlert(user, "fourth message"));
+
+		alerts.add(
+			getTextAlert(
+				user,
+				"This should be a very big text with more than 3 lines but it" +
+					"is probably not as big as I imagined."));
+
+		NotificationUtil.notify(context, alerts);
+	}
+
+	public static void notifySingleUser(Context context) {
+		User user = getBruno();
+
+		List<Alert> alerts = new ArrayList<Alert>();
+		alerts.add(getTextAlert(user, "one"));
+		alerts.add(getTextAlert(user, "two"));
+		alerts.add(getTextAlert(user, "three"));
+		alerts.add(getTextAlert(user, "four"));
+		alerts.add(getTextAlert(user, "five"));
+		alerts.add(getTextAlert(user, "six"));
+		alerts.add(getTextAlert(user, "seven"));
+		alerts.add(getTextAlert(user, "eight"));
 
 		NotificationUtil.notify(context, alerts);
 	}
