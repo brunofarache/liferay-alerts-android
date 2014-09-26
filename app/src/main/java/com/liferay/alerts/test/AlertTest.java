@@ -32,34 +32,7 @@ import org.json.JSONObject;
  */
 public class AlertTest {
 
-	public static List<Alert> getAlerts() {
-		List<Alert> alerts = new ArrayList<Alert>();
-
-		User user = getUser();
-
-		alerts.add(getTextAlert(user, "first message"));
-		alerts.add(getTextAlert(user, "second message"));
-
-		return alerts;
-	}
-
-	public static Alert getTextAlert(User user, String message) {
-		Alert alert = null;
-
-		try {
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put(Alert.MESSAGE, message);
-			jsonObject.put(Alert.TYPE, AlertType.TEXT);
-
-			alert = new Alert(user, jsonObject.toString());
-		}
-		catch (JSONException je) {
-		}
-
-		return alert;
-	}
-
-	public static User getUser() {
+	public static User getBruno() {
 		User user = null;
 
 		try {
@@ -78,8 +51,60 @@ public class AlertTest {
 		return user;
 	}
 
-	public static void notify(final Context context) {
-		NotificationUtil.notify(context, getAlerts());
+	public static Alert getTextAlert(User user, String message) {
+		Alert alert = null;
+
+		try {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put(Alert.MESSAGE, message);
+			jsonObject.put(Alert.TYPE, AlertType.TEXT);
+
+			alert = new Alert(user, jsonObject.toString());
+		}
+		catch (JSONException je) {
+		}
+
+		return alert;
+	}
+
+	public static User getZeno() {
+		User user = null;
+
+		try {
+			JSONObject jsonObject = new JSONObject();
+
+			jsonObject.put("userId", 10200);
+			jsonObject.put(User.UUID, "97ea1309-ec04-63bd-5592-76f8c5b4b45b");
+			jsonObject.put(User.FULL_NAME, "Zeno Rocha");
+			jsonObject.put(User.PORTRAIT_ID, 0);
+
+			user = new User(jsonObject.toString());
+		}
+		catch (JSONException je) {
+		}
+
+		return user;
+	}
+
+	public static void notifyAlertsMultipleUsers(Context context) {
+		User bruno = getBruno();
+		User zeno = getZeno();
+
+		List<Alert> alerts = new ArrayList<Alert>();
+		alerts.add(getTextAlert(bruno, "first message"));
+		alerts.add(getTextAlert(zeno, "second message"));
+
+		NotificationUtil.notify(context, alerts);
+	}
+
+	public static void notifyAlertsSingleUser(Context context) {
+		User user = getBruno();
+
+		List<Alert> alerts = new ArrayList<Alert>();
+		alerts.add(getTextAlert(user, "first message"));
+		alerts.add(getTextAlert(user, "second message"));
+
+		NotificationUtil.notify(context, alerts);
 	}
 
 }
