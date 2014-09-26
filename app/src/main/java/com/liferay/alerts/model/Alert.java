@@ -168,11 +168,14 @@ public class Alert extends BaseModel implements Parcelable {
 		return _user;
 	}
 
+	public long getUserId() {
+		return _userId;
+	}
+
 	public boolean isRead() {
 		return _read;
 	}
 
-	@Override
 	public ContentValues toContentValues() {
 		ContentValues values = new ContentValues();
 

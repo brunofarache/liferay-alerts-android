@@ -14,6 +14,7 @@
 
 package com.liferay.alerts.util;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 
@@ -23,6 +24,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat.Builder;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.activity.MainActivity;
@@ -43,7 +45,7 @@ public class NotificationUtil {
 	public static final int ALERTS_ID = 1;
 
 	public static void cancel(Context context) {
-		_getManager(context).cancel(ALERTS_ID);
+		_getNotificationManager(context).cancel(ALERTS_ID);
 
 		try {
 			AlertDAO.getInstance(context).markAllAsRead();
@@ -53,44 +55,110 @@ public class NotificationUtil {
 	}
 
 	public static void notify(Context context, Alert alert) {
+		List<Alert> alerts = AlertDAO.getInstance(context).getUnread();
+
+		if ((alerts == null) || (alerts.size() == 0)) {
+			return;
+		}
+
+		int size = alerts.size();
+		Notification notification = null;
+
+		if (size == 1) {
+			notification = _buildSingleNotification(context, alert);
+		}
+		else if (size > 1) {
+			notification = _buildGroupedNotification(context, alerts);
+		}
+
+		_getNotificationManager(context).notify(ALERTS_ID, notification);
+	}
+
+	private static Notification _buildGroupedNotification(
+		Context context, List<Alert> alerts) {
+
+		boolean sameUser = _sameUser(alerts);
+		Alert alert = alerts.get(0);
 		String message = alert.getMessage();
 		User user = alert.getUser(context);
 		String fullName = user.getFullName();
-		Bitmap largeIcon = null;
-
-		try {
-			largeIcon = PortraitUtil.getPortrait(context, user);
-		}
-		catch (IOException ioe) {
-		}
 
 		PendingIntent intent = PendingIntent.getActivity(
 			context, 0, new Intent(context, MainActivity.class),
 			PendingIntent.FLAG_UPDATE_CURRENT);
 
-		List<Alert> alerts = AlertDAO.getInstance(context).getUnread();
-
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(
-			context);
+		Builder builder = new NotificationCompat.Builder(context);
 
 		builder.setContentIntent(intent);
 		builder.setContentText(message);
 		builder.setContentTitle(fullName);
 
-		if (largeIcon != null) {
-			builder.setLargeIcon(largeIcon);
+		builder.setSmallIcon(R.drawable.launcher_small);
+
+		if (sameUser) {
+			_setPortrait(context, builder, user);
 		}
+
+		builder.setStyle(
+			new NotificationCompat.BigTextStyle().bigText(message));
+
+		return builder.build();
+	}
+
+	private static Notification _buildSingleNotification(
+		Context context, Alert alert) {
+
+		String message = alert.getMessage();
+		User user = alert.getUser(context);
+		String fullName = user.getFullName();
+
+		PendingIntent intent = PendingIntent.getActivity(
+			context, 0, new Intent(context, MainActivity.class),
+			PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Builder builder = new NotificationCompat.Builder(context);
+
+		builder.setContentIntent(intent);
+		builder.setContentText(message);
+		builder.setContentTitle(fullName);
+
+		_setPortrait(context, builder, user);
 
 		builder.setSmallIcon(R.drawable.launcher_small);
 		builder.setStyle(
 			new NotificationCompat.BigTextStyle().bigText(message));
 
-		_getManager(context).notify(ALERTS_ID, builder.build());
+		return builder.build();
 	}
 
-	private static NotificationManager _getManager(Context context) {
+	private static NotificationManager _getNotificationManager(
+		Context context) {
+
 		return (NotificationManager)context.getSystemService(
 			Context.NOTIFICATION_SERVICE);
+	}
+
+	private static boolean _sameUser(List<Alert> alerts) {
+		long userId = alerts.get(0).getUserId();
+
+		for (int i = 1; i < alerts.size(); i++) {
+			if (userId != alerts.get(i).getUserId()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private static void _setPortrait(
+		Context context, Builder builder, User user) {
+
+		try {
+			Bitmap largeIcon = PortraitUtil.getPortrait(context, user);
+			builder.setLargeIcon(largeIcon);
+		}
+		catch (IOException ioe) {
+		}
 	}
 
 }
