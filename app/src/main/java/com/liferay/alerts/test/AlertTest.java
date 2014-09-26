@@ -91,8 +91,15 @@ public class AlertTest {
 		User zeno = getZeno();
 
 		List<Alert> alerts = new ArrayList<Alert>();
-		alerts.add(getTextAlert(bruno, "first message"));
-		alerts.add(getTextAlert(zeno, "second message"));
+
+		alerts.add(getTextAlert(bruno, "one"));
+		alerts.add(getTextAlert(zeno, "two"));
+		alerts.add(getTextAlert(bruno, "three"));
+		alerts.add(getTextAlert(zeno, "four"));
+		alerts.add(getTextAlert(bruno, "five"));
+		alerts.add(getTextAlert(zeno, "six"));
+		alerts.add(getTextAlert(bruno, "seven"));
+		alerts.add(getTextAlert(zeno, "eight"));
 
 		NotificationUtil.notify(context, alerts);
 	}
