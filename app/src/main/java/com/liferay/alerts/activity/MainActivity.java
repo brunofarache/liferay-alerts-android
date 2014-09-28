@@ -186,6 +186,9 @@ public class MainActivity extends Activity {
 
 					NotificationUtil.notify(context, alerts);
 				}
+				else {
+					NotificationUtil.cancel(context);
+				}
 			}
 
 		};

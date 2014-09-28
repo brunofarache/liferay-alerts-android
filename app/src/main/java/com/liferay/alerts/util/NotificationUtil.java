@@ -80,8 +80,8 @@ public class NotificationUtil {
 			Context context, List<Alert> alerts) {
 
 		PendingIntent intent = PendingIntent.getActivity(
-				context, 0, new Intent(context, MainActivity.class),
-				PendingIntent.FLAG_UPDATE_CURRENT);
+			context, 0, new Intent(context, MainActivity.class),
+			PendingIntent.FLAG_UPDATE_CURRENT);
 
 		String title;
 		Alert alert = alerts.get(0);
