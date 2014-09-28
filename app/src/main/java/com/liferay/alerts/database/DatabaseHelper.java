@@ -74,8 +74,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onUpgrade(
 		SQLiteDatabase database, int oldVersion, int newVersion) {
 
-		if (newVersion == 2) {
+		if (oldVersion < 2) {
 			_upgradeToVersion2(database);
+		}
+
+		if (oldVersion < 3) {
+			_upgradeToVersion3(database);
 		}
 	}
 
@@ -167,9 +171,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		_convertMessageToJSONObject(database);
 	}
 
+	private void _upgradeToVersion3(SQLiteDatabase database) {
+		StringBuilder alter = new StringBuilder();
+
+		alter.append("ALTER TABLE ");
+		alter.append(AlertDAO.TABLE_NAME);
+		alter.append(" ADD COLUMN ");
+		alter.append(Alert.READ);
+		alter.append(CharPool.SPACE);
+		alter.append(TableColumn.INTEGER);
+		alter.append(" DEFAULT 0");
+
+		database.execSQL(alter.toString());
+	}
+
 	private static final String _DATABASE_NAME = "liferay-alerts.db";
 
-	private static final int _DATABASE_VERSION = 2;
+	private static final int _DATABASE_VERSION = 3;
 
 	private static final String _FOREIGN_KEYS_ON = "PRAGMA foreign_keys = ON;";
 
