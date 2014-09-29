@@ -24,7 +24,8 @@ public enum AlertType {
 	IMAGE(R.string.icon_type_image, R.drawable.type_image_background),
 	LINK(R.string.icon_type_link, R.drawable.type_link_background),
 	MAP(R.string.icon_type_map, R.drawable.type_map_background),
-	TEXT(R.string.icon_type_text, R.drawable.type_text_background);
+	TEXT(R.string.icon_type_text, R.drawable.type_text_background),
+	UNKNOW(R.string.icon_type_text, R.drawable.type_text_background);
 
 	public static AlertType getType(String type) {
 		for (AlertType value : AlertType.values()) {
@@ -33,7 +34,7 @@ public enum AlertType {
 			}
 		}
 
-		return null;
+		return UNKNOW;
 	}
 
 	public int getBackground() {
