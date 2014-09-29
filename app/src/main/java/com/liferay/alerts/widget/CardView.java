@@ -42,6 +42,8 @@ import com.liferay.alerts.R;
 import com.liferay.alerts.callback.AddVoteCallback;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
+import com.liferay.alerts.model.PollsQuestion;
+import com.liferay.alerts.model.PollsQuestion.PollsChoice;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.util.FontUtil;
 import com.liferay.alerts.util.PortraitUtil;
@@ -54,8 +56,7 @@ import com.liferay.mobile.android.service.SessionImpl;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import java.util.List;
 
 /**
  * @author Bruno Farache
@@ -237,32 +238,26 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 	protected void setChoices(final Context context, Alert alert) {
 		try {
-			JSONObject payload = alert.getPayload();
-			JSONObject question = payload.getJSONObject("question");
-			long questionId = question.getLong("questionId");
-			JSONArray choices = question.getJSONArray("choices");
-
+			PollsQuestion question = new PollsQuestion(alert.getPayload());
 			RadioGroup group = (RadioGroup)findViewById(R.id.choices);
 
-			for (int i = 0; i < choices.length(); i++) {
-				JSONObject choiceJSONObject = choices.getJSONObject(i);
-				int choiceId = choiceJSONObject.getInt("choiceId");
-				String description = choiceJSONObject.getString("description");
+			List<PollsChoice> choices = question.getChoices();
+
+			for (PollsChoice choice : choices) {
+				RadioButton button = new RadioButton(context);
 				Resources resources = getResources();
 
-				RadioButton choice = new RadioButton(context);
-
-				choice.setId(choiceId);
-				choice.setText(description);
-				choice.setTextColor(resources.getColor(R.color.card_text));
-				choice.setTextSize(
+				button.setId(choice.getChoiceId());
+				button.setText(choice.getDescription());
+				button.setTextColor(resources.getColor(R.color.card_text));
+				button.setTextSize(
 					TypedValue.COMPLEX_UNIT_PX,
 					resources.getDimensionPixelSize(R.dimen.card_text_size));
 
-				choice.setTypeface(
+				button.setTypeface(
 					FontUtil.getFont(context, FontUtil.ROBOTO_LIGHT));
 
-				group.addView(choice);
+				group.addView(button);
 			}
 
 			group.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -291,7 +286,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 			});
 
-			group.setTag(questionId);
+			group.setTag(question.getQuestionId());
 			group.setVisibility(View.VISIBLE);
 		}
 		catch (Exception e) {
