@@ -92,7 +92,10 @@ public abstract class BaseDAO<M extends BaseModel> {
 			for (M model : models) {
 				ContentValues values = model.toContentValues();
 
-				database.insertOrThrow(getTableName(), null, values);
+				long primKey = database.insertOrThrow(
+					getTableName(), null, values);
+
+				model.setId(primKey);
 			}
 
 			if (commit) {
@@ -131,7 +134,9 @@ public abstract class BaseDAO<M extends BaseModel> {
 				tableName, values, getIdWhereClause(), id);
 
 			if (rowsCount == 0) {
-				database.insertOrThrow(tableName, null, values);
+				long primKey = database.insertOrThrow(tableName, null, values);
+
+				model.setId(primKey);
 			}
 
 			if (commit) {
@@ -140,6 +145,46 @@ public abstract class BaseDAO<M extends BaseModel> {
 		}
 		catch (Exception e) {
 			throw new DatabaseException("Couldn't insert models", e);
+		}
+		finally {
+			if (commit) {
+				database.endTransaction();
+			}
+		}
+	}
+
+	public void update(ContentValues values, boolean commit)
+		throws DatabaseException {
+
+		update(null, values, commit);
+	}
+
+	public void update(Long modelId, ContentValues values, boolean commit)
+		throws DatabaseException {
+
+		SQLiteDatabase database = helper.getWritableDatabase();
+
+		if (commit) {
+			database.beginTransaction();
+		}
+
+		try {
+			String[] id = null;
+			String idWhereClause = null;
+
+			if (modelId != null) {
+				id = new String[]{ String.valueOf(modelId) };
+				idWhereClause = getIdWhereClause();
+			}
+
+			database.update(getTableName(), values, idWhereClause, id);
+
+			if (commit) {
+				database.setTransactionSuccessful();
+			}
+		}
+		catch (Exception e) {
+			throw new DatabaseException("Couldn't update model", e);
 		}
 		finally {
 			if (commit) {
@@ -266,46 +311,6 @@ public abstract class BaseDAO<M extends BaseModel> {
 	protected abstract TableColumn[] getTableColumns();
 
 	protected abstract String getTableName();
-
-	protected void update(ContentValues values, boolean commit)
-		throws DatabaseException {
-
-		update(null, values, commit);
-	}
-
-	protected void update(Long modelId, ContentValues values, boolean commit)
-		throws DatabaseException {
-
-		SQLiteDatabase database = helper.getWritableDatabase();
-
-		if (commit) {
-			database.beginTransaction();
-		}
-
-		try {
-			String[] id = null;
-			String idWhereClause = null;
-
-			if (modelId != null) {
-				id = new String[]{ String.valueOf(modelId) };
-				idWhereClause = getIdWhereClause();
-			}
-
-			database.update(getTableName(), values, idWhereClause, id);
-
-			if (commit) {
-				database.setTransactionSuccessful();
-			}
-		}
-		catch (Exception e) {
-			throw new DatabaseException("Couldn't update model", e);
-		}
-		finally {
-			if (commit) {
-				database.endTransaction();
-			}
-		}
-	}
 
 	protected DatabaseHelper helper;
 

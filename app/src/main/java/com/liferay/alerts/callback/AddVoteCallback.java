@@ -14,11 +14,15 @@
 
 package com.liferay.alerts.callback;
 
+import android.content.ContentValues;
 import android.content.Context;
+
+import android.util.Log;
 
 import android.widget.RadioGroup;
 
 import com.liferay.alerts.R;
+import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.PollsQuestion;
 import com.liferay.alerts.model.PollsQuestion.PollsChoice;
@@ -26,7 +30,6 @@ import com.liferay.alerts.util.ToastUtil;
 import com.liferay.alerts.widget.CardView;
 import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -55,10 +58,20 @@ public class AddVoteCallback extends JSONObjectAsyncTaskCallback {
 			int choiceId = vote.getInt(PollsChoice.CHOICE_ID);
 
 			_alert.setPollsQuestion(question.toJSONObject(choiceId));
+
+			AlertDAO dao = AlertDAO.getInstance(_context);
+
+			ContentValues values = new ContentValues();
+			values.put(Alert.PAYLOAD, _alert.getPayload().toString());
+
+			dao.update(_alert.getId(), values, true);
 		}
-		catch (JSONException je) {
+		catch (Exception e) {
+			Log.e(_TAG, "Could not update vote in database.", e);
 		}
 	}
+
+	private static final String _TAG = AddVoteCallback.class.getSimpleName();
 
 	private Alert _alert;
 	private Context _context;

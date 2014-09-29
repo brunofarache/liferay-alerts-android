@@ -195,6 +195,11 @@ public class Alert extends BaseModel implements Parcelable {
 		return _read;
 	}
 
+	@Override
+	public void setId(long id) {
+		_id = id;
+	}
+
 	public void setPollsQuestion(JSONObject question) throws JSONException {
 		_payload.put(PollsQuestion.QUESTION, question);
 	}

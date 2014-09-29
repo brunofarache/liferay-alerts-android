@@ -80,6 +80,7 @@ public class PollsQuestion {
 		public PollsChoice(JSONObject choice) throws JSONException {
 			_choiceId = choice.getInt(CHOICE_ID);
 			_description = choice.getString(DESCRIPTION);
+			_checked = choice.optBoolean(CHECKED);
 		}
 
 		public int getChoiceId() {

@@ -241,6 +241,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		try {
 			PollsQuestion question = alert.getPollsQuestion();
 			RadioGroup group = (RadioGroup)findViewById(R.id.choices);
+			boolean enabled = true;
 
 			List<PollsChoice> choices = question.getChoices();
 
@@ -259,6 +260,11 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 					FontUtil.getFont(context, FontUtil.ROBOTO_LIGHT));
 
 				group.addView(button);
+
+				if (choice.isChecked()) {
+					button.setChecked(true);
+					enabled = false;
+				}
 			}
 
 			group.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -292,6 +298,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 			group.setTag(question.getQuestionId());
 			group.setVisibility(View.VISIBLE);
+			setRadioGroupEnabled(group, enabled);
 		}
 		catch (Exception e) {
 		}

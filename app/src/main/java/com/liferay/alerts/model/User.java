@@ -85,6 +85,11 @@ public class User extends BaseModel implements Parcelable {
 	}
 
 	@Override
+	public void setId(long id) {
+		_id = id;
+	}
+
+	@Override
 	public ContentValues toContentValues() {
 		ContentValues values = new ContentValues();
 
