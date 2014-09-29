@@ -12,25 +12,35 @@
  * details.
  */
 
-package com.liferay.mobile.android;
+package com.liferay.alerts.callback;
+
+import android.content.Context;
+
+import com.liferay.alerts.R;
+import com.liferay.alerts.util.ToastUtil;
+import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
 import org.json.JSONObject;
 
 /**
  * @author Bruno Farache
  */
-public interface PushNotificationsDeviceService {
+public class AddVoteCallback extends JSONObjectAsyncTaskCallback {
 
-	public JSONObject addPushNotificationsDevice(String token, String platform)
-		throws Exception;
+	public AddVoteCallback(Context context) {
+		_context = context.getApplicationContext();
+	}
 
-	public JSONObject addVote(long questionId, long choiceId) throws Exception;
+	@Override
+	public void onFailure(Exception e) {
+		ToastUtil.show(_context, R.string.vote_failure, true);
+	}
 
-	public JSONObject deletePushNotificationsDevice(String token)
-		throws Exception;
+	@Override
+	public void onSuccess(JSONObject jsonObj) {
+		ToastUtil.show(_context, R.string.vote_success, true);
+	}
 
-	public Boolean hasPermission(String actionId) throws Exception;
-
-	public void sendPushNotification(String payload) throws Exception;
+	private Context _context;
 
 }

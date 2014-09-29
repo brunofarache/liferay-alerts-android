@@ -35,14 +35,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.liferay.alerts.R;
+import com.liferay.alerts.callback.AddVoteCallback;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.util.FontUtil;
 import com.liferay.alerts.util.PortraitUtil;
+import com.liferay.alerts.util.SettingsUtil;
+import com.liferay.alerts.util.ToastUtil;
+import com.liferay.mobile.android.PushNotificationsDeviceService;
+import com.liferay.mobile.android.pushnotificationsdevice.PushNotificationsDeviceServiceImpl;
+import com.liferay.mobile.android.service.Session;
+import com.liferay.mobile.android.service.SessionImpl;
 
 import com.squareup.picasso.Picasso;
 
@@ -221,21 +229,25 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		_type.setBackgroundResource(type.getBackground());
 	}
 
-	protected void setChoices(Context context, Alert alert) {
+	protected void setChoices(final Context context, Alert alert) {
 		try {
 			JSONObject payload = alert.getPayload();
 			JSONObject question = payload.getJSONObject("question");
+			long questionId = question.getLong("questionId");
 			JSONArray choices = question.getJSONArray("choices");
 
-			Resources resources = getResources();
 			RadioGroup group = (RadioGroup)findViewById(R.id.choices);
 
 			for (int i = 0; i < choices.length(); i++) {
+				JSONObject choiceJSONObject = choices.getJSONObject(i);
+				int choiceId = choiceJSONObject.getInt("choiceId");
+				String description = choiceJSONObject.getString("description");
+				Resources resources = getResources();
+
 				RadioButton choice = new RadioButton(context);
 
-				JSONObject choiceJSONObject = choices.getJSONObject(i);
-
-				choice.setText(choiceJSONObject.getString("description"));
+				choice.setId(choiceId);
+				choice.setText(description);
 				choice.setTextColor(resources.getColor(R.color.card_text));
 				choice.setTextSize(
 					TypedValue.COMPLEX_UNIT_PX,
@@ -247,6 +259,30 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 				group.addView(choice);
 			}
 
+			group.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(RadioGroup group, int choiceId) {
+					long questionId = (Long)group.getTag();
+
+					String server = SettingsUtil.getServer(context);
+					Session session = new SessionImpl(server);
+					session.setCallback(new AddVoteCallback(context));
+
+					PushNotificationsDeviceService service =
+						new PushNotificationsDeviceServiceImpl(session);
+
+					try {
+						service.addVote(questionId, choiceId);
+					}
+					catch (Exception e) {
+						ToastUtil.show(context, R.string.vote_failure, true);
+					}
+				}
+
+			});
+
+			group.setTag(questionId);
 			group.setVisibility(View.VISIBLE);
 		}
 		catch (Exception e) {

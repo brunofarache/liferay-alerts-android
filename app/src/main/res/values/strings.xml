@@ -9,5 +9,7 @@
 	<string name="send">Send</string>
 	<string name="send_notification_failure">Something went wrong while sending notifcation, try again later.</string>
 	<string name="send_notification_success">Notification sent!</string>
+	<string name="vote_failure">Something went wrong with your vote.</string>
+	<string name="vote_success">Voted!</string>
 	<string name="welcome">E aí, galerinha!\nBem-vindos ao Liferay Alerts :)\n\nA partir de agora, vocês receberão notificações sobre o mundo Liferay.\n\nEssa é uma versão alpha, com a participação fechada para alguns convidados. Por isso, aguardamos ansiosamente o feedback de vocês.\n\nValeu pela participação ;D</string>
 </resources>

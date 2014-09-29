@@ -55,6 +55,28 @@ public class PushNotificationsDeviceServiceImpl extends BaseService
 	}
 
 	@Override
+	public JSONObject addVote(long questionId, long choiceId) throws Exception {
+		JSONObject _command = new JSONObject();
+
+		try {
+			JSONObject _params = new JSONObject();
+
+			_params.put("questionId", questionId);
+			_params.put("choiceId", choiceId);
+
+			_command.put(
+				"/push-notifications-portlet.pushnotificationsdevice/" +
+					"add-vote",
+				_params);
+		}
+		catch (JSONException _je) {
+			throw new Exception(_je);
+		}
+
+		return (JSONObject)session.invoke(_command);
+	}
+
+	@Override
 	public JSONObject deletePushNotificationsDevice(String token)
 		throws Exception {
 
