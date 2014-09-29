@@ -62,6 +62,12 @@ import org.json.JSONObject;
  */
 public class CardView extends LinearLayout implements View.OnClickListener {
 
+	public static void setRadioGroupEnabled(RadioGroup group, boolean enabled) {
+		for (int i = 0; i < group.getChildCount(); i++) {
+			group.getChildAt(i).setEnabled(enabled);
+		}
+	}
+
 	public CardView(Context context) {
 		this(context, (AttributeSet)null);
 	}
@@ -263,11 +269,13 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 				@Override
 				public void onCheckedChanged(RadioGroup group, int choiceId) {
+					setRadioGroupEnabled(group, false);
+
 					long questionId = (Long)group.getTag();
 
 					String server = SettingsUtil.getServer(context);
 					Session session = new SessionImpl(server);
-					session.setCallback(new AddVoteCallback(context));
+					session.setCallback(new AddVoteCallback(context, group));
 
 					PushNotificationsDeviceService service =
 						new PushNotificationsDeviceServiceImpl(session);
@@ -277,6 +285,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 					}
 					catch (Exception e) {
 						ToastUtil.show(context, R.string.vote_failure, true);
+						setRadioGroupEnabled(group, true);
 					}
 				}
 

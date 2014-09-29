@@ -16,8 +16,11 @@ package com.liferay.alerts.callback;
 
 import android.content.Context;
 
+import android.widget.RadioGroup;
+
 import com.liferay.alerts.R;
 import com.liferay.alerts.util.ToastUtil;
+import com.liferay.alerts.widget.CardView;
 import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
 import org.json.JSONObject;
@@ -27,13 +30,15 @@ import org.json.JSONObject;
  */
 public class AddVoteCallback extends JSONObjectAsyncTaskCallback {
 
-	public AddVoteCallback(Context context) {
+	public AddVoteCallback(Context context, RadioGroup group) {
 		_context = context.getApplicationContext();
+		_group = group;
 	}
 
 	@Override
 	public void onFailure(Exception e) {
 		ToastUtil.show(_context, R.string.vote_failure, true);
+		CardView.setRadioGroupEnabled(_group, true);
 	}
 
 	@Override
@@ -42,5 +47,6 @@ public class AddVoteCallback extends JSONObjectAsyncTaskCallback {
 	}
 
 	private Context _context;
+	private RadioGroup _group;
 
 }
