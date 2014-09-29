@@ -42,6 +42,13 @@ public class FontUtil {
 
 	public static final String ROBOTO_REGULAR = "Roboto-Regular.ttf";
 
+	public static Typeface getFont(Context context, String name) {
+		AssetManager manager = context.getAssets();
+		name = "fonts/" + name;
+
+		return Typeface.createFromAsset(manager, name);
+	}
+
 	public static void setFont(TextView view, AttributeSet attributes) {
 		if (view.isInEditMode()) {
 			return;
@@ -58,13 +65,6 @@ public class FontUtil {
 		}
 
 		view.setTypeface(font);
-	}
-
-	protected static Typeface getFont(Context context, String name) {
-		AssetManager manager = context.getAssets();
-		name = "fonts/" + name;
-
-		return Typeface.createFromAsset(manager, name);
 	}
 
 	protected static String getName(Context context, AttributeSet attributes) {

@@ -33,15 +33,21 @@ import android.view.View;
 
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.model.User;
+import com.liferay.alerts.util.FontUtil;
 import com.liferay.alerts.util.PortraitUtil;
 
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * @author Bruno Farache
@@ -63,14 +69,13 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 		setText(alert.getMessage());
 
+		AlertType type = alert.getType();
 		_url = alert.getUrl();
 
 		if (_url != null) {
 			if (!_url.startsWith("http://") && !_url.startsWith("https://")) {
 				_url = "http://" + _url;
 			}
-
-			AlertType type = alert.getType();
 
 			if (type == AlertType.LINK) {
 				setOnClickListener(this);
@@ -79,6 +84,10 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 			else if (type == AlertType.IMAGE) {
 				setImage(context);
 			}
+		}
+
+		if (type == AlertType.POLLS) {
+			setChoices(context, alert);
 		}
 
 		setTimestamp(alert.getFormattedTimestamp());
@@ -210,6 +219,38 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		_type.setPadding(left, top, right, bottom);
 		_type.setText(type.getText());
 		_type.setBackgroundResource(type.getBackground());
+	}
+
+	protected void setChoices(Context context, Alert alert) {
+		try {
+			JSONObject payload = alert.getPayload();
+			JSONObject question = payload.getJSONObject("question");
+			JSONArray choices = question.getJSONArray("choices");
+
+			Resources resources = getResources();
+			RadioGroup group = (RadioGroup)findViewById(R.id.choices);
+
+			for (int i = 0; i < choices.length(); i++) {
+				RadioButton choice = new RadioButton(context);
+
+				JSONObject choiceJSONObject = choices.getJSONObject(i);
+
+				choice.setText(choiceJSONObject.getString("description"));
+				choice.setTextColor(resources.getColor(R.color.card_text));
+				choice.setTextSize(
+					TypedValue.COMPLEX_UNIT_PX,
+					resources.getDimensionPixelSize(R.dimen.card_text_size));
+
+				choice.setTypeface(
+					FontUtil.getFont(context, FontUtil.ROBOTO_LIGHT));
+
+				group.addView(choice);
+			}
+
+			group.setVisibility(View.VISIBLE);
+		}
+		catch (Exception e) {
+		}
 	}
 
 	protected void setPortrait(Context context, String uuid, long portraitId) {

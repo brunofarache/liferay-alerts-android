@@ -131,6 +131,10 @@ public class Alert extends BaseModel implements Parcelable {
 		return message;
 	}
 
+	public JSONObject getPayload() {
+		return _payload;
+	}
+
 	public long getTimestamp() {
 		return _timestamp;
 	}
