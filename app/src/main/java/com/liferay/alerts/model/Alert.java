@@ -135,6 +135,21 @@ public class Alert extends BaseModel implements Parcelable {
 		return _payload;
 	}
 
+	public PollsQuestion getPollsQuestion() {
+		PollsQuestion question = null;
+
+		try {
+			JSONObject jsonObject = _payload.getJSONObject(
+				PollsQuestion.QUESTION);
+
+			question = new PollsQuestion(jsonObject);
+		}
+		catch (JSONException je) {
+		}
+
+		return question;
+	}
+
 	public long getTimestamp() {
 		return _timestamp;
 	}
@@ -178,6 +193,10 @@ public class Alert extends BaseModel implements Parcelable {
 
 	public boolean isRead() {
 		return _read;
+	}
+
+	public void setPollsQuestion(JSONObject question) throws JSONException {
+		_payload.put(PollsQuestion.QUESTION, question);
 	}
 
 	public ContentValues toContentValues() {

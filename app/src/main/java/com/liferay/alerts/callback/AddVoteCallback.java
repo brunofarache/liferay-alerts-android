@@ -19,10 +19,14 @@ import android.content.Context;
 import android.widget.RadioGroup;
 
 import com.liferay.alerts.R;
+import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.model.PollsQuestion;
+import com.liferay.alerts.model.PollsQuestion.PollsChoice;
 import com.liferay.alerts.util.ToastUtil;
 import com.liferay.alerts.widget.CardView;
 import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -30,8 +34,9 @@ import org.json.JSONObject;
  */
 public class AddVoteCallback extends JSONObjectAsyncTaskCallback {
 
-	public AddVoteCallback(Context context, RadioGroup group) {
+	public AddVoteCallback(Context context, Alert alert, RadioGroup group) {
 		_context = context.getApplicationContext();
+		_alert = alert;
 		_group = group;
 	}
 
@@ -42,10 +47,20 @@ public class AddVoteCallback extends JSONObjectAsyncTaskCallback {
 	}
 
 	@Override
-	public void onSuccess(JSONObject jsonObj) {
+	public void onSuccess(JSONObject vote) {
 		ToastUtil.show(_context, R.string.vote_success, true);
+
+		try {
+			PollsQuestion question = _alert.getPollsQuestion();
+			int choiceId = vote.getInt(PollsChoice.CHOICE_ID);
+
+			_alert.setPollsQuestion(question.toJSONObject(choiceId));
+		}
+		catch (JSONException je) {
+		}
 	}
 
+	private Alert _alert;
 	private Context _context;
 	private RadioGroup _group;
 

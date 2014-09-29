@@ -53,6 +53,7 @@ import com.liferay.mobile.android.PushNotificationsDeviceService;
 import com.liferay.mobile.android.pushnotificationsdevice.PushNotificationsDeviceServiceImpl;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
+import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
 import com.squareup.picasso.Picasso;
 
@@ -236,9 +237,9 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		_type.setBackgroundResource(type.getBackground());
 	}
 
-	protected void setChoices(final Context context, Alert alert) {
+	protected void setChoices(final Context context, final Alert alert) {
 		try {
-			PollsQuestion question = new PollsQuestion(alert.getPayload());
+			PollsQuestion question = alert.getPollsQuestion();
 			RadioGroup group = (RadioGroup)findViewById(R.id.choices);
 
 			List<PollsChoice> choices = question.getChoices();
@@ -270,7 +271,10 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 					String server = SettingsUtil.getServer(context);
 					Session session = new SessionImpl(server);
-					session.setCallback(new AddVoteCallback(context, group));
+					JSONObjectAsyncTaskCallback callback = new AddVoteCallback(
+						context, alert, group);
+
+					session.setCallback(callback);
 
 					PushNotificationsDeviceService service =
 						new PushNotificationsDeviceServiceImpl(session);
