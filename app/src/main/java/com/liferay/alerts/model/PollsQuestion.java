@@ -42,6 +42,11 @@ public class PollsQuestion {
 		}
 	}
 
+	public PollsQuestion(long questionId, List<PollsChoice> choices) {
+		_questionId = questionId;
+		_choices = choices;
+	}
+
 	public List<PollsChoice> getChoices() {
 		return _choices;
 	}
@@ -69,50 +74,6 @@ public class PollsQuestion {
 		jsonObject.put(CHOICES, choicesJSONArray);
 
 		return jsonObject;
-	}
-
-	public class PollsChoice {
-
-		public static final String CHECKED = "checked";
-		public static final String CHOICE_ID = "choiceId";
-		public static final String DESCRIPTION = "description";
-
-		public PollsChoice(JSONObject choice) throws JSONException {
-			_choiceId = choice.getInt(CHOICE_ID);
-			_description = choice.getString(DESCRIPTION);
-			_checked = choice.optBoolean(CHECKED);
-		}
-
-		public int getChoiceId() {
-			return _choiceId;
-		}
-
-		public String getDescription() {
-			return _description;
-		}
-
-		public boolean isChecked() {
-			return _checked;
-		}
-
-		public void setChecked(boolean checked) {
-			_checked = checked;
-		}
-
-		private boolean _checked;
-		private int _choiceId;
-		private String _description;
-
-		public JSONObject toJSONObject() throws JSONException {
-			JSONObject jsonObject = new JSONObject();
-
-			jsonObject.put(CHOICE_ID, _choiceId);
-			jsonObject.put(DESCRIPTION, _description);
-			jsonObject.put(CHECKED, _checked);
-
-			return jsonObject;
-		}
-
 	}
 
 	private List<PollsChoice> _choices = new ArrayList<PollsChoice>();

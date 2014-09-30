@@ -18,6 +18,8 @@ import android.content.Context;
 
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
+import com.liferay.alerts.model.PollsChoice;
+import com.liferay.alerts.model.PollsQuestion;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.util.NotificationUtil;
 
@@ -49,6 +51,30 @@ public class AlertTest {
 		}
 
 		return user;
+	}
+
+	public static Alert getPollsAlert(User user, String message) {
+		Alert alert = null;
+
+		try {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put(Alert.MESSAGE, message);
+			jsonObject.put(Alert.TYPE, AlertType.POLLS);
+
+			List<PollsChoice> choices = new ArrayList<PollsChoice>();
+
+			choices.add(new PollsChoice(11408, "yes", false));
+			choices.add(new PollsChoice(11408, "no", false));
+
+			PollsQuestion question = new PollsQuestion(11406, choices);
+
+			alert = new Alert(user, jsonObject.toString());
+			alert.setPollsQuestion(question.toJSONObject(0));
+		}
+		catch (JSONException je) {
+		}
+
+		return alert;
 	}
 
 	public static Alert getTextAlert(User user, String message) {
@@ -100,6 +126,15 @@ public class AlertTest {
 		alerts.add(getTextAlert(zeno, "six"));
 		alerts.add(getTextAlert(bruno, "seven"));
 		alerts.add(getTextAlert(zeno, "eight"));
+
+		notify(context, alerts);
+	}
+
+	public static void notifyPollsAlert(Context context) {
+		User user = getBruno();
+
+		List<Alert> alerts = new ArrayList<Alert>();
+		alerts.add(getPollsAlert(user, "did you enjoy this talk?"));
 
 		notify(context, alerts);
 	}
