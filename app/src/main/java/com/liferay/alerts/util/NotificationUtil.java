@@ -63,17 +63,20 @@ public class NotificationUtil {
 		}
 	}
 
-	public static void notify(final Context context, final List<Alert> alerts) {
-		Thread thread = new Thread(new Runnable() {
+	public static void notify(Context context, List<Alert> alerts) {
+		if ((alerts == null) || (alerts.size() == 0)) {
+			return;
+		}
 
-			@Override
-			public void run() {
-				_notify(context, alerts);
-			}
+		Notification notification = _buildNotification(context, alerts);
+		_getNotificationManager(context).notify(ALERTS_ID, notification);
+	}
 
-		});
+	public static void notifyUnreadAlerts(Context context) {
+		AlertDAO dao = AlertDAO.getInstance(context);
+		List<Alert> alerts = dao.getUnread();
 
-		thread.start();
+		notify(context, alerts);
 	}
 
 	private static Notification _buildNotification(
@@ -182,15 +185,6 @@ public class NotificationUtil {
 
 		return (NotificationManager)context.getSystemService(
 			Context.NOTIFICATION_SERVICE);
-	}
-
-	private static void _notify(Context context, List<Alert> alerts) {
-		if ((alerts == null) || (alerts.size() == 0)) {
-			return;
-		}
-
-		Notification notification = _buildNotification(context, alerts);
-		_getNotificationManager(context).notify(ALERTS_ID, notification);
 	}
 
 	private static void _setPortrait(

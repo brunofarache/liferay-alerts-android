@@ -43,7 +43,6 @@ import com.liferay.alerts.widget.CardView;
 import com.liferay.mobile.android.util.Validator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Bruno Farache
@@ -180,13 +179,7 @@ public class MainActivity extends Activity {
 
 				_addCard(alert);
 
-				if (_paused) {
-					AlertDAO dao = AlertDAO.getInstance(context);
-					List<Alert> alerts = dao.getUnread();
-
-					NotificationUtil.notify(context, alerts);
-				}
-				else {
+				if (!_paused) {
 					NotificationUtil.cancel(context);
 				}
 			}

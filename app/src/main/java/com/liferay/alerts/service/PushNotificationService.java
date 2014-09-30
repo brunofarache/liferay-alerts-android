@@ -34,6 +34,7 @@ import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.receiver.PushNotificationReceiver;
 import com.liferay.alerts.util.GCMUtil;
+import com.liferay.alerts.util.NotificationUtil;
 
 import org.json.JSONException;
 
@@ -61,6 +62,7 @@ public class PushNotificationService extends IntentService {
 				Alert alert = new Alert(user, extras.getString(Alert.PAYLOAD));
 
 				_insert(user, alert);
+				NotificationUtil.notifyUnreadAlerts(this);
 				_addCard(alert);
 			}
 			catch (JSONException je) {
