@@ -8,8 +8,8 @@ android {
 		applicationId 'com.liferay.alerts'
 		minSdkVersion 16
 		targetSdkVersion 20
-		versionCode 8
-		versionName 'version 0.3.0'
+		versionCode 9
+		versionName 'version 0.4.0'
 	}
 
 	packagingOptions {
