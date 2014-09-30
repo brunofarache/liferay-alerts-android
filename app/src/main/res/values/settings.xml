@@ -3,4 +3,6 @@
 	<string name="email"></string>
 	<string name="password"></string>
 	<string name="server">http://10.0.2.2:8080</string>
+	<integer name="portrait_id_bruno">0</integer>
+	<integer name="portrait_id_zeno">0</integer>
 </resources>

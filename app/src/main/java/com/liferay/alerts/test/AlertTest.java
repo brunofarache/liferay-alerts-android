@@ -16,6 +16,7 @@ package com.liferay.alerts.test;
 
 import android.content.Context;
 
+import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.model.PollsChoice;
@@ -34,7 +35,7 @@ import org.json.JSONObject;
  */
 public class AlertTest {
 
-	public static User getBruno() {
+	public static User getBruno(Context context) {
 		User user = null;
 
 		try {
@@ -43,7 +44,9 @@ public class AlertTest {
 			jsonObject.put("userId", 10199);
 			jsonObject.put(User.UUID, "97ea1309-ec04-63bd-5592-76f8c5b4b45b");
 			jsonObject.put(User.FULL_NAME, "Bruno Farache");
-			jsonObject.put(User.PORTRAIT_ID, 0);
+			jsonObject.put(
+				User.PORTRAIT_ID,
+				context.getResources().getInteger(R.integer.portrait_id_bruno));
 
 			user = new User(jsonObject.toString());
 		}
@@ -93,7 +96,7 @@ public class AlertTest {
 		return alert;
 	}
 
-	public static User getZeno() {
+	public static User getZeno(Context context) {
 		User user = null;
 
 		try {
@@ -102,7 +105,9 @@ public class AlertTest {
 			jsonObject.put("userId", 10200);
 			jsonObject.put(User.UUID, "97ea1309-ec04-63bd-5592-76f8c5b4b45b");
 			jsonObject.put(User.FULL_NAME, "Zeno Rocha");
-			jsonObject.put(User.PORTRAIT_ID, 0);
+			jsonObject.put(
+				User.PORTRAIT_ID,
+				context.getResources().getInteger(R.integer.portrait_id_zeno));
 
 			user = new User(jsonObject.toString());
 		}
@@ -113,8 +118,8 @@ public class AlertTest {
 	}
 
 	public static void notifyMultipleUsers(Context context) {
-		User bruno = getBruno();
-		User zeno = getZeno();
+		User bruno = getBruno(context);
+		User zeno = getZeno(context);
 
 		List<Alert> alerts = new ArrayList<Alert>();
 
@@ -131,7 +136,7 @@ public class AlertTest {
 	}
 
 	public static void notifyPollsAlert(Context context) {
-		User user = getBruno();
+		User user = getBruno(context);
 
 		List<Alert> alerts = new ArrayList<Alert>();
 		alerts.add(getPollsAlert(user, "did you enjoy this talk?"));
@@ -140,7 +145,7 @@ public class AlertTest {
 	}
 
 	public static void notifySingleAlert(Context context) {
-		User user = getBruno();
+		User user = getBruno(context);
 
 		List<Alert> alerts = new ArrayList<Alert>();
 
@@ -154,7 +159,7 @@ public class AlertTest {
 	}
 
 	public static void notifySingleUser(Context context) {
-		User user = getBruno();
+		User user = getBruno(context);
 
 		List<Alert> alerts = new ArrayList<Alert>();
 		alerts.add(getTextAlert(user, "one"));
