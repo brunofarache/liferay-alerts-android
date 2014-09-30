@@ -50,7 +50,6 @@ import com.liferay.alerts.util.PortraitUtil;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.util.ToastUtil;
 import com.liferay.mobile.android.PushNotificationsDeviceService;
-import com.liferay.mobile.android.pushnotificationsdevice.PushNotificationsDeviceServiceImpl;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
@@ -283,7 +282,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 					session.setCallback(callback);
 
 					PushNotificationsDeviceService service =
-						new PushNotificationsDeviceServiceImpl(session);
+						new PushNotificationsDeviceService(session);
 
 					try {
 						service.addVote(questionId, choiceId);

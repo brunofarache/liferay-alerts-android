@@ -31,7 +31,6 @@ import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.util.SettingsUtil;
 import com.liferay.alerts.util.ToastUtil;
 import com.liferay.mobile.android.PushNotificationsDeviceService;
-import com.liferay.mobile.android.pushnotificationsdevice.PushNotificationsDeviceServiceImpl;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 import com.liferay.mobile.android.task.callback.typed.StringAsyncTaskCallback;
@@ -80,7 +79,7 @@ public class SendActivity extends Activity {
 				});
 
 				PushNotificationsDeviceService service =
-					new PushNotificationsDeviceServiceImpl(session);
+					new PushNotificationsDeviceService(session);
 
 				try {
 					String message = _message.getText().toString();

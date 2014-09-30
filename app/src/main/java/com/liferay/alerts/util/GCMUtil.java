@@ -27,7 +27,6 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.liferay.alerts.R;
 import com.liferay.alerts.callback.RegistrationCallback;
 import com.liferay.mobile.android.PushNotificationsDeviceService;
-import com.liferay.mobile.android.pushnotificationsdevice.PushNotificationsDeviceServiceImpl;
 import com.liferay.mobile.android.service.Session;
 import com.liferay.mobile.android.service.SessionImpl;
 
@@ -44,7 +43,7 @@ public class GCMUtil {
 		session.setCallback(new RegistrationCallback(context));
 
 		PushNotificationsDeviceService service =
-			new PushNotificationsDeviceServiceImpl(session);
+			new PushNotificationsDeviceService(session);
 
 		try {
 			service.addPushNotificationsDevice(token, "android");
