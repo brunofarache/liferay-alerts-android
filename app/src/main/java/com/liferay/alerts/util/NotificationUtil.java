@@ -80,7 +80,7 @@ public class NotificationUtil {
 	}
 
 	private static Notification _buildNotification(
-			Context context, List<Alert> alerts) {
+		Context context, List<Alert> alerts) {
 
 		PendingIntent intent = PendingIntent.getActivity(
 			context, 0, new Intent(context, MainActivity.class),

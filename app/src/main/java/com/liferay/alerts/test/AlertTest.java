@@ -101,7 +101,7 @@ public class AlertTest {
 		alerts.add(getTextAlert(bruno, "seven"));
 		alerts.add(getTextAlert(zeno, "eight"));
 
-		NotificationUtil.notify(context, alerts);
+		notify(context, alerts);
 	}
 
 	public static void notifySingleAlert(Context context) {
@@ -115,7 +115,7 @@ public class AlertTest {
 				"This should be a very big text with more than 3 lines but it" +
 					"is probably not as big as I imagined."));
 
-		NotificationUtil.notify(context, alerts);
+		notify(context, alerts);
 	}
 
 	public static void notifySingleUser(Context context) {
@@ -131,7 +131,22 @@ public class AlertTest {
 		alerts.add(getTextAlert(user, "seven"));
 		alerts.add(getTextAlert(user, "eight"));
 
-		NotificationUtil.notify(context, alerts);
+		notify(context, alerts);
+	}
+
+	protected static void notify(
+		final Context context, final List<Alert> alerts) {
+
+		Thread thread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				NotificationUtil.notify(context, alerts);
+			}
+
+		});
+
+		thread.start();
 	}
 
 }
