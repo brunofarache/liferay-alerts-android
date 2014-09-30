@@ -23,13 +23,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationCompat.Action;
 import android.support.v4.app.NotificationCompat.Builder;
 import android.support.v4.app.NotificationCompat.InboxStyle;
 import android.support.v4.app.NotificationCompat.Style;
-import android.support.v4.app.NotificationCompat.WearableExtender;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.app.RemoteInput;
 
 import android.util.Log;
 
@@ -38,10 +35,8 @@ import com.liferay.alerts.activity.MainActivity;
 import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.database.DatabaseException;
 import com.liferay.alerts.model.Alert;
-import com.liferay.alerts.model.AlertType;
-import com.liferay.alerts.model.PollsChoice;
-import com.liferay.alerts.model.PollsQuestion;
 import com.liferay.alerts.model.User;
+import com.liferay.alerts.receiver.WearableVoteReceiver;
 
 import java.io.IOException;
 
@@ -53,8 +48,6 @@ import java.util.List;
 public class NotificationUtil {
 
 	public static final int ALERTS_ID = 1;
-
-	public static final String EXTRA_VOTE = "vote";
 
 	public static final String GROUP = "GROUP";
 
@@ -85,46 +78,6 @@ public class NotificationUtil {
 		List<Alert> alerts = dao.getUnread();
 
 		notify(context, alerts);
-	}
-
-	private static void _addPollsActions(
-		Context context, List<Alert> alerts, PendingIntent intent,
-		Builder builder) {
-
-		for (Alert alert : alerts) {
-			if (AlertType.POLLS == alert.getType()) {
-				PollsQuestion question = alert.getPollsQuestion();
-				List<PollsChoice> pollsChoices = question.getChoices();
-
-				String[] choices = new String[pollsChoices.size()];
-
-				for (int i = 0; i < pollsChoices.size(); i++) {
-					choices[i] = pollsChoices.get(i).getDescription();
-				}
-
-				RemoteInput.Builder inputBuilder = new RemoteInput.Builder(
-					EXTRA_VOTE);
-
-				inputBuilder.setLabel(alert.getMessage());
-				inputBuilder.setChoices(choices);
-				//inputBuilder.setAllowFreeFormInput(false);
-
-				RemoteInput input = inputBuilder.build();
-
-				Action.Builder actionBuilder = new Action.Builder(
-					R.drawable.launcher, context.getString(R.string.vote),
-					intent);
-
-				actionBuilder.addRemoteInput(input);
-
-				Action action = actionBuilder.build();
-
-				WearableExtender extender = new WearableExtender();
-				extender.addAction(action);
-
-				builder.extend(extender);
-			}
-		}
 	}
 
 	private static Notification _buildNotification(
@@ -171,7 +124,7 @@ public class NotificationUtil {
 
 		builder.setStyle(style);
 
-		_addPollsActions(context, alerts, intent, builder);
+		WearableVoteReceiver.addPollsActions(context, alerts, builder);
 
 		return builder.build();
 	}

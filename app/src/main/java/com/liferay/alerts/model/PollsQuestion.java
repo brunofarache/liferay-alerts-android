@@ -14,6 +14,8 @@
 
 package com.liferay.alerts.model;
 
+import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,7 @@ import org.json.JSONObject;
 /**
  * @author Bruno Farache
  */
-public class PollsQuestion {
+public class PollsQuestion implements Serializable {
 
 	public static final String CHOICES = "choices";
 

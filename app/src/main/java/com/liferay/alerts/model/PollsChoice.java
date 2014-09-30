@@ -14,13 +14,15 @@
 
 package com.liferay.alerts.model;
 
+import java.io.Serializable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * @author Bruno Farache
  */
-public class PollsChoice {
+public class PollsChoice implements Serializable {
 
 	public static final String CHECKED = "checked";
 
