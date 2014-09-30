@@ -244,6 +244,7 @@ public class NotificationUtil {
 			builder.setLargeIcon(largeIcon);
 		}
 		catch (IOException ioe) {
+			Log.e(_TAG, "Couldn't set user's portrait to notification", ioe);
 		}
 	}
 
