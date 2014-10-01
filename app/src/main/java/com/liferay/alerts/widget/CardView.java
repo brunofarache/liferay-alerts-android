@@ -90,7 +90,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		}
 
 		if (type == AlertType.POLLS) {
-			setPollsQuestion(context.getApplicationContext(), alert);
+			setPolls(context.getApplicationContext(), alert);
 		}
 
 		setTimestamp(alert.getFormattedTimestamp());
@@ -228,19 +228,23 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		_type.setBackgroundResource(type.getBackground());
 	}
 
-	protected void setPollsQuestion(Context context, Alert alert) {
+	protected void setPolls(Context context, Alert alert) {
 		try {
 			PollsQuestion question = alert.getPollsQuestion();
 			RadioGroup group = (RadioGroup)findViewById(R.id.choices);
 
 			List<PollsChoice> choices = question.getChoices();
 
+			int c = (int)'A' - 1;
+
 			for (PollsChoice choice : choices) {
+				c++;
+
 				RadioButton button = new RadioButton(context);
 				Resources resources = getResources();
 
 				button.setId(choice.getChoiceId());
-				button.setText(choice.getDescription());
+				button.setText((char)c + ". " + choice.getDescription());
 				button.setTextColor(resources.getColor(R.color.card_text));
 				button.setTextSize(
 					TypedValue.COMPLEX_UNIT_PX,
