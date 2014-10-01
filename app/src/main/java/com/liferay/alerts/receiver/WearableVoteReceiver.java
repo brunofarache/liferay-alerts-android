@@ -92,7 +92,7 @@ public class WearableVoteReceiver extends BroadcastReceiver {
 
 		builder.setLabel(alert.getMessage());
 		builder.setChoices(choices);
-		//builder.setAllowFreeFormInput(false);
+		builder.setAllowFreeFormInput(false);
 
 		return builder.build();
 	}
