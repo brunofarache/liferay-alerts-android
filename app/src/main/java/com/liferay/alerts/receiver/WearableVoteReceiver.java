@@ -117,7 +117,7 @@ public class WearableVoteReceiver extends BroadcastReceiver {
 			context, alert.getId(), alert.getPollsQuestion());
 
 		Action.Builder actionBuilder = new Action.Builder(
-			R.drawable.launcher, context.getString(R.string.vote),
+			R.drawable.action_vote, context.getString(R.string.vote),
 			pendingIntent);
 
 		actionBuilder.addRemoteInput(getRemoteInput(alert));
