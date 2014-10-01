@@ -46,6 +46,7 @@
 	<dimen name="type_link_text">10.6dp</dimen>
 	<dimen name="type_margin_left">-17.3dp</dimen>
 	<dimen name="type_padding_bottom">1.3dp</dimen>
+	<dimen name="type_polls_padding_right">0.6dp</dimen>
 	<dimen name="type_radius">9.5dp</dimen>
 	<dimen name="type_size">19dp</dimen>
 	<dimen name="type_text">9.3dp</dimen>

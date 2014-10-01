@@ -203,7 +203,11 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		int right = _type.getPaddingRight();
 		int bottom = _type.getPaddingBottom();
 
-		if (type == AlertType.TEXT) {
+		if (type == AlertType.POLLS) {
+			right = resources.getDimensionPixelSize(
+				R.dimen.type_polls_padding_right);
+		}
+		else if (type == AlertType.TEXT) {
 			left = resources.getDimensionPixelSize(
 				R.dimen.type_text_padding_left);
 		}

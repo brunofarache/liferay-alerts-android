@@ -4,5 +4,6 @@
 	<string name="icon_type_image">c</string>
 	<string name="icon_type_link">b</string>
 	<string name="icon_type_map">d</string>
+	<string name="icon_type_polls">i</string>
 	<string name="icon_type_text">a</string>
 </resources>
