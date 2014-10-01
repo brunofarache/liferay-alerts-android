@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
 	public static final String ACTION_ENABLE_POLLS_QUESTION =
 		"ACTION_ENABLE_POLLS_QUESTION";
 
-	public static final String EXTRA_CARD = "EXTRA_CARD";
+	public static final String EXTRA_ALERT = "EXTRA_ALERT";
 
 	public static final String EXTRA_CHOICE_ID = "EXTRA_CHOICE_ID";
 
@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
 
 	public static void addCard(Context context, Alert alert) {
 		Intent intent = new Intent(ACTION_ADD_CARD);
-		intent.putExtra(EXTRA_CARD, alert);
+		intent.putExtra(EXTRA_ALERT, alert);
 		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 	}
 
@@ -226,7 +226,7 @@ public class MainActivity extends Activity {
 				String action = intent.getAction();
 
 				if (ACTION_ADD_CARD.equals(action)) {
-					Alert alert = intent.getParcelableExtra(EXTRA_CARD);
+					Alert alert = intent.getParcelableExtra(EXTRA_ALERT);
 					_alerts.add(alert);
 
 					_addCard(alert);

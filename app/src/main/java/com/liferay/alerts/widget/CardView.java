@@ -90,7 +90,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		}
 
 		if (type == AlertType.POLLS) {
-			setChoices(context.getApplicationContext(), alert);
+			setPollsQuestion(context.getApplicationContext(), alert);
 		}
 
 		setTimestamp(alert.getFormattedTimestamp());
@@ -224,7 +224,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		_type.setBackgroundResource(type.getBackground());
 	}
 
-	protected void setChoices(Context context, Alert alert) {
+	protected void setPollsQuestion(Context context, Alert alert) {
 		try {
 			PollsQuestion question = alert.getPollsQuestion();
 			RadioGroup group = (RadioGroup)findViewById(R.id.choices);

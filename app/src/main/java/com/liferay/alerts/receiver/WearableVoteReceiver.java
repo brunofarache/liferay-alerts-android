@@ -62,16 +62,18 @@ public class WearableVoteReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		long alertId = intent.getLongExtra(EXTRA_ALERT_ID, 0);
+
 		PollsQuestion question = (PollsQuestion)intent.getSerializableExtra(
 			EXTRA_QUESTION);
 
-		long alertId = intent.getLongExtra(EXTRA_ALERT_ID, 0);
+		List<PollsChoice> choices = question.getChoices();
 		int questionId = question.getQuestionId();
 
 		Bundle input = RemoteInput.getResultsFromIntent(intent);
 
 		String description = input.getCharSequence(EXTRA_CHOICE).toString();
-		int choiceId = getChoiceId(question.getChoices(), description);
+		int choiceId = getChoiceId(choices, description);
 
 		PushNotificationsDeviceService.addVote(
 			context, alertId, questionId, choiceId);
