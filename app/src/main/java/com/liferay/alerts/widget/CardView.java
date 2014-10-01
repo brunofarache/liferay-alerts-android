@@ -39,7 +39,6 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.liferay.alerts.R;
-import com.liferay.alerts.callback.AddVoteCallback;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.model.PollsChoice;
@@ -47,12 +46,7 @@ import com.liferay.alerts.model.PollsQuestion;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.util.FontUtil;
 import com.liferay.alerts.util.PortraitUtil;
-import com.liferay.alerts.util.SettingsUtil;
-import com.liferay.alerts.util.ToastUtil;
 import com.liferay.mobile.android.PushNotificationsDeviceService;
-import com.liferay.mobile.android.service.Session;
-import com.liferay.mobile.android.service.SessionImpl;
-import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
 import com.squareup.picasso.Picasso;
 
@@ -62,16 +56,6 @@ import java.util.List;
  * @author Bruno Farache
  */
 public class CardView extends LinearLayout implements View.OnClickListener {
-
-	public static void setRadioGroupEnabled(RadioGroup group, boolean enabled) {
-		if (group == null) {
-			return;
-		}
-
-		for (int i = 0; i < group.getChildCount(); i++) {
-			group.getChildAt(i).setEnabled(enabled);
-		}
-	}
 
 	public CardView(Context context) {
 		this(context, (AttributeSet)null);
@@ -106,7 +90,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		}
 
 		if (type == AlertType.POLLS) {
-			setChoices(context, alert);
+			setChoices(context.getApplicationContext(), alert);
 		}
 
 		setTimestamp(alert.getFormattedTimestamp());
@@ -167,7 +151,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 				R.dimen.card_arrow_height);
 
 		float arrowWidth = resources.getDimensionPixelSize(
-			R.dimen.card_arrow_width);;
+			R.dimen.card_arrow_width);
 
 		TypedValue outValue = new TypedValue();
 		getResources().getValue(R.dimen.card_corner_radius, outValue, true);
@@ -240,11 +224,10 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		_type.setBackgroundResource(type.getBackground());
 	}
 
-	protected void setChoices(final Context context, final Alert alert) {
+	protected void setChoices(Context context, Alert alert) {
 		try {
 			PollsQuestion question = alert.getPollsQuestion();
 			RadioGroup group = (RadioGroup)findViewById(R.id.choices);
-			boolean enabled = true;
 
 			List<PollsChoice> choices = question.getChoices();
 
@@ -266,42 +249,29 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 				if (choice.isChecked()) {
 					button.setChecked(true);
-					enabled = false;
+
+					for (int i = 0; i < group.getChildCount(); i++) {
+						group.getChildAt(i).setEnabled(false);
+					}
 				}
 			}
+
+			final long alertId = alert.getId();
 
 			group.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				@Override
 				public void onCheckedChanged(RadioGroup group, int choiceId) {
-					setRadioGroupEnabled(group, false);
+					int questionId = group.getId();
 
-					long questionId = (Long)group.getTag();
-
-					String server = SettingsUtil.getServer(context);
-					Session session = new SessionImpl(server);
-					JSONObjectAsyncTaskCallback callback = new AddVoteCallback(
-						context, alert, group);
-
-					session.setCallback(callback);
-
-					PushNotificationsDeviceService service =
-						new PushNotificationsDeviceService(session);
-
-					try {
-						service.addVote(questionId, choiceId);
-					}
-					catch (Exception e) {
-						ToastUtil.show(context, R.string.vote_failure, true);
-						setRadioGroupEnabled(group, true);
-					}
+					PushNotificationsDeviceService.addVote(
+						getContext(), alertId, questionId, choiceId);
 				}
 
 			});
 
-			group.setTag(question.getQuestionId());
+			group.setId(question.getQuestionId());
 			group.setVisibility(View.VISIBLE);
-			setRadioGroupEnabled(group, enabled);
 		}
 		catch (Exception e) {
 		}

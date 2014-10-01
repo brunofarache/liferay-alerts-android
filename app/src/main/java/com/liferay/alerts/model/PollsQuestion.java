@@ -34,8 +34,13 @@ public class PollsQuestion implements Serializable {
 
 	public static final String QUESTION_ID = "questionId";
 
+	public PollsQuestion(int questionId, List<PollsChoice> choices) {
+		_questionId = questionId;
+		_choices = choices;
+	}
+
 	public PollsQuestion(JSONObject question) throws JSONException {
-		_questionId = question.getLong(QUESTION_ID);
+		_questionId = question.getInt(QUESTION_ID);
 
 		JSONArray choices = question.getJSONArray(CHOICES);
 
@@ -44,16 +49,11 @@ public class PollsQuestion implements Serializable {
 		}
 	}
 
-	public PollsQuestion(long questionId, List<PollsChoice> choices) {
-		_questionId = questionId;
-		_choices = choices;
-	}
-
 	public List<PollsChoice> getChoices() {
 		return _choices;
 	}
 
-	public long getQuestionId() {
+	public int getQuestionId() {
 		return _questionId;
 	}
 
@@ -79,6 +79,6 @@ public class PollsQuestion implements Serializable {
 	}
 
 	private List<PollsChoice> _choices = new ArrayList<PollsChoice>();
-	private long _questionId;
+	private int _questionId;
 
 }

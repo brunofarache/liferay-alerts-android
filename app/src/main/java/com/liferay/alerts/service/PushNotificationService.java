@@ -20,8 +20,6 @@ import android.content.Intent;
 
 import android.os.Bundle;
 
-import android.support.v4.content.LocalBroadcastManager;
-
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -63,19 +61,13 @@ public class PushNotificationService extends IntentService {
 
 				_insert(user, alert);
 				NotificationUtil.notifyUnreadAlerts(this);
-				_addCard(alert);
+				MainActivity.addCard(this, alert);
 			}
 			catch (JSONException je) {
 			}
 		}
 
 		PushNotificationReceiver.completeWakefulIntent(intent);
-	}
-
-	private void _addCard(Alert alert) {
-		Intent intent = new Intent(MainActivity.ADD_CARD);
-		intent.putExtra(Alert.ALERT, alert);
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 	}
 
 	private void _insert(User user, Alert alert) {

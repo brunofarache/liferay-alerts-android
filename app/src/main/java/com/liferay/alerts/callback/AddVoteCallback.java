@@ -19,15 +19,12 @@ import android.content.Context;
 
 import android.util.Log;
 
-import android.widget.RadioGroup;
-
 import com.liferay.alerts.R;
+import com.liferay.alerts.activity.MainActivity;
 import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.model.Alert;
-import com.liferay.alerts.model.PollsChoice;
 import com.liferay.alerts.model.PollsQuestion;
 import com.liferay.alerts.util.ToastUtil;
-import com.liferay.alerts.widget.CardView;
 import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
 import org.json.JSONObject;
@@ -37,42 +34,37 @@ import org.json.JSONObject;
  */
 public class AddVoteCallback extends JSONObjectAsyncTaskCallback {
 
-	public AddVoteCallback(Context context) {
-		this(context, null, null);
-	}
+	public AddVoteCallback(
+		Context context, long alertId, int questionId, int choiceId) {
 
-	public AddVoteCallback(Context context, Alert alert, RadioGroup group) {
 		_context = context.getApplicationContext();
-		_alert = alert;
-		_group = group;
+		_alertId = alertId;
+		_questionId = questionId;
+		_choiceId = choiceId;
 	}
 
 	@Override
 	public void onFailure(Exception e) {
 		ToastUtil.show(_context, R.string.vote_failure, true);
-		CardView.setRadioGroupEnabled(_group, true);
+		MainActivity.enablePollsQuestion(
+			_context, _questionId, _choiceId, true);
 	}
 
 	@Override
 	public void onSuccess(JSONObject vote) {
 		ToastUtil.show(_context, R.string.vote_success, true);
 
-		if (_alert == null) {
-			return;
-		}
-
 		try {
-			PollsQuestion question = _alert.getPollsQuestion();
-			int choiceId = vote.getInt(PollsChoice.CHOICE_ID);
-
-			_alert.setPollsQuestion(question.toJSONObject(choiceId));
-
 			AlertDAO dao = AlertDAO.getInstance(_context);
+			Alert alert = dao.get(_alertId);
+			PollsQuestion question = alert.getPollsQuestion();
+
+			alert.setPollsQuestion(question.toJSONObject(_choiceId));
 
 			ContentValues values = new ContentValues();
-			values.put(Alert.PAYLOAD, _alert.getPayload().toString());
+			values.put(Alert.PAYLOAD, alert.getPayload().toString());
 
-			dao.update(_alert.getId(), values, true);
+			dao.update(_alertId, values, true);
 		}
 		catch (Exception e) {
 			Log.e(_TAG, "Could not update vote in database.", e);
@@ -81,8 +73,9 @@ public class AddVoteCallback extends JSONObjectAsyncTaskCallback {
 
 	private static final String _TAG = AddVoteCallback.class.getSimpleName();
 
-	private Alert _alert;
+	private long _alertId;
+	private int _choiceId;
 	private Context _context;
-	private RadioGroup _group;
+	private int _questionId;
 
 }

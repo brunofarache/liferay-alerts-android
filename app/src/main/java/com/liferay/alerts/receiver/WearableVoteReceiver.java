@@ -28,17 +28,11 @@ import android.support.v4.app.NotificationCompat.WearableExtender;
 import android.support.v4.app.RemoteInput;
 
 import com.liferay.alerts.R;
-import com.liferay.alerts.callback.AddVoteCallback;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.model.PollsChoice;
 import com.liferay.alerts.model.PollsQuestion;
-import com.liferay.alerts.util.SettingsUtil;
-import com.liferay.alerts.util.ToastUtil;
 import com.liferay.mobile.android.PushNotificationsDeviceService;
-import com.liferay.mobile.android.service.Session;
-import com.liferay.mobile.android.service.SessionImpl;
-import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
 import java.util.List;
 
@@ -48,6 +42,8 @@ import java.util.List;
 public class WearableVoteReceiver extends BroadcastReceiver {
 
 	public static final String ACTION_VOTE = "ACTION_VOTE";
+
+	public static final String EXTRA_ALERT_ID = "EXTRA_ALERT_ID";
 
 	public static final String EXTRA_CHOICE = "EXTRA_CHOICE";
 
@@ -69,36 +65,25 @@ public class WearableVoteReceiver extends BroadcastReceiver {
 		PollsQuestion question = (PollsQuestion)intent.getSerializableExtra(
 			EXTRA_QUESTION);
 
-		long questionId = question.getQuestionId();
+		long alertId = intent.getLongExtra(EXTRA_ALERT_ID, 0);
+		int questionId = question.getQuestionId();
 
 		Bundle input = RemoteInput.getResultsFromIntent(intent);
 
 		String description = input.getCharSequence(EXTRA_CHOICE).toString();
-		long choiceId = getChoiceId(question.getChoices(), description);
+		int choiceId = getChoiceId(question.getChoices(), description);
 
-		String server = SettingsUtil.getServer(context);
-		Session session = new SessionImpl(server);
-		JSONObjectAsyncTaskCallback callback = new AddVoteCallback(context);
-
-		session.setCallback(callback);
-
-		PushNotificationsDeviceService service =
-			new PushNotificationsDeviceService(session);
-
-		try {
-			service.addVote(questionId, choiceId);
-		}
-		catch (Exception e) {
-			ToastUtil.show(context, R.string.vote_failure, true);
-		}
+		PushNotificationsDeviceService.addVote(
+			context, alertId, questionId, choiceId);
 	}
 
 	protected static PendingIntent getPendingIntent(
-		Context context, PollsQuestion question) {
+		Context context, long alertId, PollsQuestion question) {
 
 		Intent intent = new Intent(ACTION_VOTE);
 		intent.setClass(context, WearableVoteReceiver.class);
 		intent.putExtra(EXTRA_QUESTION, question);
+		intent.putExtra(EXTRA_ALERT_ID, alertId);
 
 		return PendingIntent.getBroadcast(
 			context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -127,7 +112,7 @@ public class WearableVoteReceiver extends BroadcastReceiver {
 		Context context, Alert alert) {
 
 		PendingIntent pendingIntent = getPendingIntent(
-			context, alert.getPollsQuestion());
+			context, alert.getId(), alert.getPollsQuestion());
 
 		Action.Builder actionBuilder = new Action.Builder(
 			R.drawable.launcher, context.getString(R.string.vote),

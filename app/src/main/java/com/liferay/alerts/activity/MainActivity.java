@@ -30,6 +30,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.liferay.alerts.R;
@@ -49,7 +51,54 @@ import java.util.ArrayList;
  */
 public class MainActivity extends Activity {
 
-	public static final String ADD_CARD = "add-card";
+	public static final String ACTION_ADD_CARD = "ACTION_ADD_CARD";
+
+	public static final String ACTION_ENABLE_POLLS_QUESTION =
+		"ACTION_ENABLE_POLLS_QUESTION";
+
+	public static final String EXTRA_CARD = "EXTRA_CARD";
+
+	public static final String EXTRA_CHOICE_ID = "EXTRA_CHOICE_ID";
+
+	public static final String EXTRA_ENABLED = "EXTRA_ENABLED";
+
+	public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
+
+	public static void addCard(Context context, Alert alert) {
+		Intent intent = new Intent(ACTION_ADD_CARD);
+		intent.putExtra(EXTRA_CARD, alert);
+		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+	}
+
+	public static void enablePollsQuestion(
+		Context context, int questionId, int choiceId, boolean enabled) {
+
+		Intent intent = new Intent(ACTION_ENABLE_POLLS_QUESTION);
+		intent.putExtra(EXTRA_QUESTION_ID, questionId);
+		intent.putExtra(EXTRA_CHOICE_ID, choiceId);
+		intent.putExtra(EXTRA_ENABLED, enabled);
+		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+	}
+
+	public void enablePollsQuestion(
+		int questionId, int choiceId, boolean enabled) {
+
+		RadioGroup group = (RadioGroup)findViewById(questionId);
+
+		if (group == null) {
+			return;
+		}
+
+		for (int i = 0; i < group.getChildCount(); i++) {
+			RadioButton choice = (RadioButton)group.getChildAt(i);
+
+			if (choice.getId() == choiceId) {
+				choice.setChecked(true);
+			}
+
+			choice.setEnabled(enabled);
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle state) {
@@ -173,21 +222,36 @@ public class MainActivity extends Activity {
 		_receiver = new BroadcastReceiver() {
 
 			@Override
-			public void onReceive(final Context context, Intent intent) {
-				final Alert alert = intent.getParcelableExtra(Alert.ALERT);
-				_alerts.add(alert);
+			public void onReceive(Context context, Intent intent) {
+				String action = intent.getAction();
 
-				_addCard(alert);
+				if (ACTION_ADD_CARD.equals(action)) {
+					Alert alert = intent.getParcelableExtra(EXTRA_CARD);
+					_alerts.add(alert);
 
-				if (!_paused) {
-					NotificationUtil.cancel(context);
+					_addCard(alert);
+
+					if (!_paused) {
+						NotificationUtil.cancel(context);
+					}
+				}
+				else if (ACTION_ENABLE_POLLS_QUESTION.equals(action)) {
+					int questionId = intent.getIntExtra(EXTRA_QUESTION_ID, 0);
+					int choiceId = intent.getIntExtra(EXTRA_CHOICE_ID, 0);
+					boolean enabled = intent.getBooleanExtra(
+						EXTRA_ENABLED, false);
+
+					enablePollsQuestion(questionId, choiceId, enabled);
 				}
 			}
 
 		};
 
-		_getBroadcastManager().registerReceiver(
-			_receiver, new IntentFilter(ADD_CARD));
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ACTION_ADD_CARD);
+		filter.addAction(ACTION_ENABLE_POLLS_QUESTION);
+
+		_getBroadcastManager().registerReceiver(_receiver, filter);
 	}
 
 	private static final String _ALERTS = "alerts";

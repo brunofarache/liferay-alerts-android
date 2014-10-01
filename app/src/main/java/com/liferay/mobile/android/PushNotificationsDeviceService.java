@@ -14,8 +14,17 @@
 
 package com.liferay.mobile.android;
 
+import android.content.Context;
+
+import com.liferay.alerts.R;
+import com.liferay.alerts.activity.MainActivity;
+import com.liferay.alerts.callback.AddVoteCallback;
+import com.liferay.alerts.util.SettingsUtil;
+import com.liferay.alerts.util.ToastUtil;
 import com.liferay.mobile.android.service.BaseService;
 import com.liferay.mobile.android.service.Session;
+import com.liferay.mobile.android.service.SessionImpl;
+import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +33,31 @@ import org.json.JSONObject;
  * @author Bruno Farache
  */
 public class PushNotificationsDeviceService extends BaseService {
+
+	public static void addVote(
+		Context context, long alertId, int questionId, int choiceId) {
+
+		MainActivity.enablePollsQuestion(context, questionId, choiceId, false);
+
+		String server = SettingsUtil.getServer(context);
+		Session session = new SessionImpl(server);
+		JSONObjectAsyncTaskCallback callback = new AddVoteCallback(
+			context, alertId, questionId, choiceId);
+
+		session.setCallback(callback);
+
+		PushNotificationsDeviceService service =
+			new PushNotificationsDeviceService(session);
+
+		try {
+			service.addVote(questionId, choiceId);
+		}
+		catch (Exception e) {
+			ToastUtil.show(context, R.string.vote_failure, true);
+			MainActivity.enablePollsQuestion(
+				context, questionId, choiceId, true);
+		}
+	}
 
 	public PushNotificationsDeviceService(Session session) {
 		super(session);
