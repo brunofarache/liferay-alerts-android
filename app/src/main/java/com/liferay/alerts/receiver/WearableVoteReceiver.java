@@ -28,10 +28,17 @@ import android.support.v4.app.NotificationCompat.WearableExtender;
 import android.support.v4.app.RemoteInput;
 
 import com.liferay.alerts.R;
+import com.liferay.alerts.callback.AddVoteCallback;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.model.PollsChoice;
 import com.liferay.alerts.model.PollsQuestion;
+import com.liferay.alerts.util.SettingsUtil;
+import com.liferay.alerts.util.ToastUtil;
+import com.liferay.mobile.android.PushNotificationsDeviceService;
+import com.liferay.mobile.android.service.Session;
+import com.liferay.mobile.android.service.SessionImpl;
+import com.liferay.mobile.android.task.callback.typed.JSONObjectAsyncTaskCallback;
 
 import java.util.List;
 
@@ -62,9 +69,28 @@ public class WearableVoteReceiver extends BroadcastReceiver {
 		PollsQuestion question = (PollsQuestion)intent.getSerializableExtra(
 			EXTRA_QUESTION);
 
+		long questionId = question.getQuestionId();
+
 		Bundle input = RemoteInput.getResultsFromIntent(intent);
 
-		CharSequence choice = input.getCharSequence(EXTRA_CHOICE);
+		String description = input.getCharSequence(EXTRA_CHOICE).toString();
+		long choiceId = getChoiceId(question.getChoices(), description);
+
+		String server = SettingsUtil.getServer(context);
+		Session session = new SessionImpl(server);
+		JSONObjectAsyncTaskCallback callback = new AddVoteCallback(context);
+
+		session.setCallback(callback);
+
+		PushNotificationsDeviceService service =
+			new PushNotificationsDeviceService(session);
+
+		try {
+			service.addVote(questionId, choiceId);
+		}
+		catch (Exception e) {
+			ToastUtil.show(context, R.string.vote_failure, true);
+		}
 	}
 
 	protected static PendingIntent getPendingIntent(
@@ -75,7 +101,7 @@ public class WearableVoteReceiver extends BroadcastReceiver {
 		intent.putExtra(EXTRA_QUESTION, question);
 
 		return PendingIntent.getBroadcast(
-			context, 9313, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 
 	protected static RemoteInput getRemoteInput(Alert alert) {
@@ -115,6 +141,16 @@ public class WearableVoteReceiver extends BroadcastReceiver {
 		extender.addAction(action);
 
 		return extender;
+	}
+
+	protected int getChoiceId(List<PollsChoice> choices, String description) {
+		for (PollsChoice choice : choices) {
+			if (choice.getDescription().equalsIgnoreCase(description)) {
+				return choice.getChoiceId();
+			}
+		}
+
+		return 0;
 	}
 
 }

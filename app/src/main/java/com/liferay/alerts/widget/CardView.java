@@ -64,6 +64,10 @@ import java.util.List;
 public class CardView extends LinearLayout implements View.OnClickListener {
 
 	public static void setRadioGroupEnabled(RadioGroup group, boolean enabled) {
+		if (group == null) {
+			return;
+		}
+
 		for (int i = 0; i < group.getChildCount(); i++) {
 			group.getChildAt(i).setEnabled(enabled);
 		}

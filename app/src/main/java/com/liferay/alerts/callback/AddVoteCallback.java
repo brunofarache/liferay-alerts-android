@@ -37,6 +37,10 @@ import org.json.JSONObject;
  */
 public class AddVoteCallback extends JSONObjectAsyncTaskCallback {
 
+	public AddVoteCallback(Context context) {
+		this(context, null, null);
+	}
+
 	public AddVoteCallback(Context context, Alert alert, RadioGroup group) {
 		_context = context.getApplicationContext();
 		_alert = alert;
@@ -52,6 +56,10 @@ public class AddVoteCallback extends JSONObjectAsyncTaskCallback {
 	@Override
 	public void onSuccess(JSONObject vote) {
 		ToastUtil.show(_context, R.string.vote_success, true);
+
+		if (_alert == null) {
+			return;
+		}
 
 		try {
 			PollsQuestion question = _alert.getPollsQuestion();
