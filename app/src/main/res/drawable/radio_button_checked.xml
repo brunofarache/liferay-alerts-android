@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:drawable="@drawable/radio_button_stroke" />
+
+	<item
+		android:top="@dimen/radio_button_checked_top"
+		android:right="@dimen/radio_button_checked_right"
+		android:bottom="@dimen/radio_button_checked_right"
+		android:left="@dimen/radio_button_checked_top">
+
+		<shape android:shape="oval">
+			<solid android:color="@color/radio_button_checked" />
+		</shape>
+	</item>
+</layer-list>

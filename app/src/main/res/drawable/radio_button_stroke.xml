@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item
+		android:right="@dimen/radio_button_padding"
+		android:bottom="@dimen/radio_button_padding">
+
+		<shape>
+			<stroke
+				android:color="@color/radio_button_stroke"
+				android:width="@dimen/radio_button_stroke" />
+
+			<corners android:radius="@dimen/radio_button_radius" />
+			<size
+				android:height="@dimen/radio_button_diameter"
+				android:width="@dimen/radio_button_diameter" />
+		</shape>
+	</item>
+</layer-list>

@@ -70,10 +70,11 @@
 			android:visibility="gone" />
 
 		<RadioGroup
-			android:id="@+id/choices"
+			android:id="@+id/polls"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:paddingLeft="@dimen/card_padding_left"
+			android:paddingTop="@dimen/radio_group_padding_top"
 			android:orientation="vertical"
 			android:visibility="gone" />
 

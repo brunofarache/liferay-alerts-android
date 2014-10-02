@@ -29,6 +29,13 @@
 	<dimen name="card_timestamp_text_size">12dp</dimen>
 	<dimen name="portrait_diameter">48dp</dimen>
 	<dimen name="send_notification_message_height">200dp</dimen>
+	<dimen name="radio_button_checked_right">13.8dp</dimen>
+	<dimen name="radio_button_checked_top">4.8dp</dimen>
+	<dimen name="radio_button_diameter">21dp</dimen>
+	<dimen name="radio_button_padding">9dp</dimen>
+	<dimen name="radio_button_radius">10.5dp</dimen>
+	<dimen name="radio_button_stroke">0.6dp</dimen>
+	<dimen name="radio_group_padding_top">6dp</dimen>
 	<item name="top_bar_alpha" format="float" type="dimen">0.95</item>
 	<dimen name="top_bar_divider_height">0.6dp</dimen>
 	<dimen name="top_bar_height">74.6dp</dimen>

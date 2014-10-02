@@ -231,7 +231,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 	protected void setPolls(Context context, Alert alert) {
 		try {
 			PollsQuestion question = alert.getPollsQuestion();
-			RadioGroup group = (RadioGroup)findViewById(R.id.choices);
+			RadioGroup group = (RadioGroup)findViewById(R.id.polls);
 
 			List<PollsChoice> choices = question.getChoices();
 
@@ -243,7 +243,15 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 				RadioButton button = new RadioButton(context);
 				Resources resources = getResources();
 
+				int padding = resources.getDimensionPixelSize(
+					R.dimen.radio_button_padding);
+
+				button.setPadding(0, 0, 0, padding);
+
 				button.setId(choice.getChoiceId());
+				button.setButtonDrawable(
+					resources.getDrawable(R.drawable.radio_button));
+
 				button.setText((char)c + ". " + choice.getDescription());
 				button.setTextColor(resources.getColor(R.color.card_text));
 				button.setTextSize(
