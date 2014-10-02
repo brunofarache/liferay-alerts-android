@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
@@ -116,6 +117,9 @@ public class NotificationUtil {
 
 		if (size == 1) {
 			style = _getBigTextStyle(builder, alert);
+
+			builder.setDefaults(Notification.DEFAULT_VIBRATE);
+			builder.setLights(Color.YELLOW, 1000, 1000);
 		}
 		else {
 			style = _getInboxStyle(
