@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.net.Uri;
 
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat.Action;
 import android.support.v4.app.NotificationCompat.Builder;
 import android.support.v4.app.NotificationCompat.InboxStyle;
 import android.support.v4.app.NotificationCompat.Style;
@@ -97,20 +98,19 @@ public class NotificationUtil {
 				context, 0, new Intent(Intent.ACTION_VIEW, Uri.parse(url)),
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
-			NotificationCompat.Action action = new NotificationCompat.Action(
+			Action action = new Action(
 				R.drawable.action_open_in,
 				context.getString(R.string.open_in_browser), pendingIntent
 			);
 
 			builder.addAction(action);
 
-			NotificationCompat.Action wearableaAction =
-				new NotificationCompat.Action(
-					R.drawable.action_open_in_wearable, action.title,
-					action.actionIntent);
+			Action wearableAction = new Action(
+				R.drawable.action_open_in_wearable, action.title,
+				action.actionIntent);
 
 			WearableExtender extender = new WearableExtender();
-			builder.extend(extender.addAction(wearableaAction));
+			builder.extend(extender.addAction(wearableAction));
 		}
 	}
 
