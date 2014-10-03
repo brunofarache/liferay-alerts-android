@@ -128,6 +128,7 @@ public class NotificationUtil {
 			title = summary;
 		}
 
+		builder.setAutoCancel(true);
 		builder.setContentIntent(intent);
 		builder.setContentTitle(title);
 		builder.setSmallIcon(R.drawable.launcher_small);
