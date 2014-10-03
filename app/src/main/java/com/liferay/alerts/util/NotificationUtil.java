@@ -97,9 +97,20 @@ public class NotificationUtil {
 				context, 0, new Intent(Intent.ACTION_VIEW, Uri.parse(url)),
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
-			builder.addAction(
+			NotificationCompat.Action action = new NotificationCompat.Action(
 				R.drawable.action_open_in,
-				context.getString(R.string.open_in_browser), pendingIntent);
+				context.getString(R.string.open_in_browser), pendingIntent
+			);
+
+			builder.addAction(action);
+
+			NotificationCompat.Action wearableaAction =
+				new NotificationCompat.Action(
+					R.drawable.action_open_in_wearable, action.title,
+					action.actionIntent);
+
+			WearableExtender extender = new WearableExtender();
+			builder.extend(extender.addAction(wearableaAction));
 		}
 	}
 
