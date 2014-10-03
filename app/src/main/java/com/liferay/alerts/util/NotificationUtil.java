@@ -23,6 +23,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import android.net.Uri;
+
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
 import android.support.v4.app.NotificationCompat.InboxStyle;
@@ -36,6 +38,7 @@ import com.liferay.alerts.activity.MainActivity;
 import com.liferay.alerts.database.AlertDAO;
 import com.liferay.alerts.database.DatabaseException;
 import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.receiver.WearableVoteReceiver;
 
@@ -81,6 +84,24 @@ public class NotificationUtil {
 		notify(context, alerts);
 	}
 
+	protected static void addOpenInBrowserAction(
+		Context context, Alert alert, Builder builder) {
+
+		AlertType type = alert.getType();
+
+		if ((type == AlertType.IMAGE) || (type == AlertType.LINK)) {
+			String url = alert.getUrl();
+
+			PendingIntent pendingIntent = PendingIntent.getActivity(
+				context, 0, new Intent(Intent.ACTION_VIEW, Uri.parse(url)),
+				PendingIntent.FLAG_UPDATE_CURRENT);
+
+			builder.addAction(
+				R.drawable.action_open_in,
+				context.getString(R.string.open_in_browser), pendingIntent);
+		}
+	}
+
 	private static Notification _buildNotification(
 		Context context, List<Alert> alerts) {
 
@@ -120,6 +141,9 @@ public class NotificationUtil {
 
 			builder.setDefaults(Notification.DEFAULT_VIBRATE);
 			builder.setLights(Color.YELLOW, 1000, 1000);
+
+			addOpenInBrowserAction(context, alert, builder);
+			WearableVoteReceiver.addPollsActions(context, alerts, builder);
 		}
 		else {
 			style = _getInboxStyle(
@@ -127,8 +151,6 @@ public class NotificationUtil {
 		}
 
 		builder.setStyle(style);
-
-		WearableVoteReceiver.addPollsActions(context, alerts, builder);
 
 		return builder.build();
 	}

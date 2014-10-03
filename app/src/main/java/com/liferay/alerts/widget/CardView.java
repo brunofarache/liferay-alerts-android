@@ -46,6 +46,7 @@ import com.liferay.alerts.model.PollsQuestion;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.util.FontUtil;
 import com.liferay.alerts.util.PortraitUtil;
+import com.liferay.alerts.util.Validator;
 import com.liferay.mobile.android.PushNotificationsDeviceService;
 
 import com.squareup.picasso.Picasso;
@@ -75,18 +76,19 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		AlertType type = alert.getType();
 		_url = alert.getUrl();
 
-		if (_url != null) {
+		if (Validator.isNotNull(_url)) {
 			if (!_url.startsWith("http://") && !_url.startsWith("https://")) {
 				_url = "http://" + _url;
 			}
 
 			if (type == AlertType.LINK) {
-				setOnClickListener(this);
 				setLink();
 			}
 			else if (type == AlertType.IMAGE) {
 				setImage(context);
 			}
+
+			setOnClickListener(this);
 		}
 
 		if (type == AlertType.POLLS) {
