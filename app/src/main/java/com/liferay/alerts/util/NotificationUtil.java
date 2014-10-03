@@ -29,6 +29,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
 import android.support.v4.app.NotificationCompat.InboxStyle;
 import android.support.v4.app.NotificationCompat.Style;
+import android.support.v4.app.NotificationCompat.WearableExtender;
 import android.support.v4.app.NotificationManagerCompat;
 
 import android.util.Log;
@@ -222,6 +223,9 @@ public class NotificationUtil {
 		try {
 			Bitmap largeIcon = PortraitUtil.getPortrait(context, user);
 			builder.setLargeIcon(largeIcon);
+
+			WearableExtender extender = new WearableExtender();
+			builder.extend(extender.setBackground(largeIcon));
 		}
 		catch (IOException ioe) {
 			Log.e(_TAG, "Couldn't set user's portrait to notification", ioe);
