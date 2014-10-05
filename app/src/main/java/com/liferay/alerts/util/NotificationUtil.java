@@ -143,6 +143,7 @@ public class NotificationUtil {
 		builder.setAutoCancel(true);
 		builder.setContentIntent(intent);
 		builder.setContentTitle(title);
+		builder.setLights(Color.YELLOW, 1000, 1000);
 		builder.setSmallIcon(R.drawable.launcher_small);
 		builder.setGroup(GROUP);
 		builder.setGroupSummary(true);
@@ -153,8 +154,6 @@ public class NotificationUtil {
 			style = _getBigTextStyle(builder, alert);
 
 			builder.setDefaults(Notification.DEFAULT_VIBRATE);
-			builder.setLights(Color.YELLOW, 1000, 1000);
-
 			addOpenInBrowserAction(context, alert, builder);
 			WearableVoteReceiver.addPollsActions(context, alerts, builder);
 		}
