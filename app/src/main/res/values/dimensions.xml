@@ -61,6 +61,8 @@
 	<dimen name="type_size">19dp</dimen>
 	<dimen name="type_text">9.3dp</dimen>
 	<dimen name="type_text_padding_left">0.6dp</dimen>
+	<integer name="user_name_fade_duration">1200</integer>
+	<integer name="user_name_slide_duration">1000</integer>
 	<dimen name="version_margin_top">10dp</dimen>
 	<dimen name="version_padding_bottom">8dp</dimen>
 	<dimen name="version_text_size">10dp</dimen>

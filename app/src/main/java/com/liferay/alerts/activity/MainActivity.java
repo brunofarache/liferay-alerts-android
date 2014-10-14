@@ -32,12 +32,14 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.view.animation.CycleInterpolator;
 
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.liferay.alerts.R;
@@ -114,17 +116,8 @@ public class MainActivity extends Activity {
 
 		_cardList = (LinearLayout)findViewById(R.id.card_list);
 		_send = (TextView)findViewById(R.id.send);
-		_userName = (TextView)findViewById(R.id.user_name);
 		_topBarIcon = (ImageView)findViewById(R.id.top_bar_icon);
-
-		_topBarIcon.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				MainActivity.this._animateTopBarIcon();
-			}
-
-		});
+		_userName = (TextSwitcher)findViewById(R.id.user_name);
 
 		_send.setOnClickListener(new View.OnClickListener() {
 
@@ -134,6 +127,15 @@ public class MainActivity extends Activity {
 					MainActivity.this, SendActivity.class);
 
 				startActivity(intent);
+			}
+
+		});
+
+		_topBarIcon.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				MainActivity.this._animateTopBarIcon();
 			}
 
 		});
@@ -158,7 +160,7 @@ public class MainActivity extends Activity {
 		}
 
 		for (Alert alert : _alerts) {
-			_addCard(alert);
+			_addCard(alert, false);
 		}
 
 		_addPushNotificationsDevice();
@@ -196,8 +198,14 @@ public class MainActivity extends Activity {
 		state.putParcelableArrayList(_ALERTS, _alerts);
 	}
 
-	private void _addCard(Alert alert) {
+	private void _addCard(Alert alert, boolean animate) {
 		_cardList.addView(new CardView(this, alert), 0);
+
+		if (animate) {
+			_animateUserName();
+			_animateTopBarIcon();
+		}
+
 		_userName.setText(alert.getUser(this).getFullName());
 	}
 
@@ -238,6 +246,18 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	private void _animateUserName() {
+		if (_userName.getInAnimation() != null) {
+			return;
+		}
+
+		_userName.setInAnimation(
+			AnimationUtils.loadAnimation(this, R.anim.user_name_slide_in));
+
+		_userName.setOutAnimation(
+			AnimationUtils.loadAnimation(this, R.anim.user_name_slide_out));
+	}
+
 	private void _checkSendPermission() {
 		String email = SettingsUtil.getEmail(this);
 		String password = SettingsUtil.getPassword(this);
@@ -264,7 +284,7 @@ public class MainActivity extends Activity {
 					Alert alert = intent.getParcelableExtra(EXTRA_ALERT);
 					_alerts.add(alert);
 
-					_addCard(alert);
+					_addCard(alert, true);
 
 					if (!_paused) {
 						NotificationUtil.cancel(context);
@@ -298,6 +318,6 @@ public class MainActivity extends Activity {
 	private TextView _send;
 	private ImageView _topBarIcon;
 	private AnimatorSet _topBarIconAnimation;
-	private TextView _userName;
+	private TextSwitcher _userName;
 
 }

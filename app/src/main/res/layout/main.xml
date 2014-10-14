@@ -97,19 +97,37 @@
 		liferay:font="roboto_medium"
 		tools:text="@string/last_alert_from" />
 
-	<com.liferay.alerts.widget.TextView
+	<TextSwitcher
 		android:id="@+id/user_name"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="@dimen/top_bar_user_name_margin_left"
-		android:layout_marginTop="@dimen/top_bar_user_name_margin_top"
-		android:text="Zeno Rocha"
-		android:textColor="@color/top_bar_user_name"
-		android:textSize="@dimen/top_bar_user_name_text_size"
-		android:shadowColor="@color/top_bar_user_name_shadow"
-		android:shadowDy="2"
-		android:shadowDx="0"
-		android:shadowRadius="0.1"
-		liferay:font="roboto_medium"
-		tools:text="Zeno Rocha" />
+		android:layout_marginTop="@dimen/top_bar_user_name_margin_top">
+
+		<com.liferay.alerts.widget.TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Zeno Rocha"
+			android:textColor="@color/top_bar_user_name"
+			android:textSize="@dimen/top_bar_user_name_text_size"
+			android:shadowColor="@color/top_bar_user_name_shadow"
+			android:shadowDy="2"
+			android:shadowDx="0"
+			android:shadowRadius="0.1"
+			liferay:font="roboto_medium"
+			tools:text="Zeno Rocha" />
+
+		<com.liferay.alerts.widget.TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Zeno Rocha"
+			android:textColor="@color/top_bar_user_name"
+			android:textSize="@dimen/top_bar_user_name_text_size"
+			android:shadowColor="@color/top_bar_user_name_shadow"
+			android:shadowDy="2"
+			android:shadowDx="0"
+			android:shadowRadius="0.1"
+			liferay:font="roboto_medium"
+			tools:text="Zeno Rocha" />
+	</TextSwitcher>
 </FrameLayout>
