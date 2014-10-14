@@ -40,6 +40,8 @@
 	<item name="top_bar_alpha" format="float" type="dimen">0.95</item>
 	<dimen name="top_bar_divider_height">0.6dp</dimen>
 	<dimen name="top_bar_height">74.6dp</dimen>
+	<integer name="top_bar_icon_animation_duration">1500</integer>
+	<item name="top_bar_icon_animation_scale" type="dimen" format="float">1.06</item>
 	<dimen name="top_bar_icon_left">-5.3dp</dimen>
 	<dimen name="top_bar_icon_margin_top">-2dp</dimen>
 	<dimen name="top_bar_last_alert_margin_left">75.3dp</dimen>

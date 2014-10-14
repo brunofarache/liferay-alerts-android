@@ -14,6 +14,9 @@
 
 package com.liferay.alerts.activity;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+
 import android.app.Activity;
 
 import android.content.BroadcastReceiver;
@@ -22,13 +25,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 
 import android.os.Bundle;
 
 import android.support.v4.content.LocalBroadcastManager;
 
 import android.view.View;
+import android.view.animation.CycleInterpolator;
 
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -109,6 +115,16 @@ public class MainActivity extends Activity {
 		_cardList = (LinearLayout)findViewById(R.id.card_list);
 		_send = (TextView)findViewById(R.id.send);
 		_userName = (TextView)findViewById(R.id.user_name);
+		_topBarIcon = (ImageView)findViewById(R.id.top_bar_icon);
+
+		_topBarIcon.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				MainActivity.this._animateTopBarIcon();
+			}
+
+		});
 
 		_send.setOnClickListener(new View.OnClickListener() {
 
@@ -203,6 +219,25 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	private void _animateTopBarIcon() {
+		if (_topBarIconAnimation == null) {
+			Resources resources = getResources();
+			long duration = resources.getInteger(
+				R.integer.top_bar_icon_animation_duration);
+
+			_topBarIconAnimation = (AnimatorSet)AnimatorInflater.loadAnimator(
+				this, R.animator.top_bar_icon_scale);
+
+			_topBarIconAnimation.setTarget(_topBarIcon);
+			_topBarIconAnimation.setDuration(duration);
+			_topBarIconAnimation.setInterpolator(new CycleInterpolator(2));
+		}
+
+		if (!_topBarIconAnimation.isStarted()) {
+			_topBarIconAnimation.start();
+		}
+	}
+
 	private void _checkSendPermission() {
 		String email = SettingsUtil.getEmail(this);
 		String password = SettingsUtil.getPassword(this);
@@ -261,6 +296,8 @@ public class MainActivity extends Activity {
 	private boolean _paused;
 	private BroadcastReceiver _receiver;
 	private TextView _send;
+	private ImageView _topBarIcon;
+	private AnimatorSet _topBarIconAnimation;
 	private TextView _userName;
 
 }

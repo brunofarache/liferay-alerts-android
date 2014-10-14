@@ -79,6 +79,7 @@
 		android:background="@color/top_bar_vertical_line" />
 
 	<ImageView
+		android:id="@+id/top_bar_icon"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="@dimen/top_bar_icon_margin_top"
