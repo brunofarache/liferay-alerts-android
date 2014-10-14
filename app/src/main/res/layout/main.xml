@@ -31,7 +31,7 @@
 			<com.liferay.alerts.widget.CardView
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				liferay:portraitId="10945"
+				liferay:portraitId="@integer/portrait_id_zeno"
 				liferay:text="@string/welcome" />
 
 			<TextView
