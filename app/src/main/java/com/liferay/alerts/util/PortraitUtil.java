@@ -101,6 +101,8 @@ public class PortraitUtil {
 		catch (PackageManager.NameNotFoundException nnfe) {
 		}
 
+		portraitURL = sb.toString();
+
 		Resources resources = context.getResources();
 
 		int diameter = resources.getDimensionPixelSize(
