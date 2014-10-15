@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:liferay="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools">
 
 	<include layout="@layout/card_portrait" />
@@ -64,32 +63,6 @@
 			android:orientation="vertical"
 			android:visibility="gone" />
 
-		<LinearLayout
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="right">
-
-				<com.liferay.alerts.widget.TextView
-					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
-					android:text="@string/icon_timestamp"
-					android:textColor="@color/card_timestamp"
-					android:textSize="@dimen/card_timestamp_icon_size"
-					liferay:font="icons" />
-
-				<TextView
-					android:id="@+id/timestamp"
-					android:layout_width="0dp"
-					android:layout_height="match_parent"
-					android:layout_weight="1"
-					android:paddingBottom="@dimen/card_timestamp_text_padding_bottom"
-					android:paddingLeft="@dimen/card_timestamp_text_padding_left"
-					android:paddingRight="@dimen/card_timestamp_text_padding_right"
-					android:fontFamily="sans-serif-light"
-					android:gravity="center_vertical"
-					android:textColor="@color/card_timestamp"
-					android:textSize="@dimen/card_timestamp_text_size"
-					tools:text="5m" />
-		</LinearLayout>
+		<include layout="@layout/card_timestamp" />
 	</LinearLayout>
 </merge>
