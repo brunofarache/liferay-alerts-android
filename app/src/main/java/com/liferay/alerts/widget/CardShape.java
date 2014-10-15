@@ -29,12 +29,13 @@ public class CardShape extends Shape {
 
 	public CardShape(
 		Style style, int color, float arrowY, float arrowHeight,
-		float arrowWidth, float cornerRadius) {
+		float arrowWidth, float strokeWidth, float cornerRadius) {
 
 		super();
 
 		_style = style;
 		_color = color;
+		_strokeWidth = strokeWidth;
 		_cornerRadius = cornerRadius;
 
 		_arrowPoints = new PointF[] {
@@ -49,7 +50,7 @@ public class CardShape extends Shape {
 		paint.setAntiAlias(true);
 		paint.setColor(_color);
 		paint.setDither(true);
-		paint.setStrokeWidth(2);
+		paint.setStrokeWidth(_strokeWidth);
 		paint.setStyle(_style);
 
 		RectF roundRect = new RectF(
@@ -63,12 +64,13 @@ public class CardShape extends Shape {
 		arrow.close();
 
 		if (_style == Style.STROKE) {
-			roundRect.inset(2, 2);
+			roundRect.inset(_strokeWidth, _strokeWidth);
 			arrow.offset(1, 0);
 		}
 		else if (_style == Style.FILL_AND_STROKE) {
-			roundRect.inset(4, 4);
-			arrow.offset(4, 0);
+			float inset = _strokeWidth * 2;
+			roundRect.inset(inset, inset);
+			arrow.offset(inset, 0);
 		}
 
 		canvas.drawRoundRect(roundRect, _cornerRadius, _cornerRadius, paint);
@@ -78,6 +80,7 @@ public class CardShape extends Shape {
 	private PointF[] _arrowPoints;
 	private int _color;
 	private float _cornerRadius;
+	private float _strokeWidth;
 	private Style _style;
 
 }

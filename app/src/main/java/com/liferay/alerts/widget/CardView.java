@@ -155,17 +155,21 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		float arrowWidth = resources.getDimensionPixelSize(
 			R.dimen.card_arrow_width);
 
-		TypedValue outValue = new TypedValue();
-		getResources().getValue(R.dimen.card_corner_radius, outValue, true);
-		float cornerRadius = outValue.getFloat();
+		TypedValue value = new TypedValue();
+		resources.getValue(R.dimen.card_border_width, value, true);
+		float borderWidth = value.getFloat();
+
+		value = new TypedValue();
+		resources.getValue(R.dimen.card_corner_radius, value, true);
+		float cornerRadius = value.getFloat();
 
 		CardShape borderShape = new CardShape(
 			Paint.Style.STROKE, borderColor, arrowY, arrowHeight, arrowWidth,
-			cornerRadius);
+			borderWidth, cornerRadius);
 
 		CardShape backgroundShape = new CardShape(
 			Paint.Style.FILL_AND_STROKE, backgroundColor, arrowY, arrowHeight,
-			arrowWidth, cornerRadius);
+			arrowWidth, borderWidth, cornerRadius);
 
 		Drawable[] layers = {
 			new ShapeDrawable(borderShape), new ShapeDrawable(backgroundShape)
