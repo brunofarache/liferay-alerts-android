@@ -100,13 +100,14 @@
 	<TextSwitcher
 		android:id="@+id/user_name"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:layout_height="@dimen/top_bar_user_name_height"
 		android:layout_marginLeft="@dimen/top_bar_user_name_margin_left"
 		android:layout_marginTop="@dimen/top_bar_user_name_margin_top">
 
 		<com.liferay.alerts.widget.TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
 			android:text="Zeno Rocha"
 			android:textColor="@color/top_bar_user_name"
 			android:textSize="@dimen/top_bar_user_name_text_size"
@@ -120,6 +121,7 @@
 		<com.liferay.alerts.widget.TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
 			android:text="Zeno Rocha"
 			android:textColor="@color/top_bar_user_name"
 			android:textSize="@dimen/top_bar_user_name_text_size"

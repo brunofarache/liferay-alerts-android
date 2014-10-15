@@ -252,10 +252,12 @@ public class MainActivity extends Activity {
 		}
 
 		_userName.setInAnimation(
-			AnimationUtils.loadAnimation(this, R.anim.user_name_slide_in));
+			AnimationUtils.loadAnimation(
+				this, R.anim.top_bar_user_name_slide_in));
 
 		_userName.setOutAnimation(
-			AnimationUtils.loadAnimation(this, R.anim.user_name_slide_out));
+			AnimationUtils.loadAnimation(
+				this, R.anim.top_bar_user_name_slide_out));
 	}
 
 	private void _checkSendPermission() {
