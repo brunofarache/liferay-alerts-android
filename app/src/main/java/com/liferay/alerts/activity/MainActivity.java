@@ -140,6 +140,14 @@ public class MainActivity extends Activity {
 
 		});
 
+		_userName.setInAnimation(
+			AnimationUtils.loadAnimation(
+				this, R.anim.top_bar_user_name_slide_in));
+
+		_userName.setOutAnimation(
+			AnimationUtils.loadAnimation(
+				this, R.anim.top_bar_user_name_slide_out));
+
 		try {
 			TextView version = (TextView)findViewById(R.id.version);
 			PackageInfo info = getPackageManager().getPackageInfo(
@@ -201,12 +209,21 @@ public class MainActivity extends Activity {
 	private void _addCard(Alert alert, boolean animate) {
 		_cardList.addView(new CardView(this, alert), 0);
 
-		if (animate) {
-			_animateUserName();
-			_animateTopBarIcon();
-		}
+		String userName = alert.getUser(this).getFullName();
 
-		_userName.setText(alert.getUser(this).getFullName());
+		if (animate) {
+			_animateTopBarIcon();
+
+			String currentUserName =
+				((TextView)_userName.getCurrentView()).getText().toString();
+
+			if (!currentUserName.equals(userName)) {
+				_userName.setText(userName);
+			}
+		}
+		else {
+			_userName.setCurrentText(userName);
+		}
 	}
 
 	private void _addPushNotificationsDevice() {
@@ -244,20 +261,6 @@ public class MainActivity extends Activity {
 		if (!_topBarIconAnimation.isStarted()) {
 			_topBarIconAnimation.start();
 		}
-	}
-
-	private void _animateUserName() {
-		if (_userName.getInAnimation() != null) {
-			return;
-		}
-
-		_userName.setInAnimation(
-			AnimationUtils.loadAnimation(
-				this, R.anim.top_bar_user_name_slide_in));
-
-		_userName.setOutAnimation(
-			AnimationUtils.loadAnimation(
-				this, R.anim.top_bar_user_name_slide_out));
 	}
 
 	private void _checkSendPermission() {
