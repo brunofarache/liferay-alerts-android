@@ -3,25 +3,7 @@
 	xmlns:liferay="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools">
 
-	<ImageView
-		android:id="@+id/portrait"
-		android:layout_width="@dimen/portrait_diameter"
-		android:layout_height="@dimen/portrait_diameter"
-		android:layout_marginTop="@dimen/card_portrait_margin_top" />
-
-	<com.liferay.alerts.widget.TextView
-		android:id="@+id/type"
-		android:layout_width="@dimen/type_size"
-		android:layout_height="@dimen/type_size"
-		android:text="@string/icon_type_text"
-		android:layout_marginLeft="@dimen/type_margin_left"
-		android:paddingBottom="@dimen/type_padding_bottom"
-		android:background="@drawable/type_text_background"
-		android:gravity="center"
-		android:includeFontPadding="false"
-		android:textColor="@color/type_text"
-		android:textSize="@dimen/type_text"
-		liferay:font="icons" />
+	<include layout="@layout/card_portrait" />
 
 	<LinearLayout
 		android:id="@+id/card"
