@@ -164,8 +164,8 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 			cornerRadius);
 
 		CardShape backgroundShape = new CardShape(
-			Paint.Style.FILL, backgroundColor, arrowY, arrowHeight, arrowWidth,
-			cornerRadius);
+			Paint.Style.FILL_AND_STROKE, backgroundColor, arrowY, arrowHeight,
+			arrowWidth, cornerRadius);
 
 		Drawable[] layers = {
 			new ShapeDrawable(borderShape), new ShapeDrawable(backgroundShape)

@@ -42,51 +42,42 @@ public class CardShape extends Shape {
 			new PointF(0, (arrowY + arrowWidth/2)),
 			new PointF(arrowHeight, arrowY)
 		};
-
-		_arrowPath = new Path();
-		_arrowPath.moveTo(_arrowPoints[0].x, _arrowPoints[0].y);
-		_arrowPath.lineTo(_arrowPoints[1].x, _arrowPoints[1].y);
-		_arrowPath.lineTo(_arrowPoints[2].x, _arrowPoints[2].y);
-		_arrowPath.close();
 	}
 
 	@Override
 	public void draw(Canvas canvas, Paint paint) {
-		paint.setStyle(_style);
+		paint.setAntiAlias(true);
 		paint.setColor(_color);
+		paint.setDither(true);
+		paint.setStrokeWidth(2);
+		paint.setStyle(_style);
+
+		RectF roundRect = new RectF(
+			_arrowPoints[0].x, 0, getWidth(), getHeight());
+
+		Path arrow = new Path();
+
+		arrow.moveTo(_arrowPoints[0].x, _arrowPoints[0].y);
+		arrow.lineTo(_arrowPoints[1].x, _arrowPoints[1].y);
+		arrow.lineTo(_arrowPoints[2].x, _arrowPoints[2].y);
+		arrow.close();
 
 		if (_style == Style.STROKE) {
-			paint.setAntiAlias(true);
-			paint.setDither(true);
-			paint.setStrokeWidth(0);
+			roundRect.inset(2, 2);
+			arrow.offset(1, 0);
+		}
+		else if (_style == Style.FILL_AND_STROKE) {
+			roundRect.inset(4, 4);
+			arrow.offset(4, 0);
 		}
 
-		canvas.drawRoundRect(_roundRect, _cornerRadius, _cornerRadius, paint);
-
-		if (_style == Style.FILL) {
-			canvas.drawPath(_arrowPath, paint);
-		}
-		else if (_style == Style.STROKE) {
-			canvas.drawLine(
-				_arrowPoints[0].x, _arrowPoints[0].y, _arrowPoints[1].x,
-				_arrowPoints[1].y, paint);
-
-			canvas.drawLine(
-				_arrowPoints[1].x, _arrowPoints[1].y, _arrowPoints[2].x,
-				_arrowPoints[2].y, paint);
-		}
+		canvas.drawRoundRect(roundRect, _cornerRadius, _cornerRadius, paint);
+		canvas.drawPath(arrow, paint);
 	}
 
-	@Override
-	public void onResize(float width, float height) {
-		_roundRect = new RectF(_arrowPoints[0].x, 0, width, height);
-	}
-
-	private Path _arrowPath;
 	private PointF[] _arrowPoints;
 	private int _color;
 	private float _cornerRadius;
-	private RectF _roundRect;
 	private Style _style;
 
 }
