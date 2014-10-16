@@ -16,8 +16,6 @@ package com.liferay.alerts.widget.card.inflater;
 
 import android.content.Context;
 
-import android.view.View;
-
 import android.widget.ImageView;
 
 import com.liferay.alerts.R;
@@ -28,21 +26,20 @@ import com.squareup.picasso.Picasso;
 /**
  * @author Bruno Farache
  */
-public class ImageInflater extends BaseCardInflater {
+public class ImageCardView extends CardView {
+
+	public ImageCardView(Context context, Alert alert) {
+		super(context, alert);
+
+		ImageView image = (ImageView)findViewById(R.id.image);
+		String url = getUrl();
+
+		Picasso.with(context).load(url).into(image);
+	}
 
 	@Override
 	public int getLayoutId() {
 		return R.layout.card_type_image;
-	}
-
-	@Override
-	public View inflate(Context context, Alert alert) {
-		View view = super.inflate(context, alert);
-
-		ImageView image = (ImageView)view.findViewById(R.id.image);
-		Picasso.with(context).load(getUrl(context, alert)).into(image);
-
-		return view;
 	}
 
 }

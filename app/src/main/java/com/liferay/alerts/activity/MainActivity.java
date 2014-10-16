@@ -49,7 +49,7 @@ import com.liferay.alerts.task.GCMRegistrationAsyncTask;
 import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.NotificationUtil;
 import com.liferay.alerts.util.SettingsUtil;
-import com.liferay.alerts.widget.card.CardView;
+import com.liferay.alerts.widget.card.CardViewContainer;
 import com.liferay.mobile.android.util.Validator;
 
 import java.util.ArrayList;
@@ -207,7 +207,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void _addCard(Alert alert, boolean animate) {
-		_cardList.addView(new CardView(this, alert), 0);
+		_cardList.addView(new CardViewContainer(this, alert), 0);
 
 		String userName = alert.getUser(this).getFullName();
 

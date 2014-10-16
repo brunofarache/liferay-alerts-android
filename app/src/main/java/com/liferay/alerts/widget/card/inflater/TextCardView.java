@@ -17,58 +17,37 @@ package com.liferay.alerts.widget.card.inflater;
 import android.content.Context;
 import android.content.res.Resources;
 
-import android.graphics.Paint;
-
-import android.util.TypedValue;
-
-import android.view.View;
-
 import android.widget.TextView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
-import com.liferay.alerts.model.AlertType;
 
 /**
  * @author Bruno Farache
  */
-public class LinkInflater extends BaseCardInflater {
+public class TextCardView extends CardView {
+
+	public TextCardView(Context context, Alert alert) {
+		super(context, alert);
+	}
 
 	@Override
 	public int getLayoutId() {
-		return R.layout.card_type_link;
+		return R.layout.card_type_text;
 	}
 
 	@Override
-	public View inflate(Context context, Alert alert) {
-		View view = super.inflate(context, alert);
-
-		TextView link = (TextView)view.findViewById(R.id.link);
-		link.setPaintFlags(link.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-		link.setText(getUrl(context, alert));
-
-		return view;
-	}
-
-	@Override
-	public void setTypeBadge(TextView text, AlertType type) {
-		super.setTypeBadge(text, type);
-
+	public void setTypeBadge(TextView text) {
 		Resources resources = text.getResources();
 
 		int left = resources.getDimensionPixelSize(
-			R.dimen.type_link_padding_left);
+			R.dimen.type_text_padding_left);
 
-		int top = resources.getDimensionPixelSize(
-			R.dimen.type_link_padding_top);
-
+		int top = text.getPaddingTop();
 		int right = text.getPaddingRight();
 		int bottom = text.getPaddingBottom();
 
 		text.setPadding(left, top, right, bottom);
-		text.setTextSize(
-			TypedValue.COMPLEX_UNIT_PX,
-			resources.getDimensionPixelSize(R.dimen.type_link_text));
 	}
 
 }

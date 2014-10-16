@@ -19,8 +19,6 @@ import android.content.res.Resources;
 
 import android.util.TypedValue;
 
-import android.view.View;
-
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -28,7 +26,6 @@ import android.widget.TextView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
-import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.model.PollsChoice;
 import com.liferay.alerts.model.PollsQuestion;
 import com.liferay.alerts.util.FontUtil;
@@ -39,7 +36,13 @@ import java.util.List;
 /**
  * @author Bruno Farache
  */
-public class PollsInflater extends BaseCardInflater {
+public class PollsCardView extends CardView {
+
+	public PollsCardView(Context context, Alert alert) {
+		super(context, alert);
+
+		setChoices(alert);
+	}
 
 	@Override
 	public int getLayoutId() {
@@ -47,17 +50,8 @@ public class PollsInflater extends BaseCardInflater {
 	}
 
 	@Override
-	public View inflate(Context context, Alert alert) {
-		View view = super.inflate(context, alert);
-
-		setChoices(context, alert);
-
-		return view;
-	}
-
-	@Override
-	public void setTypeBadge(TextView text, AlertType type) {
-		super.setTypeBadge(text, type);
+	public void setTypeBadge(TextView text) {
+		super.setTypeBadge(text);
 
 		Resources resources = text.getResources();
 
@@ -71,10 +65,11 @@ public class PollsInflater extends BaseCardInflater {
 		text.setPadding(left, top, right, bottom);
 	}
 
-	protected void setChoices(Context context, Alert alert) {
+	protected void setChoices(Alert alert) {
 		try {
+			Context context = getContext();
 			PollsQuestion question = alert.getPollsQuestion();
-			RadioGroup group = (RadioGroup)view.findViewById(R.id.polls);
+			RadioGroup group = (RadioGroup)findViewById(R.id.polls);
 
 			List<PollsChoice> choices = question.getChoices();
 
@@ -84,7 +79,7 @@ public class PollsInflater extends BaseCardInflater {
 				c++;
 
 				RadioButton button = new RadioButton(context);
-				Resources resources = view.getResources();
+				Resources resources = getResources();
 
 				int padding = resources.getDimensionPixelSize(
 					R.dimen.radio_button_padding);

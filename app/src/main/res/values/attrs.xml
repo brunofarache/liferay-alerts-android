@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<declare-styleable name="CardView">
+	<declare-styleable name="CardViewContainer">
 		<attr name="portraitId" format="integer" />
 		<attr name="text" format="string" />
 	</declare-styleable>

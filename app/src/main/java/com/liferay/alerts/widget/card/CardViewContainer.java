@@ -26,6 +26,7 @@ import android.util.TypedValue;
 
 import android.view.ViewGroup;
 
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,26 +35,28 @@ import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.util.PortraitUtil;
+import com.liferay.alerts.widget.card.inflater.CardView;
 
 /**
  * @author Bruno Farache
  */
-public class CardView extends LinearLayout {
+public class CardViewContainer extends LinearLayout {
 
-	public CardView(Context context) {
+	public CardViewContainer(Context context) {
 		super(context);
 	}
 
-	public CardView(Context context, Alert alert) {
+	public CardViewContainer(Context context, Alert alert) {
 		this(context);
 
 		inflate(context, R.layout.card, this);
 
-		ViewGroup card = (ViewGroup)findViewById(R.id.card);
-		card.addView(CardInflaterUtil.inflate(context, alert));
+		FrameLayout layout = (FrameLayout)findViewById(R.id.card);
+		CardView card = CardViewFactory.create(context, alert);
+		layout.addView(card);
 
 		TextView typeBadge = (TextView)findViewById(R.id.type_badge);
-		CardInflaterUtil.setTypeBadge(typeBadge, alert.getType());
+		card.setTypeBadge(typeBadge);
 
 		User user = alert.getUser(context);
 
@@ -61,7 +64,7 @@ public class CardView extends LinearLayout {
 			setPortrait(context, user.getUuid(), user.getPortraitId());
 		}
 
-		setBackground(card);
+		setBackground(layout);
 	}
 
 	public void setBackground(ViewGroup card) {
