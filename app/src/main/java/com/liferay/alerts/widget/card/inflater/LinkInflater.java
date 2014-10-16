@@ -14,13 +14,19 @@
 
 package com.liferay.alerts.widget.card.inflater;
 
+import android.content.Context;
 import android.content.res.Resources;
 
+import android.graphics.Paint;
+
 import android.util.TypedValue;
+
+import android.view.View;
 
 import android.widget.TextView;
 
 import com.liferay.alerts.R;
+import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
 
 /**
@@ -31,6 +37,17 @@ public class LinkInflater extends BaseCardInflater {
 	@Override
 	public int getLayoutId() {
 		return R.layout.card_type_link;
+	}
+
+	@Override
+	public View inflate(Context context, Alert alert) {
+		View view = super.inflate(context, alert);
+
+		TextView link = (TextView)view.findViewById(R.id.link);
+		link.setPaintFlags(link.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+		link.setText(getUrl(context, alert));
+
+		return view;
 	}
 
 	@Override

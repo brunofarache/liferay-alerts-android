@@ -15,7 +15,6 @@
 package com.liferay.alerts.widget.card;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 
 import android.graphics.Paint;
@@ -23,30 +22,23 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 
-import android.net.Uri;
-
 import android.util.TypedValue;
 
-import android.view.View;
+import android.view.ViewGroup;
 
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
-import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.util.PortraitUtil;
-import com.liferay.alerts.util.Validator;
-
-import com.squareup.picasso.Picasso;
 
 /**
  * @author Bruno Farache
  */
-public class CardView extends LinearLayout implements View.OnClickListener {
+public class CardView extends LinearLayout {
 
 	public CardView(Context context) {
 		super(context);
@@ -57,8 +49,8 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 		inflate(context, R.layout.card, this);
 
-		_card = (FrameLayout)findViewById(R.id.card);
-		_card.addView(CardInflaterUtil.inflate(context, alert));
+		ViewGroup card = (ViewGroup)findViewById(R.id.card);
+		card.addView(CardInflaterUtil.inflate(context, alert));
 
 		TextView typeBadge = (TextView)findViewById(R.id.type_badge);
 		CardInflaterUtil.setTypeBadge(typeBadge, alert.getType());
@@ -69,34 +61,10 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 			setPortrait(context, user.getUuid(), user.getPortraitId());
 		}
 
-		AlertType type = alert.getType();
-		_url = alert.getUrl();
-
-		if (Validator.isNotNull(_url)) {
-			if (!_url.startsWith("http://") && !_url.startsWith("https://")) {
-				_url = "http://" + _url;
-			}
-
-			if (type == AlertType.LINK) {
-				setLink();
-			}
-			else if (type == AlertType.IMAGE) {
-				setImage(context);
-			}
-
-			setOnClickListener(this);
-		}
-
-		setBackground();
+		setBackground(card);
 	}
 
-	@Override
-	public void onClick(View view) {
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(_url));
-		getContext().startActivity(intent);
-	}
-
-	public void setBackground() {
+	public void setBackground(ViewGroup card) {
 		Resources resources = getResources();
 
 		int backgroundColor = resources.getColor(R.color.card_background);
@@ -128,20 +96,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 			new ShapeDrawable(borderShape), new ShapeDrawable(backgroundShape)
 		};
 
-		_card.setBackground(new LayerDrawable(layers));
-	}
-
-	public void setImage(Context context) {
-		ImageView image = (ImageView)findViewById(R.id.image);
-
-		Picasso.with(context).load(_url).into(image);
-	}
-
-	public void setLink() {
-		TextView link = (TextView)findViewById(R.id.link);
-
-		link.setPaintFlags(link.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-		link.setText(_url);
+		card.setBackground(new LayerDrawable(layers));
 	}
 
 	protected void setPortrait(Context context, String uuid, long portraitId) {
@@ -155,8 +110,5 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 		PortraitUtil.setPortrait(context, uuid, portraitId, portrait);
 	}
-
-	private FrameLayout _card;
-	private String _url;
 
 }
