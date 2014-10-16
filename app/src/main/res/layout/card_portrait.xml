@@ -9,7 +9,7 @@
 		android:layout_marginTop="@dimen/card_portrait_margin_top" />
 
 	<com.liferay.alerts.widget.TextView
-		android:id="@+id/type"
+		android:id="@+id/type_badge"
 		android:layout_width="@dimen/type_size"
 		android:layout_height="@dimen/type_size"
 		android:text="@string/icon_type_text"

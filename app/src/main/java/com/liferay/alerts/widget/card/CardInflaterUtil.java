@@ -18,6 +18,8 @@ import android.content.Context;
 
 import android.view.View;
 
+import android.widget.TextView;
+
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
 import com.liferay.alerts.widget.card.inflater.CardInflater;
@@ -38,6 +40,11 @@ public class CardInflaterUtil {
 		CardInflater inflater = _inflaters.get(alert.getType());
 
 		return inflater.inflate(context, alert);
+	}
+
+	public static void setTypeBadge(TextView text, AlertType type) {
+		CardInflater inflater = _inflaters.get(type);
+		inflater.setTypeBadge(text, type);
 	}
 
 	private static Map<AlertType, CardInflater> _inflaters =

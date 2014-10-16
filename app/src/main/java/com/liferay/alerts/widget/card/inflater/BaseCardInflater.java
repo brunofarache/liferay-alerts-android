@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.model.AlertType;
 
 /**
  * @author Bruno Farache
@@ -36,20 +37,25 @@ public abstract class BaseCardInflater implements CardInflater {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		view = inflater.inflate(getLayoutId(), null);
 
-		setText(alert);
+		setMessage(alert.getMessage());
 		setTimestamp(alert.getFormattedTimestamp());
 
 		return view;
 	}
 
-	public void setText(Alert alert) {
-		TextView text = (TextView)view.findViewById(R.id.text);
-		text.setText(alert.getMessage());
+	public void setMessage(String message) {
+		TextView text = (TextView)view.findViewById(R.id.message);
+		text.setText(message);
 	}
 
 	public void setTimestamp(String timestamp) {
 		TextView text = (TextView)view.findViewById(R.id.timestamp);
 		text.setText(timestamp);
+	}
+
+	public void setTypeBadge(TextView text, AlertType type) {
+		text.setText(type.getText());
+		text.setBackgroundResource(type.getBackground());
 	}
 
 	protected View view;

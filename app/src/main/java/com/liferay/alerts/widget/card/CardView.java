@@ -69,7 +69,8 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		_card = (FrameLayout)findViewById(R.id.card);
 		_card.addView(CardInflaterUtil.inflate(context, alert));
 
-		_type = (com.liferay.alerts.widget.TextView)findViewById(R.id.type);
+		TextView typeBadge = (TextView)findViewById(R.id.type_badge);
+		CardInflaterUtil.setTypeBadge(typeBadge, alert.getType());
 
 		User user = alert.getUser(context);
 
@@ -100,7 +101,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		}
 
 		setBackground();
-		setType(alert.getType());
 	}
 
 	@Override
@@ -155,38 +155,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 		link.setPaintFlags(link.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 		link.setText(_url);
-	}
-
-	public void setType(AlertType type) {
-		Resources resources = getResources();
-		int left = _type.getPaddingLeft();
-		int top = _type.getPaddingTop();
-		int right = _type.getPaddingRight();
-		int bottom = _type.getPaddingBottom();
-
-		if (type == AlertType.POLLS) {
-			right = resources.getDimensionPixelSize(
-				R.dimen.type_polls_padding_right);
-		}
-		else if (type == AlertType.TEXT) {
-			left = resources.getDimensionPixelSize(
-				R.dimen.type_text_padding_left);
-		}
-		else if (type == AlertType.LINK) {
-			top = resources.getDimensionPixelSize(
-				R.dimen.type_link_padding_top);
-
-			left = resources.getDimensionPixelSize(
-				R.dimen.type_link_padding_left);
-
-			_type.setTextSize(
-				TypedValue.COMPLEX_UNIT_PX,
-				resources.getDimensionPixelSize(R.dimen.type_link_text));
-		}
-
-		_type.setPadding(left, top, right, bottom);
-		_type.setText(type.getText());
-		_type.setBackgroundResource(type.getBackground());
 	}
 
 	protected void setPolls(Context context, Alert alert) {
@@ -266,7 +234,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 	}
 
 	private FrameLayout _card;
-	private com.liferay.alerts.widget.TextView _type;
 	private String _url;
 
 }

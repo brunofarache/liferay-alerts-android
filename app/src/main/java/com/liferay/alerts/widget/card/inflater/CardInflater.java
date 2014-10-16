@@ -18,7 +18,10 @@ import android.content.Context;
 
 import android.view.View;
 
+import android.widget.TextView;
+
 import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.model.AlertType;
 
 /**
  * @author Bruno Farache
@@ -26,5 +29,7 @@ import com.liferay.alerts.model.Alert;
 public interface CardInflater {
 
 	public View inflate(Context context, Alert alert);
+
+	public void setTypeBadge(TextView text, AlertType type);
 
 }

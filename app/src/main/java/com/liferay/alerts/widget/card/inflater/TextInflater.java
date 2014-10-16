@@ -14,7 +14,12 @@
 
 package com.liferay.alerts.widget.card.inflater;
 
+import android.content.res.Resources;
+
+import android.widget.TextView;
+
 import com.liferay.alerts.R;
+import com.liferay.alerts.model.AlertType;
 
 /**
  * @author Bruno Farache
@@ -24,6 +29,20 @@ public class TextInflater extends BaseCardInflater {
 	@Override
 	public int getLayoutId() {
 		return R.layout.card_type_text;
+	}
+
+	@Override
+	public void setTypeBadge(TextView text, AlertType type) {
+		Resources resources = text.getResources();
+
+		int left = resources.getDimensionPixelSize(
+			R.dimen.type_text_padding_left);
+
+		int top = text.getPaddingTop();
+		int right = text.getPaddingRight();
+		int bottom = text.getPaddingBottom();
+
+		text.setPadding(left, top, right, bottom);
 	}
 
 }
