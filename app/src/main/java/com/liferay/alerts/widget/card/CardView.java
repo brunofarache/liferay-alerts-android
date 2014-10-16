@@ -67,7 +67,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		inflate(context, R.layout.card, this);
 
 		_card = (FrameLayout)findViewById(R.id.card);
-		_card.addView(CardInflater.inflate(context, alert));
+		_card.addView(CardInflaterUtil.inflate(context, alert));
 
 		_text = (TextView)findViewById(R.id.text);
 		_timestamp = (TextView)findViewById(R.id.timestamp);

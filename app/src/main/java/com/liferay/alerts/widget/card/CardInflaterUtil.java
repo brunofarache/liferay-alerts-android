@@ -26,7 +26,7 @@ import com.liferay.alerts.model.AlertType;
 /**
  * @author Bruno Farache
  */
-public class CardInflater {
+public class CardInflaterUtil {
 
 	public static View inflate(Context context, Alert alert) {
 		LayoutInflater inflater = LayoutInflater.from(context);
