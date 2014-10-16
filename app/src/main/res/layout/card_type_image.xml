@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+
+	<include layout="@layout/card_text" />
+
+	<ImageView
+		android:id="@+id/image"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:scaleType="fitStart"
+		android:adjustViewBounds="true"
+		android:paddingTop="@dimen/card_image_padding_top"
+		android:paddingBottom="@dimen/card_image_padding_top"
+		android:paddingLeft="@dimen/card_image_padding_left"
+		android:paddingRight="@dimen/card_image_padding_right" />
+
+	<include layout="@layout/card_timestamp" />
+</LinearLayout>

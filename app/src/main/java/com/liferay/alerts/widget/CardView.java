@@ -151,7 +151,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 	public void setImage(Context context) {
 		ImageView image = (ImageView)findViewById(R.id.image);
-		image.setVisibility(View.VISIBLE);
 
 		Picasso.with(context).load(_url).into(image);
 	}
@@ -159,7 +158,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 	public void setLink() {
 		TextView link = (TextView)findViewById(R.id.link);
 
-		link.setVisibility(View.VISIBLE);
 		link.setPaintFlags(link.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 		link.setText(_url);
 	}
@@ -263,7 +261,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 			});
 
 			group.setId(question.getQuestionId());
-			group.setVisibility(View.VISIBLE);
 		}
 		catch (Exception e) {
 		}

@@ -5,5 +5,14 @@
 	android:orientation="vertical">
 
 	<include layout="@layout/card_text" />
+
+	<RadioGroup
+		android:id="@+id/polls"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingLeft="@dimen/card_padding_left"
+		android:paddingTop="@dimen/radio_group_padding_top"
+		android:orientation="vertical" />
+
 	<include layout="@layout/card_timestamp" />
 </LinearLayout>

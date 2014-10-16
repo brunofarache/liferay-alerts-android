@@ -21,6 +21,7 @@ import android.view.View;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
+import com.liferay.alerts.model.AlertType;
 
 /**
  * @author Bruno Farache
@@ -29,6 +30,18 @@ public class CardInflater {
 
 	public static View inflate(Context context, Alert alert) {
 		LayoutInflater inflater = LayoutInflater.from(context);
+
+		AlertType type = alert.getType();
+
+		if (type == AlertType.IMAGE) {
+			return inflater.inflate(R.layout.card_type_image, null);
+		}
+		else if (type == AlertType.LINK) {
+			return inflater.inflate(R.layout.card_type_link, null);
+		}
+		else if (type == AlertType.POLLS) {
+			return inflater.inflate(R.layout.card_type_polls, null);
+		}
 
 		return inflater.inflate(R.layout.card_type_text, null);
 	}
