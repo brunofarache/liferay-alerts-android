@@ -69,7 +69,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		_card = (FrameLayout)findViewById(R.id.card);
 		_card.addView(CardInflaterUtil.inflate(context, alert));
 
-		_timestamp = (TextView)findViewById(R.id.timestamp);
 		_type = (com.liferay.alerts.widget.TextView)findViewById(R.id.type);
 
 		User user = alert.getUser(context);
@@ -100,7 +99,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 			setPolls(context.getApplicationContext(), alert);
 		}
 
-		setTimestamp(alert.getFormattedTimestamp());
 		setBackground();
 		setType(alert.getType());
 	}
@@ -157,10 +155,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 		link.setPaintFlags(link.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 		link.setText(_url);
-	}
-
-	public void setTimestamp(String timestamp) {
-		_timestamp.setText(timestamp);
 	}
 
 	public void setType(AlertType type) {
@@ -272,7 +266,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 	}
 
 	private FrameLayout _card;
-	private TextView _timestamp;
 	private com.liferay.alerts.widget.TextView _type;
 	private String _url;
 

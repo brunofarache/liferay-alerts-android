@@ -37,6 +37,7 @@ public abstract class BaseCardInflater implements CardInflater {
 		view = inflater.inflate(getLayoutId(), null);
 
 		setText(alert);
+		setTimestamp(alert.getFormattedTimestamp());
 
 		return view;
 	}
@@ -44,6 +45,11 @@ public abstract class BaseCardInflater implements CardInflater {
 	public void setText(Alert alert) {
 		TextView text = (TextView)view.findViewById(R.id.text);
 		text.setText(alert.getMessage());
+	}
+
+	public void setTimestamp(String timestamp) {
+		TextView text = (TextView)view.findViewById(R.id.timestamp);
+		text.setText(timestamp);
 	}
 
 	protected View view;
