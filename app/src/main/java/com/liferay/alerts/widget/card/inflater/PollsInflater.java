@@ -14,23 +14,16 @@
 
 package com.liferay.alerts.widget.card.inflater;
 
-import android.content.Context;
-
-import android.view.LayoutInflater;
-import android.view.View;
-
 import com.liferay.alerts.R;
-import com.liferay.alerts.model.Alert;
 
 /**
  * @author Bruno Farache
  */
-public class PollsInflater implements CardInflater {
+public class PollsInflater extends BaseCardInflater {
 
-	public View inflate(Context context, Alert alert) {
-		LayoutInflater inflater = LayoutInflater.from(context);
-
-		return inflater.inflate(R.layout.card_type_polls, null);
+	@Override
+	public int getLayoutId() {
+		return R.layout.card_type_polls;
 	}
 
 }

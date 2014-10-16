@@ -14,16 +14,38 @@
 
 package com.liferay.alerts.widget.card.inflater;
 
+import android.content.Context;
+
+import android.view.LayoutInflater;
+import android.view.View;
+
+import android.widget.TextView;
+
 import com.liferay.alerts.R;
+import com.liferay.alerts.model.Alert;
 
 /**
  * @author Bruno Farache
  */
-public class TextInflater extends BaseCardInflater {
+public abstract class BaseCardInflater implements CardInflater {
+
+	public abstract int getLayoutId();
 
 	@Override
-	public int getLayoutId() {
-		return R.layout.card_type_text;
+	public View inflate(Context context, Alert alert) {
+		LayoutInflater inflater = LayoutInflater.from(context);
+		view = inflater.inflate(getLayoutId(), null);
+
+		setText(alert);
+
+		return view;
 	}
+
+	public void setText(Alert alert) {
+		TextView text = (TextView)view.findViewById(R.id.text);
+		text.setText(alert.getMessage());
+	}
+
+	protected View view;
 
 }

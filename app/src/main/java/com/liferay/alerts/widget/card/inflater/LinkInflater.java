@@ -14,23 +14,16 @@
 
 package com.liferay.alerts.widget.card.inflater;
 
-import android.content.Context;
-
-import android.view.LayoutInflater;
-import android.view.View;
-
 import com.liferay.alerts.R;
-import com.liferay.alerts.model.Alert;
 
 /**
  * @author Bruno Farache
  */
-public class LinkInflater implements CardInflater {
+public class LinkInflater extends BaseCardInflater {
 
-	public View inflate(Context context, Alert alert) {
-		LayoutInflater inflater = LayoutInflater.from(context);
-
-		return inflater.inflate(R.layout.card_type_link, null);
+	@Override
+	public int getLayoutId() {
+		return R.layout.card_type_link;
 	}
 
 }
