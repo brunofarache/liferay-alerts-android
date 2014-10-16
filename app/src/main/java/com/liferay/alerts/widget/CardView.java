@@ -31,6 +31,7 @@ import android.util.TypedValue;
 
 import android.view.View;
 
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -175,7 +176,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 			new ShapeDrawable(borderShape), new ShapeDrawable(backgroundShape)
 		};
 
-		LinearLayout card = (LinearLayout)findViewById(R.id.card);
+		FrameLayout card = (FrameLayout)findViewById(R.id.card);
 		card.setBackground(new LayerDrawable(layers));
 	}
 
