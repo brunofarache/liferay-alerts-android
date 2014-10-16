@@ -32,25 +32,16 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
-import com.liferay.alerts.model.PollsChoice;
-import com.liferay.alerts.model.PollsQuestion;
 import com.liferay.alerts.model.User;
-import com.liferay.alerts.util.FontUtil;
 import com.liferay.alerts.util.PortraitUtil;
 import com.liferay.alerts.util.Validator;
-import com.liferay.mobile.android.PushNotificationsDeviceService;
 
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 /**
  * @author Bruno Farache
@@ -94,10 +85,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 			}
 
 			setOnClickListener(this);
-		}
-
-		if (type == AlertType.POLLS) {
-			setPolls(context.getApplicationContext(), alert);
 		}
 
 		setBackground();
@@ -155,70 +142,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 
 		link.setPaintFlags(link.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 		link.setText(_url);
-	}
-
-	protected void setPolls(Context context, Alert alert) {
-		try {
-			PollsQuestion question = alert.getPollsQuestion();
-			RadioGroup group = (RadioGroup)findViewById(R.id.polls);
-
-			List<PollsChoice> choices = question.getChoices();
-
-			int c = (int)'A' - 1;
-
-			for (PollsChoice choice : choices) {
-				c++;
-
-				RadioButton button = new RadioButton(context);
-				Resources resources = getResources();
-
-				int padding = resources.getDimensionPixelSize(
-					R.dimen.radio_button_padding);
-
-				button.setPadding(0, 0, 0, padding);
-
-				button.setId(choice.getChoiceId());
-				button.setButtonDrawable(
-					resources.getDrawable(R.drawable.radio_button));
-
-				button.setText((char)c + ". " + choice.getDescription());
-				button.setTextColor(resources.getColor(R.color.card_text));
-				button.setTextSize(
-					TypedValue.COMPLEX_UNIT_PX,
-					resources.getDimensionPixelSize(R.dimen.card_text_size));
-
-				button.setTypeface(
-					FontUtil.getFont(context, FontUtil.ROBOTO_LIGHT));
-
-				group.addView(button);
-
-				if (choice.isChecked()) {
-					button.setChecked(true);
-
-					for (int i = 0; i < group.getChildCount(); i++) {
-						group.getChildAt(i).setEnabled(false);
-					}
-				}
-			}
-
-			final long alertId = alert.getId();
-
-			group.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				@Override
-				public void onCheckedChanged(RadioGroup group, int choiceId) {
-					int questionId = group.getId();
-
-					PushNotificationsDeviceService.addVote(
-						getContext(), alertId, questionId, choiceId);
-				}
-
-			});
-
-			group.setId(question.getQuestionId());
-		}
-		catch (Exception e) {
-		}
 	}
 
 	protected void setPortrait(Context context, String uuid, long portraitId) {
