@@ -16,12 +16,18 @@ package com.liferay.alerts.widget.card;
 
 import android.content.Context;
 
-import android.view.LayoutInflater;
 import android.view.View;
 
-import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
+import com.liferay.alerts.widget.card.inflater.CardInflater;
+import com.liferay.alerts.widget.card.inflater.ImageInflater;
+import com.liferay.alerts.widget.card.inflater.LinkInflater;
+import com.liferay.alerts.widget.card.inflater.PollsInflater;
+import com.liferay.alerts.widget.card.inflater.TextInflater;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Bruno Farache
@@ -29,21 +35,19 @@ import com.liferay.alerts.model.AlertType;
 public class CardInflaterUtil {
 
 	public static View inflate(Context context, Alert alert) {
-		LayoutInflater inflater = LayoutInflater.from(context);
+		CardInflater inflater = _inflaters.get(alert.getType());
 
-		AlertType type = alert.getType();
+		return inflater.inflate(context, alert);
+	}
 
-		if (type == AlertType.IMAGE) {
-			return inflater.inflate(R.layout.card_type_image, null);
-		}
-		else if (type == AlertType.LINK) {
-			return inflater.inflate(R.layout.card_type_link, null);
-		}
-		else if (type == AlertType.POLLS) {
-			return inflater.inflate(R.layout.card_type_polls, null);
-		}
+	private static Map<AlertType, CardInflater> _inflaters =
+		new HashMap<AlertType, CardInflater>();
 
-		return inflater.inflate(R.layout.card_type_text, null);
+	static {
+		_inflaters.put(AlertType.IMAGE, new ImageInflater());
+		_inflaters.put(AlertType.LINK, new LinkInflater());
+		_inflaters.put(AlertType.POLLS, new PollsInflater());
+		_inflaters.put(AlertType.TEXT, new TextInflater());
 	}
 
 }
