@@ -11,49 +11,5 @@
 		android:layout_marginLeft="@dimen/card_margin_left"
 		android:layout_marginTop="@dimen/card_margin_top"
 		android:layout_weight="1"
-		android:minHeight="@dimen/card_minHeight">
-
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
-
-			<include layout="@layout/card_text" />
-
-			<TextView
-				android:id="@+id/link"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:paddingLeft="@dimen/card_padding_left"
-				android:paddingRight="@dimen/card_padding_right"
-				android:fontFamily="sans-serif-light"
-				android:ellipsize="end"
-				android:singleLine="true"
-				android:textColor="@color/type_link_background"
-				android:visibility="gone" />
-
-			<ImageView
-				android:id="@+id/image"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:scaleType="fitStart"
-				android:adjustViewBounds="true"
-				android:paddingTop="@dimen/card_image_padding_top"
-				android:paddingBottom="@dimen/card_image_padding_top"
-				android:paddingLeft="@dimen/card_image_padding_left"
-				android:paddingRight="@dimen/card_image_padding_right"
-				android:visibility="gone" />
-
-			<RadioGroup
-				android:id="@+id/polls"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:paddingLeft="@dimen/card_padding_left"
-				android:paddingTop="@dimen/radio_group_padding_top"
-				android:orientation="vertical"
-				android:visibility="gone" />
-
-			<include layout="@layout/card_timestamp" />
-		</LinearLayout>
-	</FrameLayout>
+		android:minHeight="@dimen/card_minHeight" />
 </merge>

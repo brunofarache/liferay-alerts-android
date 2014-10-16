@@ -17,7 +17,6 @@ package com.liferay.alerts.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -26,7 +25,6 @@ import android.graphics.drawable.ShapeDrawable;
 
 import android.net.Uri;
 
-import android.util.AttributeSet;
 import android.util.TypedValue;
 
 import android.view.View;
@@ -60,11 +58,20 @@ import java.util.List;
 public class CardView extends LinearLayout implements View.OnClickListener {
 
 	public CardView(Context context) {
-		this(context, (AttributeSet)null);
+		super(context);
 	}
 
 	public CardView(Context context, Alert alert) {
 		this(context);
+
+		inflate(context, R.layout.card, this);
+
+		_card = (FrameLayout)findViewById(R.id.card);
+		_card.addView(CardInflater.inflate(context, alert));
+
+		_text = (TextView)findViewById(R.id.text);
+		_timestamp = (TextView)findViewById(R.id.timestamp);
+		_type = (com.liferay.alerts.widget.TextView)findViewById(R.id.type);
 
 		User user = alert.getUser(context);
 
@@ -99,43 +106,6 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		setTimestamp(alert.getFormattedTimestamp());
 		setBackground();
 		setType(alert.getType());
-	}
-
-	public CardView(Context context, AttributeSet attributes) {
-		this(context, attributes, 0);
-	}
-
-	public CardView(
-		Context context, AttributeSet attributes, int defaultStyle) {
-
-		super(context, attributes, defaultStyle);
-
-		inflate(context, R.layout.card, this);
-
-		_text = (TextView)findViewById(R.id.text);
-		_timestamp = (TextView)findViewById(R.id.timestamp);
-		_type = (com.liferay.alerts.widget.TextView)findViewById(R.id.type);
-
-		TypedArray typed = context.getTheme().obtainStyledAttributes(
-			attributes, R.styleable.CardView, 0, 0);
-
-		String text = typed.getString(R.styleable.CardView_text);
-
-		if (text != null) {
-			setText(text);
-		}
-
-		int portraitId = typed.getInt(R.styleable.CardView_portraitId, 0);
-
-		if (portraitId != 0) {
-			setPortrait(context, null, portraitId);
-		}
-
-		setTimestamp(getResources().getString(R.string.release_date));
-		setBackground();
-		setType(AlertType.TEXT);
-
-		typed.recycle();
 	}
 
 	@Override
@@ -176,8 +146,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 			new ShapeDrawable(borderShape), new ShapeDrawable(backgroundShape)
 		};
 
-		FrameLayout card = (FrameLayout)findViewById(R.id.card);
-		card.setBackground(new LayerDrawable(layers));
+		_card.setBackground(new LayerDrawable(layers));
 	}
 
 	public void setImage(Context context) {
@@ -312,6 +281,7 @@ public class CardView extends LinearLayout implements View.OnClickListener {
 		PortraitUtil.setPortrait(context, uuid, portraitId, portrait);
 	}
 
+	private FrameLayout _card;
 	private TextView _text;
 	private TextView _timestamp;
 	private com.liferay.alerts.widget.TextView _type;
