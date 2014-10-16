@@ -49,7 +49,7 @@ import com.liferay.alerts.task.GCMRegistrationAsyncTask;
 import com.liferay.alerts.util.GCMUtil;
 import com.liferay.alerts.util.NotificationUtil;
 import com.liferay.alerts.util.SettingsUtil;
-import com.liferay.alerts.widget.CardView;
+import com.liferay.alerts.widget.card.CardView;
 import com.liferay.mobile.android.util.Validator;
 
 import java.util.ArrayList;

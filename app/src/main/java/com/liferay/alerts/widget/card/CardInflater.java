@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.alerts.widget;
+package com.liferay.alerts.widget.card;
 
 import android.content.Context;
 
