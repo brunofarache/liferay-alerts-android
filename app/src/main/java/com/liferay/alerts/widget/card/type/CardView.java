@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.alerts.widget.card.inflater;
+package com.liferay.alerts.widget.card.type;
 
 import android.content.Context;
 import android.content.Intent;

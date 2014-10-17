@@ -18,11 +18,11 @@ import android.content.Context;
 
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.AlertType;
-import com.liferay.alerts.widget.card.inflater.CardView;
-import com.liferay.alerts.widget.card.inflater.ImageCardView;
-import com.liferay.alerts.widget.card.inflater.LinkCardView;
-import com.liferay.alerts.widget.card.inflater.PollsCardView;
-import com.liferay.alerts.widget.card.inflater.TextCardView;
+import com.liferay.alerts.widget.card.type.CardView;
+import com.liferay.alerts.widget.card.type.ImageCardView;
+import com.liferay.alerts.widget.card.type.LinkCardView;
+import com.liferay.alerts.widget.card.type.PollsCardView;
+import com.liferay.alerts.widget.card.type.TextCardView;
 
 /**
  * @author Bruno Farache

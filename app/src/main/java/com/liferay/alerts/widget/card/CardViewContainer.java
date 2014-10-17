@@ -35,7 +35,7 @@ import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.User;
 import com.liferay.alerts.util.PortraitUtil;
-import com.liferay.alerts.widget.card.inflater.CardView;
+import com.liferay.alerts.widget.card.type.CardView;
 
 /**
  * @author Bruno Farache
