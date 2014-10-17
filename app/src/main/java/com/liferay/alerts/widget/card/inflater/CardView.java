@@ -70,7 +70,6 @@ public abstract class CardView extends FrameLayout {
 			@Override
 			public void onClick(View view) {
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				getContext().startActivity(intent);
 			}
 
