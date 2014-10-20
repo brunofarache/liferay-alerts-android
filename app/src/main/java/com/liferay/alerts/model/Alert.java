@@ -202,6 +202,10 @@ public class Alert extends BaseModel implements Parcelable {
 		_payload.put(PollsQuestion.QUESTION, question);
 	}
 
+	public void setTimestamp(long timestamp) {
+		_timestamp = timestamp;
+	}
+
 	public ContentValues toContentValues() {
 		ContentValues values = new ContentValues();
 

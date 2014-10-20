@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 
+import android.util.AttributeSet;
 import android.util.TypedValue;
 
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.model.User;
+import com.liferay.alerts.test.AlertFactory;
 import com.liferay.alerts.util.PortraitUtil;
 import com.liferay.alerts.widget.card.type.CardView;
 
@@ -49,22 +51,21 @@ public class CardViewContainer extends LinearLayout {
 	public CardViewContainer(Context context, Alert alert) {
 		this(context);
 
-		inflate(context, R.layout.card, this);
+		inflate(context, alert);
+	}
 
-		FrameLayout layout = (FrameLayout)findViewById(R.id.card);
-		CardView card = CardViewFactory.create(context, alert);
-		layout.addView(card);
+	public CardViewContainer(Context context, AttributeSet attributes) {
+		super(context, attributes);
 
-		TextView typeBadge = (TextView)findViewById(R.id.type_badge);
-		card.setTypeBadge(typeBadge);
+		Alert alert = AlertFactory.getTextAlert(
+			AlertFactory.getZeno(context), context.getString(R.string.welcome));
 
-		User user = alert.getUser(context);
+		Long timestamp = Long.valueOf(
+			context.getString(R.string.welcome_timestamp));
 
-		if (user != null) {
-			setPortrait(context, user.getUuid(), user.getPortraitId());
-		}
+		alert.setTimestamp(timestamp);
 
-		setBackground(layout);
+		inflate(context, alert);
 	}
 
 	public void setBackground(ViewGroup card) {
@@ -74,7 +75,7 @@ public class CardViewContainer extends LinearLayout {
 		int borderColor = resources.getColor(R.color.card_border);
 		float arrowY = resources.getDimensionPixelSize(R.dimen.card_arrow_y);
 		float arrowHeight = resources.getDimensionPixelSize(
-				R.dimen.card_arrow_height);
+			R.dimen.card_arrow_height);
 
 		float arrowWidth = resources.getDimensionPixelSize(
 			R.dimen.card_arrow_width);
@@ -100,6 +101,25 @@ public class CardViewContainer extends LinearLayout {
 		};
 
 		card.setBackground(new LayerDrawable(layers));
+	}
+
+	protected void inflate(Context context, Alert alert) {
+		inflate(context, R.layout.card, this);
+
+		FrameLayout layout = (FrameLayout)findViewById(R.id.card);
+		CardView card = CardViewFactory.create(context, alert);
+		layout.addView(card);
+
+		TextView typeBadge = (TextView)findViewById(R.id.type_badge);
+		card.setTypeBadge(typeBadge);
+
+		User user = alert.getUser(context);
+
+		if (user != null) {
+			setPortrait(context, user.getUuid(), user.getPortraitId());
+		}
+
+		setBackground(layout);
 	}
 
 	protected void setPortrait(Context context, String uuid, long portraitId) {

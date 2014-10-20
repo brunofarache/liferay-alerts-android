@@ -19,6 +19,8 @@ import android.content.Intent;
 
 import android.net.Uri;
 
+import android.util.AttributeSet;
+
 import android.view.View;
 
 import android.widget.FrameLayout;
@@ -33,8 +35,12 @@ import com.liferay.alerts.model.AlertType;
  */
 public abstract class CardView extends FrameLayout {
 
+	public CardView(Context context) {
+		this(context, (AttributeSet)null);
+	}
+
 	public CardView(Context context, Alert alert) {
-		super(context);
+		this(context);
 
 		_alert = alert;
 
@@ -42,6 +48,16 @@ public abstract class CardView extends FrameLayout {
 
 		setMessage(alert.getMessage());
 		setTimestamp(alert.getFormattedTimestamp());
+	}
+
+	public CardView(Context context, AttributeSet attributes) {
+		this(context, attributes, 0);
+	}
+
+	public CardView(
+		Context context, AttributeSet attributes, int defaultStyle) {
+
+		super(context, attributes, defaultStyle);
 	}
 
 	public abstract int getLayoutId();

@@ -33,7 +33,7 @@ import org.json.JSONObject;
 /**
  * @author Bruno Farache
  */
-public class AlertTest {
+public class AlertFactory {
 
 	public static User getBruno(Context context) {
 		User user = null;

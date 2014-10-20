@@ -14,4 +14,5 @@
 	<string name="vote_failure">Something went wrong with your vote.</string>
 	<string name="vote_success">Voted!</string>
 	<string name="welcome">Hello everyone!\n\nThank you for installing Liferay Alerts :)\n\nI will be sending some useful messages during the conference, stay tuned.</string>
+	<string name="welcome_timestamp">1413814815045</string>
 </resources>
