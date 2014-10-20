@@ -80,13 +80,12 @@ public class CardViewContainer extends LinearLayout {
 		float arrowWidth = resources.getDimensionPixelSize(
 			R.dimen.card_arrow_width);
 
+		float cornerRadius = resources.getDimensionPixelSize(
+			R.dimen.card_corner_radius);
+
 		TypedValue value = new TypedValue();
 		resources.getValue(R.dimen.card_border_width, value, true);
 		float borderWidth = value.getFloat();
-
-		value = new TypedValue();
-		resources.getValue(R.dimen.card_corner_radius, value, true);
-		float cornerRadius = value.getFloat();
 
 		CardShape borderShape = new CardShape(
 			Paint.Style.STROKE, borderColor, arrowY, arrowHeight, arrowWidth,

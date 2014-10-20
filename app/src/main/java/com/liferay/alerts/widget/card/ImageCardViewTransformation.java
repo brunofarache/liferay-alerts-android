@@ -23,6 +23,8 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 
+import com.liferay.alerts.R;
+
 import com.squareup.picasso.Transformation;
 
 /**
@@ -57,8 +59,11 @@ public class ImageCardViewTransformation implements Transformation {
 
 		Canvas canvas = new Canvas(output);
 
+		float radius = _context.getResources().getDimensionPixelSize(
+			R.dimen.card_corner_radius_image);
+
 		RectF rect = new RectF(0, 0, width, height);
-		canvas.drawRoundRect(rect, 10, 10, paint);
+		canvas.drawRoundRect(rect, radius, radius, paint);
 
 		bitmap.recycle();
 
