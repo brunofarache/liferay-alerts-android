@@ -23,7 +23,6 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 
 import android.util.AttributeSet;
-import android.util.TypedValue;
 
 import android.view.ViewGroup;
 
@@ -80,12 +79,11 @@ public class CardViewContainer extends LinearLayout {
 		float arrowWidth = resources.getDimensionPixelSize(
 			R.dimen.card_arrow_width);
 
+		float borderWidth = resources.getDimensionPixelSize(
+			R.dimen.card_border_width);
+
 		float cornerRadius = resources.getDimensionPixelSize(
 			R.dimen.card_corner_radius);
-
-		TypedValue value = new TypedValue();
-		resources.getValue(R.dimen.card_border_width, value, true);
-		float borderWidth = value.getFloat();
 
 		CardShape borderShape = new CardShape(
 			Paint.Style.STROKE, borderColor, arrowY, arrowHeight, arrowWidth,
