@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+	android:layout_height="match_parent"
+	android:paddingBottom="@dimen/card_image_padding_bottom"
+	android:paddingLeft="@dimen/card_image_padding_left"
+	android:paddingRight="@dimen/card_image_padding_right"
+	android:paddingTop="@dimen/card_image_padding_bottom">
 
 	<include layout="@layout/card_text" />
 
@@ -11,10 +15,13 @@
 		android:layout_height="wrap_content"
 		android:layout_below="@+id/message"
 		android:scaleType="fitStart"
-		android:adjustViewBounds="true"
-		android:paddingBottom="@dimen/card_image_padding_bottom"
-		android:paddingRight="@dimen/card_image_padding_right"
-		android:paddingTop="@dimen/card_image_padding_bottom" />
+		android:adjustViewBounds="true" />
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="60dp"
+		android:background="@drawable/timestamp_background"
+		android:layout_alignParentBottom="true" />
 
 	<include layout="@layout/card_timestamp"
 		android:layout_width="wrap_content"

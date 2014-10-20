@@ -57,7 +57,7 @@ public class ImageCardViewTransformation implements Transformation {
 
 		Canvas canvas = new Canvas(output);
 
-		RectF rect = new RectF(16, 0, width, height);
+		RectF rect = new RectF(0, 0, width, height);
 		canvas.drawRoundRect(rect, 10, 10, paint);
 
 		bitmap.recycle();
