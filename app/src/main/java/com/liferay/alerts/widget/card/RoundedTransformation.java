@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.alerts.widget;
+package com.liferay.alerts.widget.card;
 
 import android.content.Context;
 
@@ -46,7 +46,8 @@ public class RoundedTransformation implements Transformation {
 		BitmapShader shader = new BitmapShader(
 			bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 
-		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		Paint paint = new Paint();
+		paint.setAntiAlias(true);
 		paint.setShader(shader);
 
 		int width = bitmap.getWidth();

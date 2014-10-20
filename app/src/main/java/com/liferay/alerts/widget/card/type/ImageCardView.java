@@ -16,12 +16,17 @@ package com.liferay.alerts.widget.card.type;
 
 import android.content.Context;
 
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.Alert;
 
+import com.liferay.alerts.util.Validator;
+import com.liferay.alerts.widget.card.ImageCardViewTransformation;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 /**
  * @author Bruno Farache
@@ -31,10 +36,20 @@ public class ImageCardView extends CardView {
 	public ImageCardView(Context context, Alert alert) {
 		super(context, alert);
 
+		String message = alert.getMessage();
+
+		if (Validator.isNull(message)) {
+			TextView text = (TextView)findViewById(R.id.message);
+			text.setVisibility(View.GONE);
+		}
+
 		ImageView image = (ImageView)findViewById(R.id.image);
 		String url = getUrl();
 
-		Picasso.with(context).load(url).into(image);
+		Transformation transformation = new ImageCardViewTransformation(
+			context);
+
+		Picasso.with(context).load(url).transform(transformation).into(image);
 	}
 
 	@Override

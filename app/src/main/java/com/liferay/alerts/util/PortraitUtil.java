@@ -28,7 +28,7 @@ import android.widget.ImageView;
 
 import com.liferay.alerts.R;
 import com.liferay.alerts.model.User;
-import com.liferay.alerts.widget.RoundedTransformation;
+import com.liferay.alerts.widget.card.RoundedTransformation;
 import com.liferay.mobile.android.util.Validator;
 
 import com.squareup.picasso.Picasso;
