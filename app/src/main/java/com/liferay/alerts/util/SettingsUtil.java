@@ -40,7 +40,7 @@ public class SettingsUtil {
 	}
 
 	public static String getToken() {
-		return _preferences.getString(_TOKEN, "");
+		return _preferences.getString(_TOKEN, StringPool.BLANK);
 	}
 
 	public static void init(Context context) {

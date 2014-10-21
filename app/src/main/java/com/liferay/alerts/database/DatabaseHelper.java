@@ -25,6 +25,8 @@ import android.util.Log;
 
 import com.liferay.alerts.model.Alert;
 import com.liferay.alerts.util.CharPool;
+import com.liferay.alerts.util.SettingsUtil;
+import com.liferay.alerts.util.StringPool;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,6 +82,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		if (oldVersion < 3) {
 			_upgradeToVersion3(database);
+		}
+
+		if (oldVersion < 4) {
+			_upgradeToVersion4(database);
 		}
 	}
 
@@ -185,9 +191,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		database.execSQL(alter.toString());
 	}
 
+	private void _upgradeToVersion4(SQLiteDatabase database) {
+		SettingsUtil.setToken(StringPool.BLANK);
+	}
+
 	private static final String _DATABASE_NAME = "liferay-alerts.db";
 
-	private static final int _DATABASE_VERSION = 3;
+	private static final int _DATABASE_VERSION = 4;
 
 	private static final String _FOREIGN_KEYS_ON = "PRAGMA foreign_keys = ON;";
 
