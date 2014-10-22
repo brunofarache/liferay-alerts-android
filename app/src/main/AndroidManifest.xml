@@ -11,6 +11,7 @@
 	<uses-permission android:name="com.liferay.alerts.permission.C2D_MESSAGE" />
 
 	<application
+		android:name=".activity.MainApplication"
 		android:icon="@drawable/launcher"
 		android:label="@string/app_name"
 		android:theme="@style/DefaultTheme">

@@ -158,8 +158,6 @@ public class MainActivity extends Activity {
 		catch (PackageManager.NameNotFoundException nnfe) {
 		}
 
-		SettingsUtil.init(this);
-
 		if (state != null) {
 			_alerts = state.getParcelableArrayList(_ALERTS);
 		}
